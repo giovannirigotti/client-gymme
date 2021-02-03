@@ -104,6 +104,28 @@ public class GymProfileActivity extends AppCompatActivity {
             }
         });
 
+        //Redirect menagment orari
+        btn_gym_orari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Gym Profile Activity");
+                Intent i = new Intent(getApplicationContext(), GymEditHoursActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+        //Redirect menagment dati palestra
+        btn_gym_dati_palestra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Gym Profile Activity");
+                Intent i = new Intent(getApplicationContext(), GymEditDataActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
 
     }
 
