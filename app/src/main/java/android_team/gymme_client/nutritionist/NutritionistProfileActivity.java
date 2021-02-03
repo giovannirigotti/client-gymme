@@ -126,7 +126,7 @@ public class NutritionistProfileActivity extends AppCompatActivity {
             }
         });
 
-        //Update email menegment
+        //logout menegment
         _btn_nutri_profile_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
