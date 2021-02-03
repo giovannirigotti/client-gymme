@@ -34,6 +34,7 @@ import java.net.URL;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.customer.CustomerHomeActivity;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerStatus;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.nutritionist.NutritionistHomeActivity;
@@ -247,9 +248,11 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
 
                     } else if (type == 3) {
-
                         //Proprietario palestra
-
+                        Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
+                        i.putExtra("user_id", id);
+                        startActivity(i);
+                        finish();
                     }
 
 

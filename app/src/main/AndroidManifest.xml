@@ -16,7 +16,7 @@
         <activity
             android:name=".MainActivity2"
             android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -58,7 +58,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".signup.GymSignupActivity3"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".TrainingSheetActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
@@ -72,6 +72,10 @@
         <activity android:name=".nutritionist.NutritionistHomeActivity" />
         <activity
             android:name=".nutritionist.NutritionistProfileActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".gym.GymHomeActivity" />
+        <activity
+            android:name=".gym.GymProfileActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
     </application>
 

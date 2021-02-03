@@ -193,8 +193,9 @@ public class GymSignupActivity3 extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
             JsonObject user = null;
             int responseCode = 500;
+            Log.e("DEBUG", "1");
             try {
-                url = new URL("http://10.0.2.2:4000/register/gym");
+                url = new URL("http://10.0.2.2:4000/register/gym/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setConnectTimeout(5000);
@@ -232,6 +233,8 @@ public class GymSignupActivity3 extends AppCompatActivity {
                 paramsJson.addProperty("closing_sunday", params[29]);
 
 
+                Log.e("DEBUG", "2");
+
                 urlConnection.setDoOutput(true);
                 OutputStream os = urlConnection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
@@ -242,7 +245,10 @@ public class GymSignupActivity3 extends AppCompatActivity {
                 os.close();
                 urlConnection.connect();
                 responseCode = urlConnection.getResponseCode();
+                Log.e("DEBUG", String.valueOf(responseCode));
                 if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    Log.e("DEBUG", "3");
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     i.putExtra("email", email);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -252,6 +258,8 @@ public class GymSignupActivity3 extends AppCompatActivity {
                     toastMessage = "Dati registrati correttamente!";
                     finish();
                 } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+
+                    Log.e("DEBUG", "4");
                     Log.e("Server response", "Error during signup!");
                     toastMessage = "Errore nella registrazione di un nuovo utente!";
                     urlConnection.disconnect();
@@ -269,7 +277,9 @@ public class GymSignupActivity3 extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer responseCode) {
-            Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
+            if(toastMessage != null) {
+                Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
+            }
 
             signup_button_final_gym.setEnabled(true);
             signup_button_final_gym.setVisibility(View.VISIBLE);
@@ -462,14 +472,14 @@ public class GymSignupActivity3 extends AppCompatActivity {
     private boolean validateHour(String time) {
         String regex = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
 
-        if (!time.isEmpty()) {
+        if (!time.isEmpty() && time.length() == 5) {
             int hours = Integer.parseInt(time.substring(0, 2));
             int minutes = Integer.parseInt(time.substring(3, 5));
 
             Log.e("res", Boolean.toString(time.matches(regex)));
             return time.matches(regex) && 0 <= hours && hours <= 23 && 0 <= minutes && minutes <= 59;
 
-        } else return true;
+        } else return false;
     }
 
 }

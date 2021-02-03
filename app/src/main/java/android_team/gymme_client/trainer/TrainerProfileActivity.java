@@ -32,7 +32,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.customer.CustomerProfileActivity;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Utili;
@@ -42,7 +41,6 @@ import butterknife.ButterKnife;
 public class TrainerProfileActivity extends AppCompatActivity {
 
     private int user_id;
-    private DBManagerUser dbManagerUser = null;
 
     private String nome;
     private String cognome;
@@ -81,8 +79,6 @@ public class TrainerProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_profile);
         ButterKnife.bind(this);
-        dbManagerUser = new DBManagerUser(this);
-        dbManagerUser.open();
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {

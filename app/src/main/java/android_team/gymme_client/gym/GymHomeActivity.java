@@ -1,6 +1,4 @@
-package android_team.gymme_client.trainer;
-
-import androidx.appcompat.app.AppCompatActivity;
+package android_team.gymme_client.gym;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.customer.CustomerProfileActivity;
-import android_team.gymme_client.login.LoginActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class TrainerHomeActivity extends AppCompatActivity {
+import android_team.gymme_client.R;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.trainer.TrainerProfileActivity;
+
+public class GymHomeActivity extends AppCompatActivity {
 
     Button btn_profile;
     private int user_id;
@@ -21,8 +21,8 @@ public class TrainerHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainer_home);
-        setTitle("HOME TRAINER");
+        setContentView(R.layout.activity_gym_home);
+        setTitle("HOME GYM");
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
@@ -39,13 +39,13 @@ public class TrainerHomeActivity extends AppCompatActivity {
             }
         }
 
-        btn_profile = (Button) findViewById(R.id.btn_trainer_home_profile);
+        btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
 
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Trainer Profile Activity");
-                Intent i = new Intent(getApplicationContext(), TrainerProfileActivity.class);
+                Log.e("REDIRECT", "Gym Profile Activity");
+                Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }

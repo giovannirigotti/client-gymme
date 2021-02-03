@@ -22,6 +22,7 @@ public class NutritionistHomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutritionist_home);
+        setTitle("HOME NUTRITIONIST");
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {

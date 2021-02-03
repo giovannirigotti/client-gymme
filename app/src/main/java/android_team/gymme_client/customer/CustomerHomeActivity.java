@@ -49,6 +49,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
         ButterKnife.bind(this);
+        setTitle("HOME CUSTOMER");
         
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {

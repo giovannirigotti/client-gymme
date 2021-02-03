@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android_team.gymme_client.customer.CustomerHomeActivity;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerStatus;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.login.LoginActivity;
@@ -74,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             } else if (type == 3) {
                 //Se è un proprietario.
+                Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
+                i.putExtra("user_id",user_id); //DA ERRORI PERCHE user vuoto suppongo
+                startActivity(i);
+                finish();
             }
 
         } else {
