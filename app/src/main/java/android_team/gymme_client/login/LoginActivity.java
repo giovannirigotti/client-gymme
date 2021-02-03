@@ -36,6 +36,7 @@ import android_team.gymme_client.R;
 import android_team.gymme_client.customer.CustomerHomeActivity;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerStatus;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
+import android_team.gymme_client.nutritionist.NutritionistHomeActivity;
 import android_team.gymme_client.signup.SignupActivity;
 import android_team.gymme_client.support.UserInfo;
 import android_team.gymme_client.trainer.TrainerHomeActivity;
@@ -239,8 +240,11 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     } else if (type == 2) {
-
                         //Nutrizionista
+                        Intent i = new Intent(getApplicationContext(), NutritionistHomeActivity.class);
+                        i.putExtra("user_id", id);
+                        startActivity(i);
+                        finish();
 
                     } else if (type == 3) {
 
