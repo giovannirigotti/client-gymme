@@ -65,16 +65,16 @@
                             android:text="Aggiorna Qualifiche" />
 
                         <Button
-                            android:id="@+id/btn_nutri_profile_logout"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Logout" />
-
-                        <Button
                             android:id="@+id/btn_nutri_profile_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Aggiorna Password" />
+
+                        <Button
+                            android:id="@+id/btn_nutri_profile_logout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Logout" />
 
                 </LinearLayout>
         </ScrollView>
