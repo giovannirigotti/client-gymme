@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">gymme-client</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="non_hai_un_account_registrati">Non hai un account? Registrati!</string>
+    <string name="login">Login</string>
+    <string name="no_network_available">Nessuna connessione disponibile!</string>
+    <string name="user_home">User home</string>
+    <string name="name">Nome</string>
+    <string name="lastname">Cognome</string>
+    <string name="birthdate">Data di nascita</string>
+    <string name="signup_yourself">Registrati</string>
+    <string name="repeat_password">Ripeti password</string>
+    <string name="back">Indietro</string>
+    <string name="next">Avanti</string>
+    <string name="choose_user_type">Che tipo di utente sei?</string>
+    <string name="gym_user">Utente palestra</string>
+    <string name="gym_trainer">Personal trainer</string>
+    <string name="nutritionist">Nutrizionista</string>
+    <string name="gym_owner">Proprietario</string>
+    <string name="gym_user_description">Se utilizzi la palestra per esercitarti.</string>
+    <string name="gym_trainer_description">Se sei un professionista dell\'esercizio fisico.</string>
+    <string name="nutritionist_description">Se sei un professionista dell\'alimentazione.</string>
+    <string name="gym_owner_description">Se possiedi una palestra.</string>
+    <string name="height">Inserisci la tua altezza</string>
+    <string name="title_activity_trainer_drawer">TrainerDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="home_second">Home Second</string>
+</resources>
+

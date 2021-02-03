@@ -1,0 +1,2 @@
+rootProject.name='gymme-client'
+include ':app'
