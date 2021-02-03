@@ -34,6 +34,7 @@ import java.net.URL;
 import android_team.gymme_client.R;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.nutritionist.NutritionistProfileActivity;
 import android_team.gymme_client.support.Utili;
 import butterknife.BindView;
 import butterknife.ButterKnife;
