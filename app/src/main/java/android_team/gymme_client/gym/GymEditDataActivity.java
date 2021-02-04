@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.nutritionist.NutritionistProfileActivity;
+import android_team.gymme_client.signup.GymSignupActivity3;
 import android_team.gymme_client.trainer.TrainerProfileActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -12,6 +14,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Switch;
@@ -21,9 +24,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -84,19 +90,27 @@ public class GymEditDataActivity extends AppCompatActivity {
         //endregion
 
 
-        //  STEP 1: caricare la configurazione dei tasti in base ai campi salvati nel DB per la palestra in questione:
+        //  GetGymData(): caricare la configurazione dei tasti in base ai campi salvati nel DB per la palestra in questione:
         //  -   SCARICO DATI mediante query sul db e lo user_id
         //  -   SETTO VIEW grazie ai dati ricevuti
-
         GetGymData();
 
-        //  BUTTON AVANTI MENAGEMENT...
-
+        //  BUTTON AVANTI MENAGEMENT
+        _btn_gym_confirm_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  UpdateBooleanData(): update dei dati booleani della palestra.
+                UpdateBooleanData();
+            }
+        });
 
 
     }
 
+
     //region GYM DATA MANAGMNET
+
+    //  Get data & Set View
     private void GetGymData() {
         //Trainer Data
         GymEditDataActivity.GetGymDataConnection asyncTaskTrainer = (GymEditDataActivity.GetGymDataConnection) new GymEditDataActivity.GetGymDataConnection(new GymEditDataActivity.GetGymDataConnection.AsyncResponse() {
@@ -292,6 +306,136 @@ public class GymEditDataActivity extends AppCompatActivity {
             return response.toString();
         }
 
+    }
+
+    // Updating datas
+    private void UpdateBooleanData() {
+        // AGGIORNO STATO ATTUALE DEGLI SWITCH
+        updateFields();
+
+        // METODO-CLASSE PER CHIAMARE LA POST CORRETTA SUL SERVER
+        GymEditDataActivity.UpdateBooleanDataConnection asyncTask = (GymEditDataActivity.UpdateBooleanDataConnection) new GymEditDataActivity.UpdateBooleanDataConnection(new GymEditDataActivity.UpdateBooleanDataConnection.AsyncResponse() {
+
+            @Override
+            public void processFinish(Integer output) {
+                if (output == 200) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymEditDataActivity.this, "SUCCESS, boolan data aggiornati", Toast.LENGTH_SHORT).show();
+                            // REDIRECT TO PROFILE GYM ACTIVITY
+                            Log.e("REDIRECT", "Gym Profile Activity");
+                            Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
+                            i.putExtra("user_id", user_id);
+                            startActivity(i);
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymEditDataActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+        }).execute(String.valueOf(user_id), String.valueOf(pool), String.valueOf(box_ring), String.valueOf(aerobics), String.valueOf(spa), String.valueOf(wifi), String.valueOf(parking_area), String.valueOf(personal_trainer),
+                String.valueOf(nutritionist), String.valueOf(impedance_balance), String.valueOf(courses), String.valueOf(showers));
+
+    }
+
+    private void updateFields() {
+        pool = switchToInt(_switchSignUpPool.isChecked());
+        box_ring = switchToInt(_switchSignupBoxRing.isChecked());
+        aerobics = switchToInt(_switchSignupAerobics.isChecked());
+        spa = switchToInt(_switchSignUpSpa.isChecked());
+        wifi = switchToInt(_switchSignUpWifi.isChecked());
+        parking_area = switchToInt(_switchSignUpParking.isChecked());
+        personal_trainer = switchToInt(_switchSignUpPersonalTrainer.isChecked());
+        nutritionist = switchToInt(_switchSignUpNutritionist.isChecked());
+        impedance_balance = switchToInt(_switchSignUpImpedenceBalance.isChecked());
+        courses = switchToInt(_switchSignUpCourses.isChecked());
+        showers = switchToInt(_switchSignUpShowers.isChecked());
+    }
+
+    private int switchToInt(boolean checked) {
+        return (checked == true) ? 1 : 0;
+    }
+
+
+    public static class UpdateBooleanDataConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public GymEditDataActivity.UpdateBooleanDataConnection.AsyncResponse delegate = null;
+
+        public UpdateBooleanDataConnection(GymEditDataActivity.UpdateBooleanDataConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/gym/update_boolean_data/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("user_id", params[0]);
+                paramsJson.addProperty("pool", params[1]);
+                paramsJson.addProperty("box_ring", params[2]);
+                paramsJson.addProperty("aerobics", params[3]);
+                paramsJson.addProperty("spa", params[4]);
+                paramsJson.addProperty("wifi", params[5]);
+                paramsJson.addProperty("parking_area", params[6]);
+                paramsJson.addProperty("personal_trainer_service", params[7]);
+                paramsJson.addProperty("nutritionist_service", params[8]);
+                paramsJson.addProperty("impedance_balance", params[9]);
+                paramsJson.addProperty("courses", params[10]);
+                paramsJson.addProperty("showers", params[11]);
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("BOOLEAN DATA", "CAMBIATI SUL DB");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("BOOLEAN DATA", "Error");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
+        }
     }
     //endregion
 }
