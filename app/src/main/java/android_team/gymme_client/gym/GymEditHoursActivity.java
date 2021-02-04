@@ -172,11 +172,6 @@ public class GymEditHoursActivity extends AppCompatActivity {
                 } else if (_opening_monday != -2 || _opening_tuesday != -2 || _opening_wednesday != -2 || _opening_thursday != -2 || _opening_friday != -2 || _opening_saturday != -2 ||_opening_sunday != -2) {
                     //  -   SETTO VIEW grazie ai dati ricevuti
                     Log.e("DEBUG THREAD ", ""+_opening_monday);
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(GymEditHoursActivity.this, ""+_opening_monday, Toast.LENGTH_SHORT).show();
-                        }
-                    });
                     if(_opening_monday != -2){
                         opening_monday = _opening_monday;
                         closing_monday = _closing_monday;
@@ -190,17 +185,84 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    /*
-                        if (_pool == 1) {
-                            pool = _pool;
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    //SETTO VIEW grazie ai dati ricevuti
-                                    _switchSignUpPool.setChecked(true);
-                                }
-                            });
-                        }
-                    */
+                    if(_opening_tuesday != -2){
+                        opening_tuesday = _opening_tuesday;
+                        closing_tuesday = _closing_tuesday;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                //SETTO VIEW grazie ai dati ricevuti
+                                String _op_h = minToString(opening_tuesday);
+                                String _cl_h = minToString(closing_tuesday);
+                                tuesday_opening_gym_et.setText(_op_h);
+                                tuesday_closing_gym_et.setText(_cl_h);
+                            }
+                        });
+                    }
+                    if(_opening_wednesday != -2){
+                        opening_wednesday = _opening_wednesday;
+                        closing_wednesday = _closing_wednesday;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                //SETTO VIEW grazie ai dati ricevuti
+                                String _op_h = minToString(opening_wednesday);
+                                String _cl_h = minToString(closing_wednesday);
+                                wednesday_opening_gym_et.setText(_op_h);
+                                wednesday_closing_gym_et.setText(_cl_h);
+                            }
+                        });
+                    }
+                    if(_opening_thursday != -2){
+                        opening_thursday = _opening_thursday;
+                        closing_thursday = _closing_thursday;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                //SETTO VIEW grazie ai dati ricevuti
+                                String _op_h = minToString(opening_thursday);
+                                String _cl_h = minToString(closing_thursday);
+                                thursday_opening_gym_et.setText(_op_h);
+                                thursday_closing_gym_et.setText(_cl_h);
+                            }
+                        });
+                    }
+                    if(_opening_friday != -2){
+                        opening_friday = _opening_friday;
+                        closing_friday = _closing_friday;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                //SETTO VIEW grazie ai dati ricevuti
+                                String _op_h = minToString(opening_friday);
+                                String _cl_h = minToString(closing_friday);
+                                friday_opening_gym_et.setText(_op_h);
+                                friday_closing_gym_et.setText(_cl_h);
+                            }
+                        });
+                    }
+                    if(_opening_saturday != -2){
+                        opening_saturday = _opening_saturday;
+                        closing_saturday = _closing_saturday;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                //SETTO VIEW grazie ai dati ricevuti
+                                String _op_h = minToString(opening_saturday);
+                                String _cl_h = minToString(closing_saturday);
+                                saturday_opening_gym_et.setText(_op_h);
+                                saturday_closing_gym_et.setText(_cl_h);
+                            }
+                        });
+                    }
+                    if(_opening_sunday != -2){
+                        opening_sunday = _opening_sunday;
+                        closing_sunday = _closing_sunday;
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                //SETTO VIEW grazie ai dati ricevuti
+                                String _op_h = minToString(opening_sunday);
+                                String _cl_h = minToString(closing_sunday);
+                                sunday_opening_gym_et.setText(_op_h);
+                                sunday_closing_gym_et.setText(_cl_h);
+                            }
+                        });
+                    }
 
                 } else {
                     runOnUiThread(new Runnable() {
@@ -255,40 +317,43 @@ public class GymEditHoursActivity extends AppCompatActivity {
                         Integer open_h, close_h;
                         open_h = giorno.get("open").getAsInt();
                         close_h = giorno.get("close").getAsInt();
-                        switch (day_id) {
-                            case 1:
-                                _opening_monday = open_h;
-                                _closing_monday = close_h;
-                                break;
-                            case 2:
-                                _opening_tuesday = open_h;
-                                _closing_tuesday = close_h;
-                                break;
-                            case 3:
-                                _opening_wednesday = open_h;
-                                _closing_wednesday = close_h;
-                                break;
-                            case 4:
-                                _opening_thursday = open_h;
-                                _closing_thursday = close_h;
-                                break;
-                            case 5:
-                                _opening_friday = open_h;
-                                _closing_friday = close_h;
-                                break;
-                            case 6:
-                                _opening_saturday = open_h;
-                                _closing_saturday = close_h;
-                                break;
-                            case 7:
-                                _opening_sunday = open_h;
-                                _closing_sunday = close_h;
-                                break;
-                            default:
-                                delegate.processFinish(-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2);
+                        if(open_h != -1){
+                            //aggiorno valore
+                            switch (day_id) {
+                                case 1:
+                                    _opening_monday = open_h;
+                                    _closing_monday = close_h;
+                                    break;
+                                case 2:
+                                    _opening_tuesday = open_h;
+                                    _closing_tuesday = close_h;
+                                    break;
+                                case 3:
+                                    _opening_wednesday = open_h;
+                                    _closing_wednesday = close_h;
+                                    break;
+                                case 4:
+                                    _opening_thursday = open_h;
+                                    _closing_thursday = close_h;
+                                    break;
+                                case 5:
+                                    _opening_friday = open_h;
+                                    _closing_friday = close_h;
+                                    break;
+                                case 6:
+                                    _opening_saturday = open_h;
+                                    _closing_saturday = close_h;
+                                    break;
+                                case 7:
+                                    _opening_sunday = open_h;
+                                    _closing_sunday = close_h;
+                                    break;
+                                default:
+                                    delegate.processFinish(-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2);
+                            }
                         }
-                        delegate.processFinish(_opening_monday, _closing_monday, _opening_tuesday, _closing_tuesday, _opening_wednesday, _closing_wednesday, _opening_thursday, _closing_thursday, _opening_friday, _closing_friday, _opening_saturday, _closing_saturday, _opening_sunday, _closing_sunday);
                     }
+                    delegate.processFinish(_opening_monday, _closing_monday, _opening_tuesday, _closing_tuesday, _opening_wednesday, _closing_wednesday, _opening_thursday, _closing_thursday, _opening_friday, _closing_friday, _opening_saturday, _closing_saturday, _opening_sunday, _closing_sunday);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     Log.e("Server response", "HTTP_NOT_FOUND");
