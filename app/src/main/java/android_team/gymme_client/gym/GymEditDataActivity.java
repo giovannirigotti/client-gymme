@@ -112,7 +112,7 @@ public class GymEditDataActivity extends AppCompatActivity {
 
     //  Get data & Set View
     private void GetGymData() {
-        //Trainer Data
+        //Gym Data
         GymEditDataActivity.GetGymDataConnection asyncTaskTrainer = (GymEditDataActivity.GetGymDataConnection) new GymEditDataActivity.GetGymDataConnection(new GymEditDataActivity.GetGymDataConnection.AsyncResponse() {
             @Override
             public void processFinish(int _pool, int _box_ring, int _aerobics, int _spa, int _wifi, int _parking_area, int _personal_traienr, int _nutritionist, int _impedance_balance, int _courses, int _showers) {
