@@ -7,8 +7,6 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ import butterknife.ButterKnife;
 
 public class TrainingSheetItemActivity extends BasicActivity {
 
-    @BindView(R.id.chart1)
+    @BindView(R.id.training_item_chart_customer)
     PieChart chart;
 
     protected void onCreate(Bundle savedInstanceState) {

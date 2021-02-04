@@ -15,11 +15,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_rectangle_no_padding"
+            android:background="@drawable/rounded_rectangle_list_item"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/training_item_title_customer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Titolo allenamento"
@@ -40,7 +40,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/training_item_author_customer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
@@ -69,7 +69,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/training_item_description_customer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="10dp"
@@ -87,12 +87,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            android:text="Data inizio: "
+                            android:text="Data creazione: "
                             android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView17"
+                            android:id="@+id/training_item_creation_date_customer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -120,7 +120,7 @@
                         app:srcCompat="@drawable/background_chart" />
 
                     <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/chart1"
+                        android:id="@+id/training_item_chart_customer"
                         android:layout_width="83dp"
                         android:layout_height="83dp"
                         android:layout_marginEnd="2dp"
