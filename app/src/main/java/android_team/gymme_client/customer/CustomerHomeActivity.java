@@ -68,6 +68,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle("HOME CUSTOMER");
 
+
         main_toolbar_title.setText("Home");
 
         Intent i = getIntent();

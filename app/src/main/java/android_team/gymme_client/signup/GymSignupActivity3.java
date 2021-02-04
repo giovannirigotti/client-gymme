@@ -127,8 +127,8 @@ public class GymSignupActivity3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_gym_3);
-
         ButterKnife.bind(this);
+
         user_id = getIntent().getIntExtra("user_id", -1);
         email = getIntent().getStringExtra("email");
         vat_number = getIntent().getStringExtra("vat_number");
@@ -233,8 +233,6 @@ public class GymSignupActivity3 extends AppCompatActivity {
                 paramsJson.addProperty("closing_sunday", params[29]);
 
 
-                Log.e("DEBUG", "2");
-
                 urlConnection.setDoOutput(true);
                 OutputStream os = urlConnection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
@@ -277,7 +275,7 @@ public class GymSignupActivity3 extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer responseCode) {
-            if(toastMessage != null) {
+            if (toastMessage != null) {
                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
             }
 
@@ -351,24 +349,24 @@ public class GymSignupActivity3 extends AppCompatActivity {
 
     private int toMins(String s) {
 
-        int hours=-1;
+        int hours = -1;
         int minutes = 0;
 
-        if (s.substring(1,1).compareTo("0") == 0) {
-            hours= Integer.parseInt(s.substring(1, 2)) * 60;
+        if (s.substring(1, 1).compareTo("0") == 0) {
+            hours = Integer.parseInt(s.substring(1, 2)) * 60;
         } else {
-            hours=Integer.parseInt(s.substring(0, 2)) * 60;
+            hours = Integer.parseInt(s.substring(0, 2)) * 60;
         }
 
-        if(s.substring(3,4).compareTo("0") == 0){
-            minutes=  Integer.parseInt(s.substring(4, 5));
+        if (s.substring(3, 4).compareTo("0") == 0) {
+            minutes = Integer.parseInt(s.substring(4, 5));
         } else {
 
-            minutes=Integer.parseInt(s.substring(3, 5));
+            minutes = Integer.parseInt(s.substring(3, 5));
 
         }
 
-        return hours+minutes;
+        return hours + minutes;
     }
 
     private boolean checkFormat() {
