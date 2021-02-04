@@ -17,7 +17,7 @@ import android_team.gymme_client.support.BasicActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TrainingSheetActivity extends BasicActivity {
+public class TrainingSheetItemActivity extends BasicActivity {
 
     @BindView(R.id.chart1)
     PieChart chart;

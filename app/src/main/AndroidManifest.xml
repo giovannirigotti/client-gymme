@@ -40,7 +40,9 @@
             android:name=".signup.SignupActivity2"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".customer.CustomerHomeActivity" />
+        <activity android:name=".customer.CustomerHomeActivity" >
+
+        </activity>
         <activity
             android:name=".signup.CustomerSignupActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
@@ -58,9 +60,9 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".signup.GymSignupActivity3"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity
-            android:name=".TrainingSheetActivity"
+            android:name=".TrainingSheetItemActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".customer.CustomerProfileActivity"
@@ -68,6 +70,9 @@
         <activity android:name=".trainer.TrainerHomeActivity" />
         <activity
             android:name=".trainer.TrainerProfileActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".customer.CustomerTrainingSheetsActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".nutritionist.NutritionistHomeActivity" />
         <activity

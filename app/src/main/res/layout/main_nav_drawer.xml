@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="300dp"
     android:layout_height="match_parent"
+    android:onClick="ClickDrawer"
     android:orientation="vertical">
 
 
@@ -17,8 +18,9 @@
 
         <ImageView
             android:id="@+id/imageView12"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_notifiche"
             tools:srcCompat="@drawable/icon_notifiche" />
 
         <TextView
@@ -33,18 +35,19 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/drawer_trainings_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/rounded_rectangle"
-        android:backgroundTint="@color/colorPrimary"
+        android:onClick="ToTrainings"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_allenamenti"
             tools:srcCompat="@drawable/icon_allenamenti" />
 
         <TextView
@@ -66,8 +69,9 @@
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_diete"
             tools:srcCompat="@drawable/icon_diete" />
 
         <TextView
@@ -89,8 +93,9 @@
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_palestre"
             tools:srcCompat="@drawable/icon_palestre" />
 
         <TextView
@@ -112,8 +117,9 @@
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_corsi"
             tools:srcCompat="@drawable/icon_corsi" />
 
         <TextView
@@ -135,8 +141,9 @@
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_profilo"
             tools:srcCompat="@drawable/icon_profilo" />
 
         <TextView
@@ -150,6 +157,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/drawer_home_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -158,8 +166,9 @@
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_home"
             tools:srcCompat="@drawable/icon_home" />
 
         <TextView
@@ -174,9 +183,10 @@
 
     <View
         android:id="@+id/divider2"
-        android:layout_width="280dp"
+        android:layout_width="260dp"
         android:layout_height="2dp"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="?android:attr/listDivider" />
 
     <LinearLayout
@@ -189,8 +199,9 @@
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/icon_impostazioni"
             tools:srcCompat="@drawable/icon_impostazioni" />
 
         <TextView
