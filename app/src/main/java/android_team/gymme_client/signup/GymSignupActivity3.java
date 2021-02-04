@@ -127,8 +127,8 @@ public class GymSignupActivity3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_gym_3);
-
         ButterKnife.bind(this);
+
         user_id = getIntent().getIntExtra("user_id", -1);
         email = getIntent().getStringExtra("email");
         vat_number = getIntent().getStringExtra("vat_number");
