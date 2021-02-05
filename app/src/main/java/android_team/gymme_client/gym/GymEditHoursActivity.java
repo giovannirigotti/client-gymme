@@ -112,6 +112,22 @@ public class GymEditHoursActivity extends AppCompatActivity {
     int opening_sunday = -1;
     int closing_sunday = -1;
 
+    String o_monday;
+    String c_monday;
+    String o_tuesday;
+    String c_tuesday;
+    String o_wednesday;
+    String c_wednesday;
+    String o_thursday;
+    String c_thursday;
+    String o_friday;
+    String c_friday;
+    String o_saturday;
+    String c_saturday;
+    String o_sunday;
+    String c_sunday;
+
+
     // opening_monday, closing_monday, opening_tuesday, closing_tuesday, opening_wednesday, closing_wednesday,
     // opening_thursday, closing_thursday, opening_friday, closing_friday, opening_saturday, closing_saturday, opening_sunday, closing_sunday
 
@@ -146,12 +162,89 @@ public class GymEditHoursActivity extends AppCompatActivity {
         btn_gym_update_hours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  UpdateBooleanData(): update dei dati booleani della palestra.
-                //UpdateHours();
+                UpdateHours();
             }
         });
 
     }
+
+    private void UpdateHours() {
+        updateViewVal();
+        boolean is_ok = checkViewVal();
+        if(is_ok){
+            //UpdateDataOnDBWW
+        }
+        else{
+            //SE ERRORE NEGLI INSERIMENTI
+            Toast.makeText(getApplicationContext(), "Errore immissione dati:\n" +
+                    " - FORMATO: <hh:mm>\n" +
+                    " - INSERISCI COPPIA: sia apertura che chiusura per ogni giorno\n" +
+                    " - ALTRO ERRORE", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+    private boolean checkViewVal() {
+        boolean res = true;
+        
+        if (!o_monday.isEmpty() && !(validateHour(o_monday)))  res = false;
+        if (!c_monday.isEmpty() && !(validateHour(c_monday)))  res = false;
+
+        if (!o_tuesday.isEmpty() && !(validateHour(o_tuesday)))  res = false;
+        if (!c_tuesday.isEmpty() && !(validateHour(c_tuesday)))  res = false;
+
+        if (!o_wednesday.isEmpty() && !(validateHour(o_wednesday)))  res = false;
+        if (!c_wednesday.isEmpty() && !(validateHour(c_wednesday)))  res = false;
+
+        if (!o_thursday.isEmpty() && !(validateHour(o_thursday)))  res = false;
+        if (!c_thursday.isEmpty() && !(validateHour(c_thursday)))  res = false;
+
+        if (!o_friday.isEmpty() && !(validateHour(o_friday)))  res = false;
+        if (!c_friday.isEmpty() && !(validateHour(c_friday)))  res = false;
+
+        if (!o_saturday.isEmpty() && !(validateHour(o_saturday)))  res = false;
+        if (!c_saturday.isEmpty() && !(validateHour(c_saturday)))  res = false;
+
+        if (!o_sunday.isEmpty() && !(validateHour(o_sunday)))  res = false;
+        if (!c_sunday.isEmpty() && !(validateHour(c_sunday)))  res = false;
+
+        Log.e("checkViewVal", "END, res: "+ res);
+        return res;
+    }
+
+    private boolean validateHour(String time) {
+        String regex = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+
+        if (!time.isEmpty() && time.length() == 5) {
+            int hours = Integer.parseInt(time.substring(0, 2));
+            int minutes = Integer.parseInt(time.substring(3, 5));
+
+            //Log.e("res", Boolean.toString(time.matches(regex)));
+            return time.matches(regex) && 0 <= hours && hours <= 23 && 0 <= minutes && minutes <= 59;
+
+        } else return false;
+    }
+
+    private void updateViewVal() {
+        o_monday = monday_opening_gym_et.getText().toString().trim();
+        c_monday = monday_closing_gym_et.getText().toString().trim();
+        o_tuesday = tuesday_opening_gym_et.getText().toString().trim();
+        c_tuesday = tuesday_closing_gym_et.getText().toString().trim();
+        o_wednesday = wednesday_opening_gym_et.getText().toString().trim();
+        c_wednesday = wednesday_closing_gym_et.getText().toString().trim();
+        o_thursday = thursday_opening_gym_et.getText().toString().trim();
+        c_thursday = thursday_closing_gym_et.getText().toString().trim();
+        o_friday = friday_opening_gym_et.getText().toString().trim();
+        c_friday = friday_opening_gym_et.getText().toString().trim();
+        o_saturday = saturday_opening_gym_et.getText().toString().trim();
+        c_saturday = saturday_closing_gym_et.getText().toString().trim();
+        o_sunday = sunday_opening_gym_et.getText().toString().trim();
+        c_sunday = sunday_opening_gym_et.getText().toString().trim();
+        Log.e("updateViewVal", "END");
+        //Log.e("updateViewVal", o_monday + " - " + c_monday + " - " + o_tuesday + " - " + c_tuesday + " - " + o_wednesday + " - " + c_wednesday + " - " + o_thursday + " - " + c_thursday + " - " + o_friday + " - " + c_friday + " - " + o_saturday + " - " + c_saturday + " - " + o_sunday + " - " + c_sunday);
+    }
+
 
     //  Get data & Set View
     private void GetHoursData() {
@@ -159,7 +252,6 @@ public class GymEditHoursActivity extends AppCompatActivity {
             @Override
             public void processFinish(final int _opening_monday, int _closing_monday, int _opening_tuesday, int _closing_tuesday, int _opening_wednesday, int _closing_wednesday, int _opening_thursday, int _closing_thursday, int _opening_friday, int _closing_friday, int _opening_saturday, int _closing_saturday, int _opening_sunday, int _closing_sunday) {
 
-                Log.e("DEBUG THREAD ", ""+_opening_monday);
                 if (_opening_monday == -2 && _opening_tuesday == -2 && _opening_wednesday == -2 && _opening_thursday == -2 && _opening_friday == -2 && _opening_saturday == -2 && _opening_sunday == -2) {
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -169,10 +261,9 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             finish();
                         }
                     });
-                } else if (_opening_monday != -2 || _opening_tuesday != -2 || _opening_wednesday != -2 || _opening_thursday != -2 || _opening_friday != -2 || _opening_saturday != -2 ||_opening_sunday != -2) {
+                } else if (_opening_monday != -2 || _opening_tuesday != -2 || _opening_wednesday != -2 || _opening_thursday != -2 || _opening_friday != -2 || _opening_saturday != -2 || _opening_sunday != -2) {
                     //  -   SETTO VIEW grazie ai dati ricevuti
-                    Log.e("DEBUG THREAD ", ""+_opening_monday);
-                    if(_opening_monday != -2){
+                    if (_opening_monday != -2) {
                         opening_monday = _opening_monday;
                         closing_monday = _closing_monday;
                         runOnUiThread(new Runnable() {
@@ -185,7 +276,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    if(_opening_tuesday != -2){
+                    if (_opening_tuesday != -2) {
                         opening_tuesday = _opening_tuesday;
                         closing_tuesday = _closing_tuesday;
                         runOnUiThread(new Runnable() {
@@ -198,7 +289,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    if(_opening_wednesday != -2){
+                    if (_opening_wednesday != -2) {
                         opening_wednesday = _opening_wednesday;
                         closing_wednesday = _closing_wednesday;
                         runOnUiThread(new Runnable() {
@@ -211,7 +302,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    if(_opening_thursday != -2){
+                    if (_opening_thursday != -2) {
                         opening_thursday = _opening_thursday;
                         closing_thursday = _closing_thursday;
                         runOnUiThread(new Runnable() {
@@ -224,7 +315,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    if(_opening_friday != -2){
+                    if (_opening_friday != -2) {
                         opening_friday = _opening_friday;
                         closing_friday = _closing_friday;
                         runOnUiThread(new Runnable() {
@@ -237,7 +328,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    if(_opening_saturday != -2){
+                    if (_opening_saturday != -2) {
                         opening_saturday = _opening_saturday;
                         closing_saturday = _closing_saturday;
                         runOnUiThread(new Runnable() {
@@ -250,7 +341,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    if(_opening_sunday != -2){
+                    if (_opening_sunday != -2) {
                         opening_sunday = _opening_sunday;
                         closing_sunday = _closing_sunday;
                         runOnUiThread(new Runnable() {
@@ -307,17 +398,17 @@ public class GymEditHoursActivity extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server customer", responseString);
+                    //Log.e("Server customer", responseString);
                     orari = JsonParser.parseString(responseString).getAsJsonArray();
-                    Log.e("ARRAY", orari.toString());
+                    //Log.e("ARRAY", orari.toString());
                     for (int i = 0; i < orari.size(); i++) {
                         JsonObject giorno = (JsonObject) orari.get(i);
-                        Log.e("Giorno " + i, giorno.toString());
+                        //Log.e("Giorno " + i, giorno.toString());
                         Integer day_id = giorno.get("day").getAsInt();
                         Integer open_h, close_h;
                         open_h = giorno.get("open").getAsInt();
                         close_h = giorno.get("close").getAsInt();
-                        if(open_h != -1){
+                        if (open_h != -1) {
                             //aggiorno valore
                             switch (day_id) {
                                 case 1:
