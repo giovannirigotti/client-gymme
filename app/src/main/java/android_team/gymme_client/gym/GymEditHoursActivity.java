@@ -23,9 +23,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -112,6 +115,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
     int opening_sunday = -1;
     int closing_sunday = -1;
 
+
     String o_monday;
     String c_monday;
     String o_tuesday;
@@ -177,9 +181,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
         updateViewVal();
         boolean is_ok = checkAndAssignViewVal();
         if (is_ok) {
-            /*
             GymEditHoursActivity.UpdateHoursConnection asyncTask = (GymEditHoursActivity.UpdateHoursConnection) new GymEditHoursActivity.UpdateHoursConnection(new GymEditHoursActivity.UpdateHoursConnection.AsyncResponse() {
-
 
                 @Override
                 public void processFinish(Integer output) {
@@ -203,9 +205,12 @@ public class GymEditHoursActivity extends AppCompatActivity {
                     }
                 }
 
-            }).execute(String.valueOf(user_id), opening_monday, closing_monday, opening_tuesday, closing_tuesday, opening_wednesday, closing_wednesday, opening_thursday, closing_thursday, opening_friday, closing_friday, opening_saturday, closing_saturday, opening_sunday, closing_sunday);
+
+            }).execute(String.valueOf(user_id), String.valueOf(opening_monday), String.valueOf(closing_monday), String.valueOf(opening_tuesday), String.valueOf(closing_tuesday), String.valueOf(opening_wednesday),
+                    String.valueOf(closing_wednesday), String.valueOf(opening_thursday), String.valueOf(closing_thursday), String.valueOf(opening_friday), String.valueOf(closing_friday), String.valueOf(opening_saturday),
+                    String.valueOf(closing_saturday), String.valueOf(opening_sunday), String.valueOf(closing_sunday));
             
-             */
+
         } else {
             //SE ERRORE NEGLI INSERIMENTI
             Toast.makeText(getApplicationContext(), "Errore immissione dati:\n" +
@@ -215,6 +220,85 @@ public class GymEditHoursActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public static class UpdateHoursConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public GymEditHoursActivity.UpdateHoursConnection.AsyncResponse delegate = null;
+
+        public UpdateHoursConnection(GymEditHoursActivity.UpdateHoursConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/gym/update_hours/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("gym_id", params[0]);
+                paramsJson.addProperty("opening_monday", params[1]);
+                paramsJson.addProperty("closing_monday", params[2]);
+                paramsJson.addProperty("opening_tuesday", params[3]);
+                paramsJson.addProperty("closing_tuesday", params[4]);
+                paramsJson.addProperty("opening_wednesday", params[5]);
+                paramsJson.addProperty("closing_wednesday", params[6]);
+                paramsJson.addProperty("opening_thursday", params[7]);
+                paramsJson.addProperty("closing_thursday", params[8]);
+                paramsJson.addProperty("opening_friday", params[9]);
+                paramsJson.addProperty("closing_friday", params[10]);
+                paramsJson.addProperty("opening_saturday", params[11]);
+                paramsJson.addProperty("closing_saturday", params[12]);
+                paramsJson.addProperty("opening_sunday", params[13]);
+                paramsJson.addProperty("closing_sunday", params[14]);
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("GYM HOURS", "CAMBIATI SUL DB");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("GYM HOURS", "Error");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
+        }
     }
 
 
