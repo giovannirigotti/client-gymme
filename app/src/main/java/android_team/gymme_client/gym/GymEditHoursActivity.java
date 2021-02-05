@@ -127,6 +127,11 @@ public class GymEditHoursActivity extends AppCompatActivity {
     String o_sunday;
     String c_sunday;
 
+    Integer reset_o_monday, reset_c_monday, reset_o_tuesday, reset_c_tuesday,
+            reset_o_wednesday, reset_c_wednesday, reset_o_thursday, reset_c_thursday,
+            reset_o_friday, reset_c_friday, reset_o_saturday, reset_c_saturday,
+            reset_o_sunday, reset_c_sunday;
+
 
     // opening_monday, closing_monday, opening_tuesday, closing_tuesday, opening_wednesday, closing_wednesday,
     // opening_thursday, closing_thursday, opening_friday, closing_friday, opening_saturday, closing_saturday, opening_sunday, closing_sunday
@@ -170,11 +175,38 @@ public class GymEditHoursActivity extends AppCompatActivity {
 
     private void UpdateHours() {
         updateViewVal();
-        boolean is_ok = checkViewVal();
-        if(is_ok){
-            //UpdateDataOnDBWW
-        }
-        else{
+        boolean is_ok = checkAndAssignViewVal();
+        if (is_ok) {
+            /*
+            GymEditHoursActivity.UpdateHoursConnection asyncTask = (GymEditHoursActivity.UpdateHoursConnection) new GymEditHoursActivity.UpdateHoursConnection(new GymEditHoursActivity.UpdateHoursConnection.AsyncResponse() {
+
+
+                @Override
+                public void processFinish(Integer output) {
+                    if (output == 200) {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(GymEditHoursActivity.this, "SUCCESS, orari aggiornati", Toast.LENGTH_SHORT).show();
+                                // REDIRECT TO PROFILE GYM ACTIVITY
+                                Log.e("REDIRECT", "Gym Profile Activity");
+                                Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
+                                i.putExtra("user_id", user_id);
+                                startActivity(i);
+                            }
+                        });
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(GymEditHoursActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+
+            }).execute(String.valueOf(user_id), opening_monday, closing_monday, opening_tuesday, closing_tuesday, opening_wednesday, closing_wednesday, opening_thursday, closing_thursday, opening_friday, closing_friday, opening_saturday, closing_saturday, opening_sunday, closing_sunday);
+            
+             */
+        } else {
             //SE ERRORE NEGLI INSERIMENTI
             Toast.makeText(getApplicationContext(), "Errore immissione dati:\n" +
                     " - FORMATO: <hh:mm>\n" +
@@ -185,32 +217,191 @@ public class GymEditHoursActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkViewVal() {
+
+    private boolean checkAndAssignViewVal() {
         boolean res = true;
-        
-        if (!o_monday.isEmpty() && !(validateHour(o_monday)))  res = false;
-        if (!c_monday.isEmpty() && !(validateHour(c_monday)))  res = false;
+        reset_o_monday = opening_monday;
+        reset_c_monday = closing_monday;
+        reset_o_tuesday = opening_tuesday;
+        reset_c_tuesday = closing_tuesday;
+        reset_o_wednesday = opening_wednesday;
+        reset_c_wednesday = closing_wednesday;
+        reset_o_thursday = opening_thursday;
+        reset_c_thursday = closing_thursday;
+        reset_o_friday = opening_friday;
+        reset_c_friday = closing_friday;
+        reset_o_saturday = opening_saturday;
+        reset_c_saturday = closing_saturday;
+        reset_o_sunday = opening_sunday;
+        reset_c_sunday = closing_sunday;
 
-        if (!o_tuesday.isEmpty() && !(validateHour(o_tuesday)))  res = false;
-        if (!c_tuesday.isEmpty() && !(validateHour(c_tuesday)))  res = false;
+        if (o_monday.isEmpty()) {
+            opening_monday = -1;
+        } else if (validateHour(o_monday)) {
+            opening_monday = toMins(o_monday);
+        } else {
+            res = false;
+            reset();
+        }
+        if (c_monday.isEmpty()) {
+            closing_monday = -1;
+        } else if (validateHour(c_monday)) {
+            closing_monday = toMins(c_monday);
+        } else {
+            res = false;
+            reset();
+        }
 
-        if (!o_wednesday.isEmpty() && !(validateHour(o_wednesday)))  res = false;
-        if (!c_wednesday.isEmpty() && !(validateHour(c_wednesday)))  res = false;
+        if (o_tuesday.isEmpty()) {
+            opening_tuesday = -1;
+        } else if (validateHour(o_tuesday)) {
+            opening_tuesday = toMins(o_tuesday);
+        } else {
+            res = false;
+            reset();
+        }
+        if (c_tuesday.isEmpty()) {
+            closing_tuesday = -1;
+        } else if (validateHour(c_tuesday)) {
+            closing_tuesday = toMins(c_tuesday);
+        } else {
+            res = false;
+            reset();
+        }
 
-        if (!o_thursday.isEmpty() && !(validateHour(o_thursday)))  res = false;
-        if (!c_thursday.isEmpty() && !(validateHour(c_thursday)))  res = false;
+        if (o_wednesday.isEmpty()) {
+            opening_wednesday = -1;
+        } else if (validateHour(o_wednesday)) {
+            opening_wednesday = toMins(o_wednesday);
+        } else {
+            res = false;
+            reset();
+        }
+        if (c_wednesday.isEmpty()) {
+            closing_wednesday = -1;
+        } else if (validateHour(c_wednesday)) {
+            closing_wednesday = toMins(c_wednesday);
+        } else {
+            res = false;
+            reset();
+        }
 
-        if (!o_friday.isEmpty() && !(validateHour(o_friday)))  res = false;
-        if (!c_friday.isEmpty() && !(validateHour(c_friday)))  res = false;
+        if (o_thursday.isEmpty()) {
+            opening_thursday = -1;
+        } else if (validateHour(o_thursday)) {
+            opening_thursday = toMins(o_thursday);
+        } else {
+            res = false;
+            reset();
+        }
+        if (c_thursday.isEmpty()) {
+            closing_thursday = -1;
+        } else if (validateHour(c_thursday)) {
+            closing_thursday = toMins(c_thursday);
+        } else {
+            res = false;
+            reset();
+        }
 
-        if (!o_saturday.isEmpty() && !(validateHour(o_saturday)))  res = false;
-        if (!c_saturday.isEmpty() && !(validateHour(c_saturday)))  res = false;
+        if (o_friday.isEmpty()) {
+            opening_friday = -1;
+        } else if (validateHour(o_friday)) {
+            opening_friday = toMins(o_friday);
+        } else {
+            res = false;
+            reset();
+        }
+        if (c_friday.isEmpty()) {
+            closing_friday = -1;
+        } else if (validateHour(c_friday)) {
+            closing_friday = toMins(c_friday);
+        } else {
+            res = false;
+            reset();
+        }
 
-        if (!o_sunday.isEmpty() && !(validateHour(o_sunday)))  res = false;
-        if (!c_sunday.isEmpty() && !(validateHour(c_sunday)))  res = false;
+        if (o_saturday.isEmpty()) {
+            opening_saturday = -1;
+        } else if (validateHour(o_saturday)) {
+            opening_saturday = toMins(o_saturday);
+        } else {
+            res = false;
+            reset();
+        }
+        if (c_saturday.isEmpty()) {
+            closing_saturday = -1;
+        } else if (validateHour(c_saturday)) {
+            closing_saturday = toMins(c_saturday);
+        } else {
+            res = false;
+            reset();
+        }
 
-        Log.e("checkViewVal", "END, res: "+ res);
+        if (o_sunday.isEmpty()) {
+            opening_sunday = -1;
+        } else if (validateHour(o_sunday)) {
+            opening_sunday = toMins(o_sunday);
+        } else {
+            res = false;
+            reset();
+        }
+        if (c_sunday.isEmpty()) {
+            closing_sunday = -1;
+        } else if (validateHour(c_sunday)) {
+            closing_sunday = toMins(c_sunday);
+        } else {
+            res = false;
+            reset();
+        }
+
+        Log.e("checkViewVal", opening_monday + " - " + closing_monday + " - " + opening_tuesday + " - " + closing_tuesday + " - " + opening_wednesday + " - " + closing_wednesday + " - " + opening_thursday + " - " + closing_thursday + " - " + opening_friday + " - " + closing_friday + " - " + opening_saturday + " - " + closing_saturday + " - " + opening_sunday + " - " + closing_sunday);
+        Log.e("checkViewVal", "END, res: " + res);
         return res;
+    }
+
+    private void reset() {
+        opening_monday = reset_o_monday;
+        closing_monday = reset_c_monday;
+
+        opening_tuesday = reset_o_tuesday;
+        closing_tuesday = reset_c_tuesday;
+
+        opening_wednesday = reset_o_wednesday;
+        closing_wednesday = reset_c_wednesday;
+
+        opening_thursday = reset_o_thursday;
+        closing_thursday = reset_c_thursday;
+
+        opening_friday = reset_o_friday;
+        closing_friday = reset_c_friday;
+
+        opening_saturday = reset_o_saturday;
+        closing_saturday = reset_c_saturday;
+
+        opening_sunday = reset_o_sunday;
+        closing_sunday = reset_c_sunday;
+    }
+
+    private int toMins(String s) {
+
+        int hours = -1;
+        int minutes = 0;
+
+        if (s.substring(1, 1).compareTo("0") == 0) {
+            hours = Integer.parseInt(s.substring(1, 2)) * 60;
+        } else {
+            hours = Integer.parseInt(s.substring(0, 2)) * 60;
+        }
+
+        if (s.substring(3, 4).compareTo("0") == 0) {
+            minutes = Integer.parseInt(s.substring(4, 5));
+        } else {
+
+            minutes = Integer.parseInt(s.substring(3, 5));
+
+        }
+
+        return hours + minutes;
     }
 
     private boolean validateHour(String time) {
@@ -241,6 +432,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
         c_saturday = saturday_closing_gym_et.getText().toString().trim();
         o_sunday = sunday_opening_gym_et.getText().toString().trim();
         c_sunday = sunday_opening_gym_et.getText().toString().trim();
+
         Log.e("updateViewVal", "END");
         //Log.e("updateViewVal", o_monday + " - " + c_monday + " - " + o_tuesday + " - " + c_tuesday + " - " + o_wednesday + " - " + c_wednesday + " - " + o_thursday + " - " + c_thursday + " - " + o_friday + " - " + c_friday + " - " + o_saturday + " - " + c_saturday + " - " + o_sunday + " - " + c_sunday);
     }
