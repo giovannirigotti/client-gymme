@@ -1,29 +1,33 @@
+
 package android_team.gymme_client.gym;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
 
-public class GymHomeActivity extends AppCompatActivity {
+public class GymMenageWorkerActivity extends AppCompatActivity {
 
-    Button btn_profile, btn_corsi,btn_gestione_dipendenti;
     private int user_id;
+
+    ListView lv_trainer, lv_nutri;
+    Button btn_add_trainer, btn_add_nutri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym_home);
-        setTitle("HOME GYM");
+        setContentView(R.layout.activity_gym_menage_worker);
 
+        //region CHECK INTENT EXTRAS
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
             Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
@@ -38,41 +42,33 @@ public class GymHomeActivity extends AppCompatActivity {
                 startActivity(new_i);
             }
         }
+        //endregion
 
-        btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
-        btn_corsi = (Button) findViewById(R.id.btn_gym_home_corsi);
-        btn_gestione_dipendenti = (Button) findViewById(R.id.btn_gym_home_gestione_dipendenti);
+        lv_trainer = (ListView) findViewById(R.id.lv_menage_trainer);
+        lv_nutri = (ListView) findViewById(R.id.lv_menage_nutritionist);
+        btn_add_trainer = (Button) findViewById(R.id.btn_menage_trainer);
+        btn_add_nutri = (Button) findViewById(R.id.btn_menage_nutritionist);
 
-        btn_profile.setOnClickListener(new View.OnClickListener() {
+        /*
+        btn_add_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Profile Activity");
+                Log.e("REDIRECT", "Gym Add Trainer");
                 Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
         });
 
-        btn_corsi.setOnClickListener(new View.OnClickListener() {
+        btn_add_nutri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Courses Activity");
+                Log.e("REDIRECT", "Gym Add Nutri");
                 Intent i = new Intent(getApplicationContext(), GymCoursesActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
         });
-
-        btn_gestione_dipendenti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Megagment Worker Activity");
-                Intent i = new Intent(getApplicationContext(), GymMenageWorkerActivity.class);
-                i.putExtra("user_id", user_id);
-                startActivity(i);
-            }
-        });
-
+         */
     }
-
 }

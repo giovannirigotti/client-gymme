@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".gym.GymCoursesActivity"></activity>
+        <activity android:name=".gym.GymMenageWorkerActivity"></activity>
+        <activity android:name=".gym.GymCoursesActivity" />
         <activity android:name=".customer.CustomerNotificationActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
