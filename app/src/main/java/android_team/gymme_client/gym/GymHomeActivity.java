@@ -15,7 +15,7 @@ import android_team.gymme_client.trainer.TrainerProfileActivity;
 
 public class GymHomeActivity extends AppCompatActivity {
 
-    Button btn_profile;
+    Button btn_profile, btn_corsi;
     private int user_id;
 
     @Override
@@ -40,12 +40,23 @@ public class GymHomeActivity extends AppCompatActivity {
         }
 
         btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
+        btn_corsi = (Button) findViewById(R.id.btn_gym_home_corsi);
 
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("REDIRECT", "Gym Profile Activity");
                 Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+        btn_corsi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Gym Courses Activity");
+                Intent i = new Intent(getApplicationContext(), GymCoursesActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
