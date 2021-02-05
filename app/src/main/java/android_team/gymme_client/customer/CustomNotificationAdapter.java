@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CustomNotificationAdapter extends ArrayAdapter<String> {
     private ArrayList<String> items;
-
+    String idString;
     private Activity context;
 
    /* public CustomNotificationAdapter(){
@@ -55,7 +55,9 @@ public class CustomNotificationAdapter extends ArrayAdapter<String> {
         } else {
             viewHolder = (ViewHolder) r.getTag();
         }
-        viewHolder.notification_text.setText(items.get(position));
+        idString = items.get(position).split(",")[0];
+        String text = items.get(position).split(",")[1];
+        viewHolder.notification_text.setText(text);
         viewHolder.notification_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
