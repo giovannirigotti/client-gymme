@@ -39,8 +39,8 @@ import android_team.gymme_client.trainer.TrainerObject;
 public class GymMenageWorkerActivity extends AppCompatActivity {
 
     private int user_id;
-    static CustomGymTrainerAdapter trainer_adapter;
-    static CustomGymNutritionistAdapter nutritionist_adapter;
+    static CustomGymTrainerAssumedAdapter trainer_adapter;
+    static CustomGymNutritionistAssumedAdapter nutritionist_adapter;
 
     ListView lv_trainer, lv_nutri;
     Button btn_add_trainer, btn_add_nutri;
@@ -121,7 +121,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
-                            trainer_adapter = new CustomGymTrainerAdapter(GymMenageWorkerActivity.this, trainers_list);
+                            trainer_adapter = new CustomGymTrainerAssumedAdapter(GymMenageWorkerActivity.this, trainers_list);
                             lv_trainer.setAdapter(trainer_adapter);
                             /*
                             notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -254,7 +254,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //setto tramite l'adapter la lista dei nutritionist da visualizzare nella recycler view(notificationView)
-                            nutritionist_adapter = new CustomGymNutritionistAdapter(GymMenageWorkerActivity.this, nutritionists_list);
+                            nutritionist_adapter = new CustomGymNutritionistAssumedAdapter(GymMenageWorkerActivity.this, nutritionists_list);
                             lv_nutri.setAdapter(nutritionist_adapter);
                             /*
                             notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
