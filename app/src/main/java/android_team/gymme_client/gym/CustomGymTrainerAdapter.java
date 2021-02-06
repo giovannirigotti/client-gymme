@@ -1,10 +1,13 @@
 package android_team.gymme_client.gym;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,15 +19,20 @@ import java.util.ArrayList;
 import android_team.gymme_client.R;
 import android_team.gymme_client.trainer.TrainerObject;
 
-public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> {
+public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> implements Filterable {
 
-    private ArrayList<TrainerObject> trainers;
+    private static ArrayList<TrainerObject> trainers;
     private Activity context;
 
     public CustomGymTrainerAdapter(Activity _context, ArrayList<TrainerObject> _trainers) {
         super(_context, R.layout.notification_item, _trainers);
         this.context = _context;
         this.trainers = _trainers;
+    }
+
+    @Override
+    public int getCount() {
+        return trainers.size();
     }
 
     @NonNull
@@ -51,6 +59,7 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> {
         viewHolder.btn_gym_trainer_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO:
                 //LOGICA AGGIUNTA TRAINER SCELTO TRA I PROPRI DIPENDENDTI
             }
         });
@@ -58,7 +67,7 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> {
     }
 
     class ViewHolder {
-        TextView tv_gym_trainer_name,tv_gym_trainer_lastname,tv_gym_trainer_email;
+        TextView tv_gym_trainer_name, tv_gym_trainer_lastname, tv_gym_trainer_email;
         ImageView btn_gym_trainer_add;
 
         ViewHolder(View v) {
@@ -68,5 +77,41 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> {
 
             btn_gym_trainer_add = v.findViewById(R.id.btn_gym_trainer_add);
         }
+    }
+
+    @NonNull
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<TrainerObject> FilteredTrainers = new ArrayList<TrainerObject>();
+                // perform your search here using the searchConstraint String.
+                constraint = constraint.toString().toLowerCase();
+                for (TrainerObject t : trainers) {
+                    String dataNames = t.name;
+                    if (dataNames.toLowerCase().startsWith(constraint.toString())) {
+                        FilteredTrainers.add(t);
+                    }
+                }
+                results.values = FilteredTrainers;
+                results.count = FilteredTrainers.size();
+                Log.e("VALUES", results.values.toString());
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                Log.e("TEST", results.values.toString());
+                trainers = (ArrayList<TrainerObject>) results.values;
+                notifyDataSetChanged();
+            }
+
+
+        };
+        return filter;
     }
 }

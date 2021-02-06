@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -38,8 +39,8 @@ import android_team.gymme_client.trainer.TrainerObject;
 public class GymMenageWorkerActivity extends AppCompatActivity {
 
     private int user_id;
-    static CustomGymTrainerAdapter trainer_adapter;
-    static CustomGymNutritionistAdapter nutritionist_adapter;
+    static CustomGymTrainerAssumedAdapter trainer_adapter;
+    static CustomGymNutritionistAssumedAdapter nutritionist_adapter;
 
     ListView lv_trainer, lv_nutri;
     Button btn_add_trainer, btn_add_nutri;
@@ -79,30 +80,27 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
 
         getWorkerData();
 
-
-
-        
-        /*
         btn_add_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("REDIRECT", "Gym Add Trainer");
-                Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
+                Intent i = new Intent(getApplicationContext(), GymAddTrainerActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
         });
+
 
         btn_add_nutri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("REDIRECT", "Gym Add Nutri");
-                Intent i = new Intent(getApplicationContext(), GymCoursesActivity.class);
+                Intent i = new Intent(getApplicationContext(), GymAddNutritionistActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
         });
-         */
+
     }
 
     //region GET DATA REGION
@@ -123,7 +121,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
-                            trainer_adapter = new CustomGymTrainerAdapter(GymMenageWorkerActivity.this, trainers_list);
+                            trainer_adapter = new CustomGymTrainerAssumedAdapter(GymMenageWorkerActivity.this, trainers_list);
                             lv_trainer.setAdapter(trainer_adapter);
                             /*
                             notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -256,7 +254,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //setto tramite l'adapter la lista dei nutritionist da visualizzare nella recycler view(notificationView)
-                            nutritionist_adapter = new CustomGymNutritionistAdapter(GymMenageWorkerActivity.this, nutritionists_list);
+                            nutritionist_adapter = new CustomGymNutritionistAssumedAdapter(GymMenageWorkerActivity.this, nutritionists_list);
                             lv_nutri.setAdapter(nutritionist_adapter);
                             /*
                             notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

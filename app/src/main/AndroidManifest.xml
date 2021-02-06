@@ -11,8 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".customer.CustomerAddGymActivity"></activity>
         <activity android:name=".customer.CustomerManageGymActivity" />
+        <activity android:name=".gym.GymAddNutritionistActivity"></activity>
+        <activity android:name=".gym.GymAddTrainerActivity" />
         <activity android:name=".gym.GymMenageWorkerActivity" />
         <activity android:name=".gym.GymCoursesActivity" />
         <activity android:name=".customer.CustomerNotificationActivity" />

@@ -37,11 +37,11 @@
 
         <ImageView
             android:id="@+id/btn_gym_nutritionist_add"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/btn_plus" />
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_less" />
     </RelativeLayout>
 
 </LinearLayout>
