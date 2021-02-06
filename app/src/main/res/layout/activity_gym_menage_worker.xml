@@ -12,10 +12,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Persoanl Trainers" />
+        android:text="Personal Trainers"
+        android:textColor="#191818"
+        android:textSize="18sp" />
 
     <ListView
         android:id="@+id/lv_menage_trainer"
@@ -36,10 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Nutrizionisti" />
+        android:text="Nutrizionisti"
+        android:textColor="#191818"
+        android:textSize="18sp" />
 
     <ListView
         android:id="@+id/lv_menage_nutritionist"

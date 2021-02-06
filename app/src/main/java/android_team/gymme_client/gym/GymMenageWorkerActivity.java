@@ -38,7 +38,8 @@ import android_team.gymme_client.trainer.TrainerObject;
 public class GymMenageWorkerActivity extends AppCompatActivity {
 
     private int user_id;
-    static CustomGymTrainerAdapter adapter;
+    static CustomGymTrainerAdapter trainer_adapter;
+    static CustomGymNutritionistAdapter nutritionist_adapter;
 
     ListView lv_trainer, lv_nutri;
     Button btn_add_trainer, btn_add_nutri;
@@ -107,7 +108,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
     //region GET DATA REGION
     private void getWorkerData() {
         getTrainers();
-        //getNutritionists();
+        getNutritionists();
     }
 
 
@@ -121,13 +122,10 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     //DATI RICEVUTI
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymMenageWorkerActivity.this, "daje pieno", Toast.LENGTH_SHORT).show();
                             //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
-                            adapter = new CustomGymTrainerAdapter(GymMenageWorkerActivity.this, trainers_list);
-                            lv_trainer.setAdapter(adapter);
-
+                            trainer_adapter = new CustomGymTrainerAdapter(GymMenageWorkerActivity.this, trainers_list);
+                            lv_trainer.setAdapter(trainer_adapter);
                             /*
-
                             notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -135,25 +133,20 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                                     Toast.makeText(GymMenageWorkerActivity.this, "Elemento: " + i + "; testo: " + trainers_list.get(i), Toast.LENGTH_SHORT).show();
                                 }
                             });
-
                              */
-
                         }
                     });
                 } else {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymMenageWorkerActivity.this, "daje vuoto", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymMenageWorkerActivity.this, "Nessun personal trainer come dipendente", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
-
-
-                for (int j = 0; j < trainers_list.size(); j++) {
-                    Log.e("trainer n:" + j, trainers_list.get(j).toString());
-                }
-
+                //for (int j = 0; j < trainers_list.size(); j++) {
+                //    Log.e("trainer n:" + j, trainers_list.get(j).toString());
+                //}
             }
 
         }).execute(String.valueOf(user_id));
@@ -226,6 +219,138 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     urlConnection.disconnect();
             }
             return _trainers;
+        }
+
+        private String readStream(InputStream in) throws UnsupportedEncodingException {
+            BufferedReader reader = null;
+            StringBuffer response = new StringBuffer();
+            try {
+                reader = new BufferedReader(new InputStreamReader(in));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return response.toString();
+        }
+    }
+
+    private void getNutritionists() {
+        GymMenageWorkerActivity.ReceiveNutritionistsConn asyncTaskUser = (GymMenageWorkerActivity.ReceiveNutritionistsConn) new GymMenageWorkerActivity.ReceiveNutritionistsConn(new GymMenageWorkerActivity.ReceiveNutritionistsConn.AsyncResponse() {
+            @Override
+            public void processFinish(ArrayList<NutritionistObject> nutritionists) {
+
+                nutritionists_list = nutritionists;
+                if (nutritionists_list.size() > 0) {
+                    //DATI RICEVUTI
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            //setto tramite l'adapter la lista dei nutritionist da visualizzare nella recycler view(notificationView)
+                            nutritionist_adapter = new CustomGymNutritionistAdapter(GymMenageWorkerActivity.this, nutritionists_list);
+                            lv_nutri.setAdapter(nutritionist_adapter);
+                            /*
+                            notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    //cancello notifica su db
+                                    Toast.makeText(GymMenageWorkerActivity.this, "Elemento: " + i + "; testo: " + nutritionists_list.get(i), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                             */
+                        }
+                    });
+                } else {
+                    // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymMenageWorkerActivity.this, "Nessun nutrizionista come dipendente", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                //for (int j = 0; j < nutritionists_list.size(); j++) {
+                //    Log.e("nutritionist n:" + j, nutritionists_list.get(j).toString());
+                //}
+            }
+        }).execute(String.valueOf(user_id));
+    }
+
+    private static class ReceiveNutritionistsConn extends AsyncTask<String, String, JsonArray> {
+
+        public interface AsyncResponse {
+            void processFinish(ArrayList<NutritionistObject> nutritionists);
+        }
+
+        public GymMenageWorkerActivity.ReceiveNutritionistsConn.AsyncResponse delegate = null;
+
+        public ReceiveNutritionistsConn(GymMenageWorkerActivity.ReceiveNutritionistsConn.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @SuppressLint("WrongThread")
+        @Override
+        protected JsonArray doInBackground(String... params) {
+
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonArray _nutritionists = null;
+            ArrayList<NutritionistObject> t_objects = new ArrayList<NutritionistObject>();
+
+            try {
+                url = new URL("http://10.0.2.2:4000/gym/get_gym_nutritionists/" + params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.connect();
+                int responseCode = urlConnection.getResponseCode();
+                urlConnection.disconnect();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    Log.e("Server response", "HTTP_OK");
+                    String responseString = readStream(urlConnection.getInputStream());
+                    _nutritionists = JsonParser.parseString(responseString).getAsJsonArray();
+
+                    for (int i = 0; i < _nutritionists.size(); i++) {
+                        JsonObject nutritionist = (JsonObject) _nutritionists.get(i);
+
+                        String user_id = nutritionist.get("user_id").getAsString().trim();
+                        String name = nutritionist.get("name").getAsString().trim();
+                        String lastname = nutritionist.get("lastname").getAsString().trim();
+                        String email = nutritionist.get("email").getAsString().trim();
+                        String qualification = nutritionist.get("qualification").getAsString().trim();
+                        String fiscal_code = nutritionist.get("fiscal_code").getAsString().trim();
+
+                        NutritionistObject t_obj = new NutritionistObject(user_id, name, lastname, email, qualification, fiscal_code);
+                        t_objects.add(t_obj);
+
+                    }
+                    //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
+                    delegate.processFinish(t_objects);
+
+                } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                    Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
+                    delegate.processFinish(new ArrayList<NutritionistObject>());
+                } else {
+                    Log.e("GET TRAINER", "SERVER ERROR");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return _nutritionists;
         }
 
         private String readStream(InputStream in) throws UnsupportedEncodingException {
