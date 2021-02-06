@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -79,30 +80,27 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
 
         getWorkerData();
 
-
-
-        
-        /*
         btn_add_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("REDIRECT", "Gym Add Trainer");
-                Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
+                Intent i = new Intent(getApplicationContext(), GymAddTrainerActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
         });
+
 
         btn_add_nutri.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("REDIRECT", "Gym Add Nutri");
-                Intent i = new Intent(getApplicationContext(), GymCoursesActivity.class);
+                Intent i = new Intent(getApplicationContext(), GymAddNutritionistActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
         });
-         */
+
     }
 
     //region GET DATA REGION
