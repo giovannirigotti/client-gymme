@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <include
+            android:id="@+id/include3"
             layout="@layout/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,37 +23,24 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-
-        <Button
-            android:id="@+id/btn_customer_home_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="156dp"
-            android:layout_marginTop="84dp"
-            android:text="Profilo"
+        <TextView
+            android:layout_width="134dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="76dp"
+            android:text="Palestre disponibili"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_customer_home_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="368dp"
-            android:text="Notifiche"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ListView
+            android:id="@+id/lv_customer_disponible_gym"
+            android:layout_width="396dp"
+            android:layout_height="499dp"
+            android:layout_marginTop="64dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btn_customer_home_gym"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="159dp"
-            android:layout_marginBottom="284dp"
-            android:text="PALESTRE"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:layout_constraintHorizontal_bias="0.466"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include3" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
