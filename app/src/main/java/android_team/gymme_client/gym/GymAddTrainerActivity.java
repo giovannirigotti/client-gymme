@@ -117,6 +117,10 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         }).execute(String.valueOf(user_id));
     }
 
+    public static ArrayList<TrainerObject> getAllTrainers(){
+        return trainers_list;
+    };
+
     private static class ReceiveTrainersConn extends AsyncTask<String, String, JsonArray> {
 
         public interface AsyncResponse {

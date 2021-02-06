@@ -6,8 +6,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,9 +36,8 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
 
     private int user_id;
     static CustomGymNutritionistAdapter nutritionist_adapter;
-
+    EditText inputSearch;
     ListView lv_nutri;
-
     public static ArrayList<NutritionistObject> nutritionists_list;
 
     @Override
@@ -62,8 +64,25 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         //endregion
 
         lv_nutri = (ListView) findViewById(R.id.lv_free_nutritionists);
+        inputSearch = (EditText) findViewById(R.id.et_search_nutritionist);  //prendo logica funzionamento da GymAddTrainerActivity
 
         getNutritionists();
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                GymAddNutritionistActivity.this.nutritionist_adapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
     }
 
 
@@ -105,7 +124,9 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
             }
         }).execute(String.valueOf(user_id));
     }
-
+    public static ArrayList<NutritionistObject> getAllNutritionist(){
+        return nutritionists_list;
+    };
     private static class ReceiveNutritionistsConn extends AsyncTask<String, String, JsonArray> {
 
         public interface AsyncResponse {

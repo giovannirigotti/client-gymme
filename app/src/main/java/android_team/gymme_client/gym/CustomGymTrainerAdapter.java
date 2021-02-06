@@ -87,18 +87,24 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> impleme
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<TrainerObject> FilteredTrainers = new ArrayList<TrainerObject>();
-                // perform your search here using the searchConstraint String.
-                constraint = constraint.toString().toLowerCase();
-                for (TrainerObject t : trainers) {
-                    String dataNames = t.name;
-                    if (dataNames.toLowerCase().startsWith(constraint.toString())) {
-                        FilteredTrainers.add(t);
+                ArrayList<TrainerObject> allTrainers = GymAddTrainerActivity.getAllTrainers();
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = allTrainers;
+                    results.count = allTrainers.size();
+                } else {
+                    ArrayList<TrainerObject> FilteredTrainers = new ArrayList<TrainerObject>();
+                    // perform your search here using the searchConstraint String.
+                    constraint = constraint.toString().toLowerCase();
+                    for (TrainerObject t : trainers) {
+                        String dataNames = t.name;
+                        if (dataNames.toLowerCase().startsWith(constraint.toString())) {
+                            FilteredTrainers.add(t);
+                        }
                     }
+                    results.values = FilteredTrainers;
+                    results.count = FilteredTrainers.size();
+                    Log.e("VALUES", results.values.toString());
                 }
-                results.values = FilteredTrainers;
-                results.count = FilteredTrainers.size();
-                Log.e("VALUES", results.values.toString());
 
                 return results;
             }
