@@ -3,29 +3,56 @@ package android_team.gymme_client.gym;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
 import android_team.gymme_client.R;
+import android_team.gymme_client.customer.CustomNotificationAdapter;
+import android_team.gymme_client.customer.CustomerNotificationActivity;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.nutritionist.NutritionistObject;
+import android_team.gymme_client.support.MyApplication;
+import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymMenageWorkerActivity extends AppCompatActivity {
 
     private int user_id;
+    static CustomGymTrainerAdapter adapter;
 
     ListView lv_trainer, lv_nutri;
     Button btn_add_trainer, btn_add_nutri;
+
+    public static ArrayList<TrainerObject> trainers_list;
+    public static ArrayList<NutritionistObject> nutritionists_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gym_menage_worker);
+
+        trainers_list = new ArrayList<TrainerObject>();
+        nutritionists_list = new ArrayList<NutritionistObject>();
 
         //region CHECK INTENT EXTRAS
         Intent i = getIntent();
@@ -49,6 +76,11 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         btn_add_trainer = (Button) findViewById(R.id.btn_menage_trainer);
         btn_add_nutri = (Button) findViewById(R.id.btn_menage_nutritionist);
 
+        getWorkerData();
+
+
+
+        
         /*
         btn_add_trainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,4 +103,180 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         });
          */
     }
+
+    //region GET DATA REGION
+    private void getWorkerData() {
+        getTrainers();
+        //getNutritionists();
+    }
+
+
+    private void getTrainers() {
+        GymMenageWorkerActivity.ReceiveTrainersConn asyncTaskUser = (GymMenageWorkerActivity.ReceiveTrainersConn) new GymMenageWorkerActivity.ReceiveTrainersConn(new GymMenageWorkerActivity.ReceiveTrainersConn.AsyncResponse() {
+            @Override
+            public void processFinish(ArrayList<TrainerObject> trainers) {
+
+                trainers_list = trainers;
+                if (trainers_list.size() > 0) {
+                    //DATI RICEVUTI
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymMenageWorkerActivity.this, "daje pieno", Toast.LENGTH_SHORT).show();
+                            //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
+                            adapter = new CustomGymTrainerAdapter(GymMenageWorkerActivity.this, trainers_list);
+                            lv_trainer.setAdapter(adapter);
+
+                            /*
+
+                            notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    //cancello notifica su db
+                                    Toast.makeText(GymMenageWorkerActivity.this, "Elemento: " + i + "; testo: " + trainers_list.get(i), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                             */
+
+                        }
+                    });
+                } else {
+                    // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymMenageWorkerActivity.this, "daje vuoto", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+
+                for (int j = 0; j < trainers_list.size(); j++) {
+                    Log.e("trainer n:" + j, trainers_list.get(j).toString());
+                }
+
+            }
+
+        }).execute(String.valueOf(user_id));
+    }
+
+    private static class ReceiveTrainersConn extends AsyncTask<String, String, JsonArray> {
+
+        public interface AsyncResponse {
+            void processFinish(ArrayList<TrainerObject> trainers);
+        }
+
+        public GymMenageWorkerActivity.ReceiveTrainersConn.AsyncResponse delegate = null;
+
+        public ReceiveTrainersConn(GymMenageWorkerActivity.ReceiveTrainersConn.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @SuppressLint("WrongThread")
+        @Override
+        protected JsonArray doInBackground(String... params) {
+
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonArray _trainers = null;
+            ArrayList<TrainerObject> t_objects = new ArrayList<TrainerObject>();
+
+            try {
+                url = new URL("http://10.0.2.2:4000/gym/get_gym_trainers/" + params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.connect();
+                int responseCode = urlConnection.getResponseCode();
+                urlConnection.disconnect();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    Log.e("Server response", "HTTP_OK");
+                    String responseString = readStream(urlConnection.getInputStream());
+                    _trainers = JsonParser.parseString(responseString).getAsJsonArray();
+
+                    for (int i = 0; i < _trainers.size(); i++) {
+                        JsonObject trainer = (JsonObject) _trainers.get(i);
+
+                        String user_id = trainer.get("user_id").getAsString().trim();
+                        String name = trainer.get("name").getAsString().trim();
+                        String lastname = trainer.get("lastname").getAsString().trim();
+                        String email = trainer.get("email").getAsString().trim();
+                        String qualification = trainer.get("qualification").getAsString().trim();
+                        String fiscal_code = trainer.get("fiscal_code").getAsString().trim();
+
+                        TrainerObject t_obj = new TrainerObject(user_id, name, lastname, email, qualification, fiscal_code);
+                        t_objects.add(t_obj);
+
+                    }
+                    //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
+                    delegate.processFinish(t_objects);
+
+                } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                    Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
+                    delegate.processFinish(new ArrayList<TrainerObject>());
+                } else {
+                    Log.e("GET TRAINER", "SERVER ERROR");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return _trainers;
+        }
+
+        private String readStream(InputStream in) throws UnsupportedEncodingException {
+            BufferedReader reader = null;
+            StringBuffer response = new StringBuffer();
+            try {
+                reader = new BufferedReader(new InputStreamReader(in));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return response.toString();
+        }
+    }
+
+
+    //endregion
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
