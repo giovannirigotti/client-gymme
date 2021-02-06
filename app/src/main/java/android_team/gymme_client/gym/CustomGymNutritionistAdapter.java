@@ -1,10 +1,13 @@
 package android_team.gymme_client.gym;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +18,9 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.nutritionist.NutritionistObject;
+import android_team.gymme_client.trainer.TrainerObject;
 
-public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObject> {
+public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObject> implements Filterable {
 
     private ArrayList<NutritionistObject> nutritionist;
     private Activity context;
@@ -26,7 +30,10 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
         this.context = _context;
         this.nutritionist = _nutritionist;
     }
-
+    @Override
+    public int getCount() {
+        return nutritionist.size();
+    }
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -68,5 +75,47 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
 
             btn_gym_nutritionist_add = v.findViewById(R.id.btn_gym_nutritionist_add);
         }
+    }
+
+    @NonNull
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<NutritionistObject> allNutritionist = GymAddNutritionistActivity.getAllNutritionist();
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = allNutritionist;
+                    results.count = allNutritionist.size();
+                } else {
+                    ArrayList<NutritionistObject> FilteredNutritionists = new ArrayList<NutritionistObject>();
+                    // perform your search here using the searchConstraint String.
+                    constraint = constraint.toString().toLowerCase();
+                    for (NutritionistObject t : nutritionist) {
+                        String dataNames = t.name;
+                        if (dataNames.toLowerCase().startsWith(constraint.toString())) {
+                            FilteredNutritionists.add(t);
+                        }
+                    }
+                    results.values = FilteredNutritionists;
+                    results.count = FilteredNutritionists.size();
+                    Log.e("VALUES", results.values.toString());
+                }
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                Log.e("TEST", results.values.toString());
+                nutritionist = (ArrayList<NutritionistObject>) results.values;
+                notifyDataSetChanged();
+            }
+
+
+        };
+        return filter;
     }
 }

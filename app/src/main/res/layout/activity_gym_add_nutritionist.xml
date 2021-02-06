@@ -12,7 +12,7 @@
         android:id="@+id/textView14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Nutrizionisti" />
 
     <EditText
         android:id="@+id/et_search_nutritionist"
@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:hint="Ricerca per nome nutrizionista..."
+        android:inputType="textPersonName" />
 
     <ListView
         android:id="@+id/lv_free_nutritionists"
