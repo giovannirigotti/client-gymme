@@ -409,94 +409,20 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
 
     //region DISMISS PEOPLE
 
-    public static void dismissTrainer(String trainer_id, final Integer position) {
-        GymMenageWorkerActivity.DismissTrainerConnection asyncTask = (GymMenageWorkerActivity.DismissTrainerConnection) new GymMenageWorkerActivity.DismissTrainerConnection(new GymMenageWorkerActivity.DismissTrainerConnection.AsyncResponse() {
-            @Override
-            public void processFinish(Integer output) {
-                if (output == 200) {
-                    GymMenageWorkerActivity.runOnUI(new Runnable() {
-                        public void run() {
-                            Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer licenziato", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    GymMenageWorkerActivity.runOnUI(new Runnable() {
-                        public void run() {
-                            Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+
+    public static void redoAdapter(Activity context, ArrayList<TrainerObject> trainers, Integer position) {
+        ArrayList<TrainerObject> new_t = new ArrayList<>();
+        for(int i = 0; i < trainers.size(); i++){
+            if(i != position){
+                new_t.add(trainers.get(i));
             }
-        }).execute(trainer_id, GymMenageWorkerActivity.getGymId());
+        }
+        trainer_adapter = new CustomGymTrainerAssumedAdapter(context, new_t);
+        lv_trainer.setAdapter(trainer_adapter);
     }
 
 
-    public static class DismissTrainerConnection extends AsyncTask<String, String, Integer> {
 
-        // you may separate this or combined to caller class.
-        public interface AsyncResponse {
-            void processFinish(Integer output);
-        }
-
-        public GymMenageWorkerActivity.DismissTrainerConnection.AsyncResponse delegate = null;
-
-        public DismissTrainerConnection(GymMenageWorkerActivity.DismissTrainerConnection.AsyncResponse delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            URL url;
-            HttpURLConnection urlConnection = null;
-            JsonObject user = null;
-            int responseCode = 500;
-            try {
-                url = new URL("http://10.0.2.2:4000/gym/dismiss_trainer/");
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setConnectTimeout(5000);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                JsonObject paramsJson = new JsonObject();
-
-                paramsJson.addProperty("user_id", params[0]);
-                paramsJson.addProperty("gym_id", params[1]);
-
-                urlConnection.setDoOutput(true);
-
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(paramsJson.toString());
-                writer.flush();
-                writer.close();
-                os.close();
-
-                urlConnection.connect();
-                responseCode = urlConnection.getResponseCode();
-
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM TRAINER", "LICENZIATO OK");
-                    responseCode = 200;
-                    delegate.processFinish(responseCode);
-                } else {
-                    Log.e("GYM TRAINER", "Error");
-                    responseCode = 500;
-                    delegate.processFinish(responseCode);
-                    urlConnection.disconnect();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                responseCode = 69;
-                delegate.processFinish(responseCode);
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            return responseCode;
-        }
-
-    }
     //endregion
 }
 

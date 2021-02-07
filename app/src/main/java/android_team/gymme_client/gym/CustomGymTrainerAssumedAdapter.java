@@ -2,9 +2,12 @@ package android_team.gymme_client.gym;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +16,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.JsonObject;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.customer.CustomerProfileActivity;
+import android_team.gymme_client.support.MyApplication;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> {
@@ -117,6 +131,7 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
+
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.dialog_dismiss_trainer);
@@ -145,9 +160,34 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
 
             switch (v.getId()) {
                 case R.id.dialog_confirm_user_type_yes:
+                    CustomGymTrainerAssumedAdapter.DismissTrainerConnection asyncTask = (CustomGymTrainerAssumedAdapter.DismissTrainerConnection) new CustomGymTrainerAssumedAdapter.DismissTrainerConnection(new CustomGymTrainerAssumedAdapter.DismissTrainerConnection.AsyncResponse() {
+                        @Override
+                        public void processFinish(Integer output) {
+                            if (output == 200) {
+                                GymMenageWorkerActivity.runOnUI(new Runnable() {
+                                    public void run() {
+                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer licenziato", Toast.LENGTH_SHORT).show();
+                                        GymMenageWorkerActivity.redoAdapter(context, trainers, position);
+                                    }
+                                });
+                            } else {
+                                GymMenageWorkerActivity.runOnUI(new Runnable() {
+                                    public void run() {
+                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    }).execute(trainer_id, GymMenageWorkerActivity.getGymId());
 
-                    GymMenageWorkerActivity.dismissTrainer(trainer_id, position);
+                    /*
 
+                    Log.e("REDIRECT", "Gym Add Nutri");
+                    Intent i = new Intent(context, GymMenageWorkerActivity.class);
+                    i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
+                    context.startActivity(i);
+
+                     */
                     dismiss();
                     break;
                 case R.id.dialog_confirm_user_type_no:
@@ -158,6 +198,72 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
                     break;
             }
         }
-    }
 
+    }
+    public static class DismissTrainerConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public CustomGymTrainerAssumedAdapter.DismissTrainerConnection.AsyncResponse delegate = null;
+
+        public DismissTrainerConnection(CustomGymTrainerAssumedAdapter.DismissTrainerConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/gym/dismiss_trainer/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("user_id", params[0]);
+                paramsJson.addProperty("gym_id", params[1]);
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("GYM TRAINER", "LICENZIATO OK");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("GYM TRAINER", "Error");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
+        }
+
+    }
 }
