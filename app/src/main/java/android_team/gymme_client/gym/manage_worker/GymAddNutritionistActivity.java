@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.manage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.nutritionist.NutritionistObject;
-import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymAddNutritionistActivity extends AppCompatActivity {
 

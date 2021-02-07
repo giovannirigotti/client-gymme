@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.manage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.nutritionist.NutritionistObject;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymAddTrainerActivity extends AppCompatActivity {

@@ -14,9 +14,9 @@
 
         <activity android:name=".customer.CustomerAddGymActivity"></activity>
         <activity android:name=".customer.CustomerManageGymActivity" />
-        <activity android:name=".gym.GymAddNutritionistActivity"></activity>
-        <activity android:name=".gym.GymAddTrainerActivity" />
-        <activity android:name=".gym.GymMenageWorkerActivity" />
+        <activity android:name=".gym.manage_worker.GymAddNutritionistActivity"></activity>
+        <activity android:name=".gym.manage_worker.GymAddTrainerActivity" />
+        <activity android:name=".gym.manage_worker.GymMenageWorkerActivity" />
         <activity android:name=".gym.GymCoursesActivity" />
         <activity android:name=".customer.CustomerNotificationActivity" />
         <activity android:name=".MainActivity">

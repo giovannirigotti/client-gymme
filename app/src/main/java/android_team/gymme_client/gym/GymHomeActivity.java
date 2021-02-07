@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
 
 public class GymHomeActivity extends AppCompatActivity {
 
