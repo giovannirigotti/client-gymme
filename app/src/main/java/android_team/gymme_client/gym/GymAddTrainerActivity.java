@@ -3,6 +3,7 @@ package android_team.gymme_client.gym;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
     private int user_id;
     public static ArrayList<TrainerObject> trainers_list;
     static CustomGymTrainerAdapter trainer_adapter;
-    ListView lv_trainer;
+    static ListView lv_trainer;
     EditText inputSearch;
 
 
@@ -213,4 +214,14 @@ public class GymAddTrainerActivity extends AppCompatActivity {
             return response.toString();
         }
     }
+
+
+    public static void redirectManage(Activity context) {
+        Log.e("REDIRECT", "Gym Add Nutri");
+        Intent i = new Intent(context, GymMenageWorkerActivity.class);
+        i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
+        context.startActivity(i);
+    }
+
+
 }

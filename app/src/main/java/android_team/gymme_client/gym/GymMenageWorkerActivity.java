@@ -433,6 +433,16 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
     }
 
 
+    public static void addToAdapterNutritionist(Activity context, ArrayList<NutritionistObject> nutritionists, NutritionistObject t_toAdd) {
+        ArrayList<NutritionistObject> new_n = new ArrayList<>();
+        for(int i = 0; i < nutritionists.size(); i++){
+            new_n.add(nutritionists.get(i));
+        }
+        new_n.add(t_toAdd);
+        nutritionist_adapter = new CustomGymNutritionistAssumedAdapter(context, new_n);
+        lv_nutri.setAdapter(nutritionist_adapter);
+    }
+
 
     //endregion
 }

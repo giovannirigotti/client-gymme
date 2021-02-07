@@ -176,15 +176,6 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
                             }
                         }
                     }).execute(trainer_id, GymMenageWorkerActivity.getGymId());
-
-                    /*
-
-                    Log.e("REDIRECT", "Gym Add Nutri");
-                    Intent i = new Intent(context, GymMenageWorkerActivity.class);
-                    i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
-                    context.startActivity(i);
-
-                     */
                     dismiss();
                     break;
                 case R.id.dialog_confirm_user_type_no:
