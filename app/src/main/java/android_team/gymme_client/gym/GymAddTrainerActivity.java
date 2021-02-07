@@ -217,7 +217,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
 
 
     public static void redirectManage(Activity context) {
-        Log.e("REDIRECT", "Gym Add Nutri");
+        Log.e("REDIRECT", "Gym Menege Worker");
         Intent i = new Intent(context, GymMenageWorkerActivity.class);
         i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
         context.startActivity(i);
