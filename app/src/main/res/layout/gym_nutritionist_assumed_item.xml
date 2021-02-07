@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="300dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_plus" />
+            android:src="@drawable/ic_less" />
     </RelativeLayout>
 
 </LinearLayout>
