@@ -30,7 +30,7 @@
             android:name=".MainActivity2"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".support.NoNetworkActivity" />
+        <activity android:name=".support.NoNetworkActivity" />W
         <activity
             android:name=".login.LoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
