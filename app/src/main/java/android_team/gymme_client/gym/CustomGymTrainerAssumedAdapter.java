@@ -80,8 +80,6 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
         viewHolder.btn_gym_trainer_assumed_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO:
-                //LOGICA AGGIUNTA TRAINER SCELTO TRA I PROPRI DIPENDENDTI
                 dismissTrainer(context, trainer_id, name, lastname, email, qualification, fiscal_code, position);
             }
         });
@@ -107,7 +105,6 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
     }
-
 
     private class CustomDialogRemoveTrainer extends Dialog implements View.OnClickListener {
 
@@ -167,7 +164,7 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
                                         Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer licenziato", Toast.LENGTH_SHORT).show();
-                                        GymMenageWorkerActivity.redoAdapter(context, trainers, position);
+                                        GymMenageWorkerActivity.redoAdapterTrainer(context, trainers, position);
                                     }
                                 });
                             } else {
@@ -200,6 +197,7 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
         }
 
     }
+
     public static class DismissTrainerConnection extends AsyncTask<String, String, Integer> {
 
         // you may separate this or combined to caller class.

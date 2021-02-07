@@ -410,7 +410,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
     //region DISMISS PEOPLE
 
 
-    public static void redoAdapter(Activity context, ArrayList<TrainerObject> trainers, Integer position) {
+    public static void redoAdapterTrainer(Activity context, ArrayList<TrainerObject> trainers, Integer position) {
         ArrayList<TrainerObject> new_t = new ArrayList<>();
         for(int i = 0; i < trainers.size(); i++){
             if(i != position){
@@ -419,6 +419,17 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         }
         trainer_adapter = new CustomGymTrainerAssumedAdapter(context, new_t);
         lv_trainer.setAdapter(trainer_adapter);
+    }
+
+    public static void redoAdapterNutri(Activity context, ArrayList<NutritionistObject> nutritionists, Integer position) {
+        ArrayList<NutritionistObject> new_n = new ArrayList<>();
+        for(int i = 0; i < nutritionists.size(); i++){
+            if(i != position){
+                new_n.add(nutritionists.get(i));
+            }
+        }
+        nutritionist_adapter = new CustomGymNutritionistAssumedAdapter(context, new_n);
+        lv_nutri.setAdapter(nutritionist_adapter);
     }
 
 
