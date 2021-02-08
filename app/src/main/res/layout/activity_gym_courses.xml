@@ -176,5 +176,12 @@
             android:hint="Inserisci numero"
             android:inputType="textPersonName" />
 
+        <Button
+            android:id="@+id/btn_add_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="AGGIUNGI CORSO" />
+
     </LinearLayout>
 </ScrollView>
