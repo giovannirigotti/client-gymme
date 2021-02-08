@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_rectangle"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Personal Trainer Info"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dismiss_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cognome"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dismiss_lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cognome" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dismiss_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data di nascita"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dismiss_birthdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Birthdate" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/dialog_remove_customer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="#D61010"
+            android:text="ELIMINA"
+            app:cornerRadius="30dp" />
+
+        <Button
+            android:id="@+id/dialog_exit_from_info_cutomer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ESCI"
+            app:cornerRadius="30dp" />
+
+    </LinearLayout>
+</LinearLayout>

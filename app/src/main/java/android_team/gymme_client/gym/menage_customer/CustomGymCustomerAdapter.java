@@ -62,7 +62,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         CustomGymCustomerAdapter.ViewHolder viewHolder = null;
         if (r == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
-            r = layoutInflater.inflate(R.layout.gym_trainer_item, null);
+            r = layoutInflater.inflate(R.layout.gym_trainer_assumed_item, null);
             viewHolder = new CustomGymCustomerAdapter.ViewHolder(r);
             r.setTag(viewHolder);
         } else {
@@ -82,7 +82,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         viewHolder.btn_gym_trainer_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //hireTrainer(context, trainer_id, name, lastname, email, qualification, fiscal_code, position);
+                InfoCustomer(context, user_id, name, lastname, email, birthdate, position);
             }
         });
         return r;
@@ -93,11 +93,11 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         ImageView btn_gym_trainer_add;
 
         ViewHolder(View v) {
-            tv_gym_trainer_name = v.findViewById(R.id.tv_gym_trainer_name);
-            tv_gym_trainer_lastname = v.findViewById(R.id.tv_gym_trainer_lastname);
-            tv_gym_trainer_email = v.findViewById(R.id.tv_gym_trainer_email);
+            tv_gym_trainer_name = v.findViewById(R.id.tv_gym_trainer_assumed_name);
+            tv_gym_trainer_lastname = v.findViewById(R.id.tv_gym_trainer_assumed_lastname);
+            tv_gym_trainer_email = v.findViewById(R.id.tv_gym_trainer_assumed_email);
 
-            btn_gym_trainer_add = v.findViewById(R.id.btn_gym_trainer_add);
+            btn_gym_trainer_add = v.findViewById(R.id.btn_gym_trainer_assumed_add);
         }
     }
 
@@ -143,29 +143,28 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         return filter;
     }
 
-    public void hireTrainer(Activity a, String trainer_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
-        CustomGymCustomerAdapter.CustomDialogHireTrainer cdd = new CustomGymCustomerAdapter.CustomDialogHireTrainer(a, trainer_id, name, lastname, email, qualification, fiscal_code, position);
+    public void InfoCustomer(Activity a, String user_id, String name, String lastname, String email, String birthdate, Integer position) {
+        CustomGymCustomerAdapter.CustomDialogCustomerInfo cdd = new CustomGymCustomerAdapter.CustomDialogCustomerInfo(a, user_id, name, lastname, email, birthdate, position);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
     }
 
-    private class CustomDialogHireTrainer extends Dialog implements View.OnClickListener {
+    private class CustomDialogCustomerInfo extends Dialog implements View.OnClickListener {
 
         public Activity c;
-        public Button Licenzia, Esci;
-        public TextView _name, _lastname, _email, _qualification, _fiscal_code;
-        public String trainer_id, name, lastname, email, qualification, fiscal_code;
+        public Button Rimouvi, Esci;
+        public TextView _name, _lastname, _email, _birthdate;
+        public String user_id, name, lastname, email, birthdate;
         Integer position;
 
-        public CustomDialogHireTrainer(Activity a, String trainer_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
+        public CustomDialogCustomerInfo(Activity a, String user_id, String name, String lastname, String email, String birthdate, Integer position) {
             super(a);
             this.c = a;
-            this.trainer_id = trainer_id;
+            this.user_id = user_id;
             this.name = name;
             this.lastname = lastname;
             this.email = email;
-            this.qualification = qualification;
-            this.fiscal_code = fiscal_code;
+            this.birthdate= birthdate;
             this.position = position;
         }
 
@@ -174,24 +173,21 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
 
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.dialog_dismiss_trainer);
-            Licenzia = (Button) findViewById(R.id.dialog_confirm_user_type_yes);
-            Licenzia.setText("Assumi");
-            Esci = (Button) findViewById(R.id.dialog_confirm_user_type_no);
+            setContentView(R.layout.dialog_info_costumer);
+            Rimouvi = (Button) findViewById(R.id.dialog_remove_customer);
+            Esci = (Button) findViewById(R.id.dialog_exit_from_info_cutomer);
 
             _name = (TextView) findViewById(R.id.tv_dismiss_name);
             _lastname = (TextView) findViewById(R.id.tv_dismiss_lastname);
             _email = (TextView) findViewById(R.id.tv_dismiss_email);
-            _qualification = (TextView) findViewById(R.id.tv_dismiss_qualification);
-            _fiscal_code = (TextView) findViewById(R.id.tv_dismiss_fiscal_code);
+            _birthdate = (TextView) findViewById(R.id.tv_dismiss_birthdate);
 
             _name.setText(name);
             _lastname.setText(lastname);
             _email.setText(email);
-            _qualification.setText(qualification);
-            _fiscal_code.setText(fiscal_code);
+            _birthdate.setText(birthdate.split("T")[0]);
 
-            Licenzia.setOnClickListener(this);
+            Rimouvi.setOnClickListener(this);
             Esci.setOnClickListener(this);
         }
 
@@ -200,7 +196,8 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.dialog_confirm_user_type_yes:
+                case R.id.dialog_remove_customer:
+                    /*
                     CustomGymCustomerAdapter.HireTrainerConnection asyncTask = (CustomGymCustomerAdapter.HireTrainerConnection) new CustomGymCustomerAdapter.HireTrainerConnection(new CustomGymCustomerAdapter.HireTrainerConnection.AsyncResponse() {
                         @Override
                         public void processFinish(Integer output) {
@@ -219,10 +216,10 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
                                 });
                             }
                         }
-                    }).execute(trainer_id, GymMenageWorkerActivity.getGymId());
+                    }).execute(trainer_id, GymMenageWorkerActivity.getGymId());*/
                     dismiss();
                     break;
-                case R.id.dialog_confirm_user_type_no:
+                case R.id.dialog_exit_from_info_cutomer:
                     //
                     dismiss();
                     break;
