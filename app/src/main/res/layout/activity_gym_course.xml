@@ -21,7 +21,7 @@
     <ListView
         android:id="@+id/lv_my_courses"
         android:layout_width="match_parent"
-        android:layout_height="327dp" />
+        android:layout_height="441dp" />
 
     <Button
         android:id="@+id/btn_create_course"
