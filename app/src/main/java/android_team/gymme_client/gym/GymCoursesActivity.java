@@ -24,15 +24,20 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.manage_worker.CustomGymTrainerAdapter;
+import android_team.gymme_client.gym.manage_worker.GymAddTrainerActivity;
 import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.MyApplication;
@@ -110,7 +115,7 @@ public class GymCoursesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (checkInputData()) {
                     // Mando dati alla connection per inserire il corso
-
+                    insertCourse();
                 }
             }
         });
@@ -445,6 +450,105 @@ public class GymCoursesActivity extends AppCompatActivity {
         checkNumber = (Integer.valueOf(t[0]) <= 31 && Integer.valueOf(t[1]) <= 12 && Integer.valueOf(t[2]) >= 2020 && Integer.valueOf(t[2]) <= 2200);
 
         return (checkNumber && checkFormat);
+    }
+
+    // CREAZIONE CORSO SUL DB
+    // POST --> /gym/insert_course/
+
+    private void insertCourse(){
+        GymCoursesActivity.AddCourseConnection asyncTask = (GymCoursesActivity.AddCourseConnection) new GymCoursesActivity.AddCourseConnection(new GymCoursesActivity.AddCourseConnection.AsyncResponse() {
+            @Override
+            public void processFinish(Integer output) {
+                if (output == 200) {
+                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymCoursesActivity.this, "SUCCESS, corso aggiunto", Toast.LENGTH_SHORT).show();
+                            //TODO CAMBIO INTENT
+                        }
+                    });
+                } else {
+                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymCoursesActivity.this, "ERRORE AGGIUNTA CORSO, server side", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).execute(String.valueOf(gym_id), String.valueOf(traienr_id), descrizione, titolo, categoria, data_inizio, data_fine, String.valueOf(numero_massimo));
+    }
+
+
+    public static class AddCourseConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public GymCoursesActivity.AddCourseConnection.AsyncResponse delegate = null;
+
+        public AddCourseConnection(GymCoursesActivity.AddCourseConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/gym/insert_course/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("gym_id", params[0]);
+                paramsJson.addProperty("trainer_id", params[1]);
+                paramsJson.addProperty("description", params[2]);
+                paramsJson.addProperty("title", params[3]);
+                paramsJson.addProperty("category", params[4]);
+                paramsJson.addProperty("start_date", params[5]);
+                paramsJson.addProperty("end_date", params[6]);
+                paramsJson.addProperty("max_persons", params[7]);
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("GYM COURSE", "AGGIUNTO OK");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("GYM COURSE", "Error CREAZIONE CORSO");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
+        }
+
     }
 
 
