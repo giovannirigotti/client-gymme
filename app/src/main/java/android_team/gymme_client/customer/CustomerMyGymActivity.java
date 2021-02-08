@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,28 @@ public class CustomerMyGymActivity extends AppCompatActivity {
     @BindView(R.id.tv_customer_my_gym_showers)
     TextView _tv_customer_my_gym_showers;
 
+    @BindView(R.id.check1)
+    ImageView _check1;
+    @BindView(R.id.check2)
+    ImageView _check2;
+    @BindView(R.id.check3)
+    ImageView _check3;
+    @BindView(R.id.check4)
+    ImageView _check4;
+    @BindView(R.id.check5)
+    ImageView _check5;
+    @BindView(R.id.check6)
+    ImageView _check6;
+    @BindView(R.id.check7)
+    ImageView _check7;
+    @BindView(R.id.check8)
+    ImageView _check8;
+    @BindView(R.id.check9)
+    ImageView _check9;
+    @BindView(R.id.check10)
+    ImageView _check10;
+    @BindView(R.id.check11)
+    ImageView _check11;
 
     Integer gym_id;
     private int user_id, pool, box_ring, aerobics, spa, wifi, parking_area, personal_trainer, nutritionist, impedance_balance, courses, showers;
@@ -112,7 +135,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_pool.setText("Piscina presente");
+                                _check1.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -121,7 +144,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_box_ring.setText("Box Ring presente");
+                                _check2.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -130,7 +153,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_aerobics.setText("Zona aerobica presente");
+                                _check3.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -139,7 +162,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_spa.setText("Spa Presente");
+                                _check4.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -148,7 +171,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_wifi.setText("Wifi Presente");
+                                _check5.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -157,7 +180,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_parkin_area.setText("Parcheggio presente");
+                                _check6.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -166,7 +189,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_personal_trainer_service.setText("Servizio personal trainer presente");
+                                _check7.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -175,7 +198,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_nutritionist_service.setText("Servizio alimentazione presente");
+                                _check8.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -184,7 +207,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_impedance_balance.setText("Bilancia impedenziometrica presente");
+                                _check9.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -193,7 +216,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_courses.setText("Corsi presenti");
+                                _check10.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
@@ -202,7 +225,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             public void run() {
                                 //SETTO VIEW grazie ai dati ricevuti
-                                _tv_customer_my_gym_showers.setText("Docce presente");
+                                _check11.setImageResource(R.drawable.ic_check);
                             }
                         });
                     }
