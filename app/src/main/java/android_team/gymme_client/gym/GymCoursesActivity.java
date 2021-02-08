@@ -3,11 +3,16 @@ package android_team.gymme_client.gym;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -28,7 +33,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.MyApplication;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymCoursesActivity extends AppCompatActivity {
@@ -131,8 +138,8 @@ public class GymCoursesActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymCoursesActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
-                            //TODO: DIALOG ERROR
+                            //vToast.makeText(GymCoursesActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
+                            showErrorDialog(GymCoursesActivity.this, user_id);
                         }
                     });
                 }
@@ -236,6 +243,62 @@ public class GymCoursesActivity extends AppCompatActivity {
         }
     }
 
+    //DIALOG ERRORE
+    private void showErrorDialog(Activity a, int user_id) {
+        String errorMessage = "Stai provando a creare un corso ma non hai Personal Trainer qualificati che possano tenerlo.\n" +
+                "Vai alla pagina GESTIONE DIPENDENTI per assumere un Personal Trainer qualificato e riprova!";
+        GymCoursesActivity.CustomErrorDialog cdd = new GymCoursesActivity.CustomErrorDialog(a, user_id, errorMessage, GymMenageWorkerActivity.class);
+        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cdd.show();
+    }
+
+    private class CustomErrorDialog extends Dialog implements View.OnClickListener {
+
+        public Class destination;
+        public Activity c;
+        public Button Esci;
+        String errorMessage;
+        TextView tv_error_message;
+        public Integer user_id;
+
+        public CustomErrorDialog(Activity a, Integer user_id, String error_message, Class destination) {
+            super(a);
+            this.c = a;
+            this.user_id = user_id;
+            this.errorMessage = error_message;
+            this.destination = destination;
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.dialog_error);
+            Esci = (Button) findViewById(R.id.dialog_btn_esci);
+            tv_error_message = (TextView) findViewById(R.id.tv_message_error);
+
+            tv_error_message.setText(errorMessage);
+            Esci.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.dialog_btn_esci:
+                    Log.e("REDIRECT", "Gym Menage Trainer Activity");
+                    Intent i = new Intent(getApplicationContext(), destination);
+                    i.putExtra("user_id", user_id);
+                    startActivity(i);
+                    finish();
+                    dismiss();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     //SELEZIONE TRAINER
     public static void selectTrainer(Integer position) {
         String nominativo = trainer_list.get(position).name + " " + trainer_list.get(position).lastname;
@@ -245,6 +308,7 @@ public class GymCoursesActivity extends AppCompatActivity {
 
         tv_trainer_selezionato.setText(trainer_selezionato);
         Log.e("Trainer selezionato", traienr_id + " " + trainer_selezionato);
+        Toast.makeText(MyApplication.getContext(), "Selezionato trainer: "+trainer_selezionato, Toast.LENGTH_LONG).show();
 
     }
 
@@ -382,5 +446,6 @@ public class GymCoursesActivity extends AppCompatActivity {
 
         return (checkNumber && checkFormat);
     }
+
 
 }
