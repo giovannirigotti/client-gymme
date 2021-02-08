@@ -229,7 +229,6 @@ public class GymCustomersActivity extends AppCompatActivity {
         }
     }
 
-
     public static void redirectManage(Activity context) {
         Log.e("REDIRECT", "Gym Home Activity");
         Intent i = new Intent(context, GymHomeActivity.class);

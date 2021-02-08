@@ -72,7 +72,6 @@ public class CustomerAddGymActivity extends AppCompatActivity {
         lv_gym = (ListView) findViewById(R.id.lv_customer_disponible_gym);
         getGym();
 
-
     }
 
 
@@ -218,7 +217,6 @@ public class CustomerAddGymActivity extends AppCompatActivity {
         }
     }
 
-
     private void ViewGym(Activity a, int user_id, String gym_id, GymObject gym ) {
         Log.e("VIEW GYM", user_id+" "+gym_id);
         CustomerAddGymActivity.CustomDialogViewGymClass cdd = new CustomerAddGymActivity.CustomDialogViewGymClass(a, user_id, gym_id, gym);
@@ -281,6 +279,7 @@ public class CustomerAddGymActivity extends AppCompatActivity {
 
 
     }
+
     private void iscriptionGym(final Integer user_id, String gym_id) {
         CustomerAddGymActivity.InsertGymConnection asyncTaskUser = (CustomerAddGymActivity.InsertGymConnection) new CustomerAddGymActivity.InsertGymConnection(new CustomerAddGymActivity.InsertGymConnection.AsyncResponse() {
             @Override
