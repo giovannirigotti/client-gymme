@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_course;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,14 +36,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.manage_worker.CustomGymTrainerAdapter;
-import android_team.gymme_client.gym.manage_worker.GymAddTrainerActivity;
-import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
+import android_team.gymme_client.gym.GymHomeActivity;
+import android_team.gymme_client.gym.GymProfileActivity;
+import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.MyApplication;
 import android_team.gymme_client.trainer.TrainerObject;
 
-public class GymCoursesActivity extends AppCompatActivity {
+public class GymAddCoursesActivity extends AppCompatActivity {
 
     private int gym_id;
     private int user_id;
@@ -100,7 +100,7 @@ public class GymCoursesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym_courses);
+        setContentView(R.layout.activity_gym_add_course);
 
         // INIZIALIZZO VALORI E VIEW
         initialize();
@@ -125,7 +125,7 @@ public class GymCoursesActivity extends AppCompatActivity {
 
     //CARIMENTO DATI
     private void getTrainers() {
-        GymCoursesActivity.ReceiveTrainersConn asyncTaskUser = (GymCoursesActivity.ReceiveTrainersConn) new GymCoursesActivity.ReceiveTrainersConn(new GymCoursesActivity.ReceiveTrainersConn.AsyncResponse() {
+        GymAddCoursesActivity.ReceiveTrainersConn asyncTaskUser = (GymAddCoursesActivity.ReceiveTrainersConn) new GymAddCoursesActivity.ReceiveTrainersConn(new GymAddCoursesActivity.ReceiveTrainersConn.AsyncResponse() {
             @Override
             public void processFinish(ArrayList<TrainerObject> trainers) {
                 trainer_list = trainers;
@@ -134,7 +134,7 @@ public class GymCoursesActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
-                            trainer_adapter = new CustomCourseTrainerAdapter(GymCoursesActivity.this, trainer_list);
+                            trainer_adapter = new CustomCourseTrainerAdapter(GymAddCoursesActivity.this, trainer_list);
                             lv_trainer.setAdapter(trainer_adapter);
 
                         }
@@ -144,7 +144,7 @@ public class GymCoursesActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //vToast.makeText(GymCoursesActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
-                            showErrorDialog(GymCoursesActivity.this, user_id);
+                            showErrorDialog(GymAddCoursesActivity.this, user_id);
                         }
                     });
                 }
@@ -159,9 +159,9 @@ public class GymCoursesActivity extends AppCompatActivity {
             void processFinish(ArrayList<TrainerObject> trainers);
         }
 
-        public GymCoursesActivity.ReceiveTrainersConn.AsyncResponse delegate = null;
+        public GymAddCoursesActivity.ReceiveTrainersConn.AsyncResponse delegate = null;
 
-        public ReceiveTrainersConn(GymCoursesActivity.ReceiveTrainersConn.AsyncResponse delegate) {
+        public ReceiveTrainersConn(GymAddCoursesActivity.ReceiveTrainersConn.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -252,7 +252,7 @@ public class GymCoursesActivity extends AppCompatActivity {
     private void showErrorDialog(Activity a, int user_id) {
         String errorMessage = "Stai provando a creare un corso ma non hai Personal Trainer qualificati che possano tenerlo.\n" +
                 "Vai alla pagina GESTIONE DIPENDENTI per assumere un Personal Trainer qualificato e riprova!";
-        GymCoursesActivity.CustomErrorDialog cdd = new GymCoursesActivity.CustomErrorDialog(a, user_id, errorMessage, GymMenageWorkerActivity.class);
+        GymAddCoursesActivity.CustomErrorDialog cdd = new GymAddCoursesActivity.CustomErrorDialog(a, user_id, errorMessage, GymMenageWorkerActivity.class);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
     }
@@ -343,7 +343,7 @@ public class GymCoursesActivity extends AppCompatActivity {
     private boolean checkNumber() {
         String n_max = et_numero_massimo.getText().toString().trim();
         if (n_max.isEmpty()) {
-            Toast.makeText(GymCoursesActivity.this, "Inserisci un numero massimo di partecipanti!", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Inserisci un numero massimo di partecipanti!", Toast.LENGTH_LONG).show();
             return false;
         } else {
             try {
@@ -352,7 +352,7 @@ public class GymCoursesActivity extends AppCompatActivity {
                 return true;
             } catch (Exception e) {
                 Log.e("CONVERSIONE NUMERO", "ERROR");
-                Toast.makeText(GymCoursesActivity.this, "Inserisci un numero massimo di sole cifre numeriche!", Toast.LENGTH_LONG).show();
+                Toast.makeText(GymAddCoursesActivity.this, "Inserisci un numero massimo di sole cifre numeriche!", Toast.LENGTH_LONG).show();
                 return false;
             }
         }
@@ -361,10 +361,10 @@ public class GymCoursesActivity extends AppCompatActivity {
     private boolean checkDataFine() {
         data_fine = et_data_fine.getText().toString().trim();
         if (data_fine.isEmpty()) {
-            Toast.makeText(GymCoursesActivity.this, "Inserisci una data di fine!", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Inserisci una data di fine!", Toast.LENGTH_LONG).show();
             return false;
         } else if (!validateDate(data_fine)) {
-            Toast.makeText(GymCoursesActivity.this, "DATA FINE ERRATA.\n   - FORMATO: <gg/mm/AAAA> senza spazi vuoti e inserendo appositi zeri\n   - DATA: dal 2020 al 2200", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "DATA FINE ERRATA.\n   - FORMATO: <gg/mm/AAAA> senza spazi vuoti e inserendo appositi zeri\n   - DATA: dal 2020 al 2200", Toast.LENGTH_LONG).show();
             return false;
         } else {
             return true;
@@ -374,10 +374,10 @@ public class GymCoursesActivity extends AppCompatActivity {
     private boolean checkDataInizio() {
         data_inizio = et_data_inizio.getText().toString().trim();
         if (data_inizio.isEmpty()) {
-            Toast.makeText(GymCoursesActivity.this, "Inserisci una data di inizio!", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Inserisci una data di inizio!", Toast.LENGTH_LONG).show();
             return false;
         } else if (!validateDate(data_inizio)) {
-            Toast.makeText(GymCoursesActivity.this, "DATA FINE ERRATA.\n   - FORMATO: <gg/mm/AAAA> senza spazi vuoti e inserendo appositi zeri\n   - DATA: dal 2020 al 2200\"", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "DATA FINE ERRATA.\n   - FORMATO: <gg/mm/AAAA> senza spazi vuoti e inserendo appositi zeri\n   - DATA: dal 2020 al 2200\"", Toast.LENGTH_LONG).show();
             return false;
         } else {
             return true;
@@ -387,10 +387,10 @@ public class GymCoursesActivity extends AppCompatActivity {
     private boolean checkCategoria() {
         categoria = et_categoria.getText().toString().trim();
         if (categoria.isEmpty()) {
-            Toast.makeText(GymCoursesActivity.this, "Inserisci un categoria!", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Inserisci un categoria!", Toast.LENGTH_LONG).show();
             return false;
         } else if (categoria.length() > 100) {
-            Toast.makeText(GymCoursesActivity.this, "Categoria troppo lunga. MAX 200 caratteri.\nUsati: " + categoria.length(), Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Categoria troppo lunga. MAX 200 caratteri.\nUsati: " + categoria.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
             Log.e("CHECK", "categoria OK");
@@ -401,10 +401,10 @@ public class GymCoursesActivity extends AppCompatActivity {
     private boolean checkTitolo() {
         titolo = et_titolo.getText().toString().trim();
         if (titolo.isEmpty()) {
-            Toast.makeText(GymCoursesActivity.this, "Inserisci un titolo!", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Inserisci un titolo!", Toast.LENGTH_LONG).show();
             return false;
         } else if (titolo.length() > 100) {
-            Toast.makeText(GymCoursesActivity.this, "Titolo troppo lunga. MAX 100 caratteri.\nUsati: " + titolo.length(), Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Titolo troppo lunga. MAX 100 caratteri.\nUsati: " + titolo.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
             Log.e("CHECK", "TITOLO OK");
@@ -415,10 +415,10 @@ public class GymCoursesActivity extends AppCompatActivity {
     private boolean checkDescrizione() {
         descrizione = et_descrizione.getText().toString().trim();
         if (descrizione.isEmpty()) {
-            Toast.makeText(GymCoursesActivity.this, "Inserisci una descrizione!", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Inserisci una descrizione!", Toast.LENGTH_LONG).show();
             return false;
         } else if (descrizione.length() > 1000) {
-            Toast.makeText(GymCoursesActivity.this, "Descrizione troppo lunga. MAX 1000 caratteri.\nUsati: " + descrizione.length(), Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Descrizione troppo lunga. MAX 1000 caratteri.\nUsati: " + descrizione.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
             Log.e("CHECK", "DESCRIZIONE OK");
@@ -430,7 +430,7 @@ public class GymCoursesActivity extends AppCompatActivity {
     private boolean checkTrainer() {
         trainer_selezionato = tv_trainer_selezionato.getText().toString().trim();
         if (trainer_selezionato.isEmpty()) {
-            Toast.makeText(GymCoursesActivity.this, "Seleziona un trainer dalla lista", Toast.LENGTH_LONG).show();
+            Toast.makeText(GymAddCoursesActivity.this, "Seleziona un trainer dalla lista", Toast.LENGTH_LONG).show();
             return false;
         } else {
             return true;
@@ -456,15 +456,15 @@ public class GymCoursesActivity extends AppCompatActivity {
     // POST --> /gym/insert_course/
 
     private void insertCourse(){
-        GymCoursesActivity.AddCourseConnection asyncTask = (GymCoursesActivity.AddCourseConnection) new GymCoursesActivity.AddCourseConnection(new GymCoursesActivity.AddCourseConnection.AsyncResponse() {
+        GymAddCoursesActivity.AddCourseConnection asyncTask = (GymAddCoursesActivity.AddCourseConnection) new GymAddCoursesActivity.AddCourseConnection(new GymAddCoursesActivity.AddCourseConnection.AsyncResponse() {
             @Override
             public void processFinish(Integer output) {
                 if (output == 200) {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymCoursesActivity.this, "SUCCESS, corso aggiunto", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymAddCoursesActivity.this, "SUCCESS, corso aggiunto", Toast.LENGTH_SHORT).show();
                             Log.e("REDIRECT", "Gym Profile Activity");
-                            Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
+                            Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
                             i.putExtra("user_id", user_id);
                             startActivity(i);
                         }
@@ -472,7 +472,7 @@ public class GymCoursesActivity extends AppCompatActivity {
                 } else {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymCoursesActivity.this, "ERRORE AGGIUNTA CORSO, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymAddCoursesActivity.this, "ERRORE AGGIUNTA CORSO, server side", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -488,9 +488,9 @@ public class GymCoursesActivity extends AppCompatActivity {
             void processFinish(Integer output);
         }
 
-        public GymCoursesActivity.AddCourseConnection.AsyncResponse delegate = null;
+        public GymAddCoursesActivity.AddCourseConnection.AsyncResponse delegate = null;
 
-        public AddCourseConnection(GymCoursesActivity.AddCourseConnection.AsyncResponse delegate) {
+        public AddCourseConnection(GymAddCoursesActivity.AddCourseConnection.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 

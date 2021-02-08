@@ -1,5 +1,5 @@
 
-package android_team.gymme_client.gym.manage_worker;
+package android_team.gymme_client.gym.menage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
 

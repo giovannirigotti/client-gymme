@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym.manage_worker;
+package android_team.gymme_client.gym.menage_worker;
 
 import android.app.Activity;
 import android.app.Dialog;

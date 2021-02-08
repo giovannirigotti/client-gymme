@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_course;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -60,7 +60,7 @@ public class CustomCourseTrainerAdapter extends ArrayAdapter<TrainerObject> {
         viewHolder.btn_gym_trainer_assumed_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GymCoursesActivity.selectTrainer(position);
+                GymAddCoursesActivity.selectTrainer(position);
             }
         });
         return r;

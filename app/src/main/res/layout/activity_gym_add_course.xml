@@ -14,7 +14,7 @@
         android:isScrollContainer="true"
         android:orientation="vertical"
         android:padding="10dp"
-        tools:context=".gym.GymCoursesActivity">
+        tools:context=".gym.menage_course.GymAddCoursesActivity">
 
         <TextView
             android:id="@+id/textView17"
