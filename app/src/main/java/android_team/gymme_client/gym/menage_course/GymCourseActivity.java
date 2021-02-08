@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_course;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,10 +7,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,27 +27,27 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.menage_worker.CustomGymTrainerAssumedAdapter;
+import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.nutritionist.NutritionistObject;
 import android_team.gymme_client.trainer.TrainerObject;
 
-public class GymAddTrainerActivity extends AppCompatActivity {
+public class GymCourseActivity extends AppCompatActivity {
 
     private int user_id;
-    public static ArrayList<TrainerObject> trainers_list;
-    static CustomGymTrainerAdapter trainer_adapter;
-    static ListView lv_trainer;
-    EditText inputSearch;
 
+    static ArrayList<CourseObject> courses_list;
+    static CustomCourseAdapter course_adapter;
+
+    static ListView lv_my_courses;
+    private Button btn_create_course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym_add_trainer);
+        setContentView(R.layout.activity_gym_course);
 
-        trainers_list = new ArrayList<TrainerObject>();
-
-        //region CHECK INTENT EXTRAS
+        //region CHECK INTENT
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
             Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
@@ -65,40 +64,39 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         }
         //endregion
 
-        lv_trainer = (ListView) findViewById(R.id.lv_free_trainers);
-        inputSearch = (EditText) findViewById(R.id.et_search_trainer);
+        //inizializzo
+        lv_my_courses = (ListView) findViewById(R.id.lv_my_courses);
+        btn_create_course = (Button) findViewById(R.id.btn_create_course);
+        
+        //carico corsi
+        loadCourses();
+        
 
-        getTrainers();
-
-        inputSearch.addTextChangedListener(new TextWatcher() {
+        btn_create_course.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                GymAddTrainerActivity.this.trainer_adapter.getFilter().filter(cs);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Gym Courses Activity");
+                Intent i = new Intent(getApplicationContext(), GymAddCoursesActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
             }
         });
+
     }
 
-    private void getTrainers() {
-        GymAddTrainerActivity.ReceiveTrainersConn asyncTaskUser = (GymAddTrainerActivity.ReceiveTrainersConn) new GymAddTrainerActivity.ReceiveTrainersConn(new GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse() {
+    private void loadCourses() {
+        GymCourseActivity.ReceiveCourseConn asyncTaskUser = (GymCourseActivity.ReceiveCourseConn) new GymCourseActivity.ReceiveCourseConn(new GymCourseActivity.ReceiveCourseConn.AsyncResponse() {
             @Override
-            public void processFinish(ArrayList<TrainerObject> trainers) {
-                trainers_list = trainers;
-                if (trainers_list.size() > 0) {
+            public void processFinish(ArrayList<CourseObject> courses) {
+
+                courses_list = courses;
+                if (courses_list.size() > 0) {
                     //DATI RICEVUTI
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
-                            trainer_adapter = new CustomGymTrainerAdapter(GymAddTrainerActivity.this, trainers_list);
-                            lv_trainer.setAdapter(trainer_adapter);
+                            course_adapter = new CustomCourseAdapter(GymCourseActivity.this, courses_list);
+                            lv_my_courses.setAdapter(course_adapter);
 
                         }
                     });
@@ -106,31 +104,24 @@ public class GymAddTrainerActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymAddTrainerActivity.this, "Nessun personal triner disponibile", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymCourseActivity.this, "Nessun corso", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
-                //for (int j = 0; j < trainers_list.size(); j++) {
-                //    Log.e("trainer n:" + j, trainers_list.get(j).toString());
-                //}
             }
 
         }).execute(String.valueOf(user_id));
     }
 
-    public static ArrayList<TrainerObject> getAllTrainers(){
-        return trainers_list;
-    };
-
-    private static class ReceiveTrainersConn extends AsyncTask<String, String, JsonArray> {
+    private static class ReceiveCourseConn extends AsyncTask<String, String, JsonArray> {
 
         public interface AsyncResponse {
-            void processFinish(ArrayList<TrainerObject> trainers);
+            void processFinish(ArrayList<CourseObject> courses);
         }
 
-        public GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse delegate = null;
+        public GymCourseActivity.ReceiveCourseConn.AsyncResponse delegate = null;
 
-        public ReceiveTrainersConn(GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse delegate) {
+        public ReceiveCourseConn(GymCourseActivity.ReceiveCourseConn.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -140,11 +131,11 @@ public class GymAddTrainerActivity extends AppCompatActivity {
 
             URL url;
             HttpURLConnection urlConnection = null;
-            JsonArray _trainers = null;
-            ArrayList<TrainerObject> t_objects = new ArrayList<TrainerObject>();
+            JsonArray _courses = null;
+            ArrayList<CourseObject> c_objects = new ArrayList<>();
 
             try {
-                url = new URL("http://10.0.2.2:4000/gym/get_new_trainers/" + params[0]);
+                url = new URL("http://10.0.2.2:4000/gym/get_courses/" + params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(5000);
@@ -156,28 +147,30 @@ public class GymAddTrainerActivity extends AppCompatActivity {
 
                     Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    _trainers = JsonParser.parseString(responseString).getAsJsonArray();
+                    _courses = JsonParser.parseString(responseString).getAsJsonArray();
 
-                    for (int i = 0; i < _trainers.size(); i++) {
-                        JsonObject trainer = (JsonObject) _trainers.get(i);
+                    for (int i = 0; i < _courses.size(); i++) {
+                        JsonObject course = (JsonObject) _courses.get(i);
+                        String course_id = course.get("course_id").getAsString().trim();
+                        String name = course.get("name").getAsString().trim();
+                        String lastname = course.get("lastname").getAsString().trim();
+                        String description = course.get("description").getAsString().trim();
+                        String title = course.get("title").getAsString().trim();
+                        String category = course.get("category").getAsString().trim();
+                        String start_date = course.get("start_date").getAsString().trim();
+                        String end_date = course.get("end_date").getAsString().trim();
+                        String max_persons = course.get("max_persons").getAsString().trim();
 
-                        String user_id = trainer.get("user_id").getAsString().trim();
-                        String name = trainer.get("name").getAsString().trim();
-                        String lastname = trainer.get("lastname").getAsString().trim();
-                        String email = trainer.get("email").getAsString().trim();
-                        String qualification = trainer.get("qualification").getAsString().trim();
-                        String fiscal_code = trainer.get("fiscal_code").getAsString().trim();
-
-                        TrainerObject t_obj = new TrainerObject(user_id, name, lastname, email, qualification, fiscal_code);
-                        t_objects.add(t_obj);
+                        CourseObject c_obj = new CourseObject(course_id, name, lastname, description, title, category, start_date, end_date, max_persons);
+                        c_objects.add(c_obj);
 
                     }
                     //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
-                    delegate.processFinish(t_objects);
+                    delegate.processFinish(c_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
-                    delegate.processFinish(new ArrayList<TrainerObject>());
+                    delegate.processFinish(new ArrayList<CourseObject>());
                 } else {
                     Log.e("GET TRAINER", "SERVER ERROR");
                 }
@@ -188,7 +181,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            return _trainers;
+            return _courses;
         }
 
         private String readStream(InputStream in) throws UnsupportedEncodingException {
@@ -215,12 +208,15 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         }
     }
 
-
-    public static void redirectManage(Activity context) {
-        Log.e("REDIRECT", "Gym Menege Worker");
-        Intent i = new Intent(context, GymMenageWorkerActivity.class);
-        i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
-        context.startActivity(i);
+    public static void redoAdapterCourse(Activity context, ArrayList<CourseObject> courses, Integer position) {
+        ArrayList<CourseObject> new_t = new ArrayList<>();
+        for(int i = 0; i < courses.size(); i++){
+            if(i != position){
+                new_t.add(courses.get(i));
+            }
+        }
+        course_adapter = new CustomCourseAdapter(context, new_t);
+        lv_my_courses.setAdapter(course_adapter);
     }
 
 

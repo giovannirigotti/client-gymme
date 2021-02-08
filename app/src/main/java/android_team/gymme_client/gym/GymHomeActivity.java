@@ -10,8 +10,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.menage_course.GymAddCoursesActivity;
+import android_team.gymme_client.gym.menage_course.GymCourseActivity;
+import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
 
 public class GymHomeActivity extends AppCompatActivity {
 
@@ -57,7 +59,7 @@ public class GymHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.e("REDIRECT", "Gym Courses Activity");
-                Intent i = new Intent(getApplicationContext(), GymCoursesActivity.class);
+                Intent i = new Intent(getApplicationContext(), GymCourseActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }

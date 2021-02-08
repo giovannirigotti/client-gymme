@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,22 +29,23 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.nutritionist.NutritionistObject;
 import android_team.gymme_client.trainer.TrainerObject;
 
-public class GymAddNutritionistActivity extends AppCompatActivity {
+public class GymAddTrainerActivity extends AppCompatActivity {
 
     private int user_id;
-    static CustomGymNutritionistAdapter nutritionist_adapter;
+    public static ArrayList<TrainerObject> trainers_list;
+    static CustomGymTrainerAdapter trainer_adapter;
+    static ListView lv_trainer;
     EditText inputSearch;
-    ListView lv_nutri;
-    public static ArrayList<NutritionistObject> nutritionists_list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym_add_nutritionist);
-        nutritionists_list = new ArrayList<NutritionistObject>();
+        setContentView(R.layout.activity_gym_add_trainer);
+
+        trainers_list = new ArrayList<TrainerObject>();
 
         //region CHECK INTENT EXTRAS
         Intent i = getIntent();
@@ -64,16 +64,16 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         }
         //endregion
 
-        lv_nutri = (ListView) findViewById(R.id.lv_free_nutritionists);
-        inputSearch = (EditText) findViewById(R.id.et_search_nutritionist);  //prendo logica funzionamento da GymAddTrainerActivity
+        lv_trainer = (ListView) findViewById(R.id.lv_free_trainers);
+        inputSearch = (EditText) findViewById(R.id.et_search_trainer);
 
-        getNutritionists();
+        getTrainers();
 
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                GymAddNutritionistActivity.this.nutritionist_adapter.getFilter().filter(cs);
+                GymAddTrainerActivity.this.trainer_adapter.getFilter().filter(cs);
             }
 
             @Override
@@ -85,58 +85,47 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
             }
         });
     }
+    public static ArrayList<TrainerObject> getAllTrainers(){
+        return trainers_list;
+    };
 
-
-    private void getNutritionists() {
-        GymAddNutritionistActivity.ReceiveNutritionistsConn asyncTaskUser = (GymAddNutritionistActivity.ReceiveNutritionistsConn) new GymAddNutritionistActivity.ReceiveNutritionistsConn(new GymAddNutritionistActivity.ReceiveNutritionistsConn.AsyncResponse() {
+    private void getTrainers() {
+        GymAddTrainerActivity.ReceiveTrainersConn asyncTaskUser = (GymAddTrainerActivity.ReceiveTrainersConn) new GymAddTrainerActivity.ReceiveTrainersConn(new GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse() {
             @Override
-            public void processFinish(ArrayList<NutritionistObject> nutritionists) {
-
-                nutritionists_list = nutritionists;
-                if (nutritionists_list.size() > 0) {
+            public void processFinish(ArrayList<TrainerObject> trainers) {
+                trainers_list = trainers;
+                if (trainers_list.size() > 0) {
                     //DATI RICEVUTI
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            //setto tramite l'adapter la lista dei nutritionist da visualizzare nella recycler view(notificationView)
-                            nutritionist_adapter = new CustomGymNutritionistAdapter(GymAddNutritionistActivity.this, nutritionists_list);
-                            lv_nutri.setAdapter(nutritionist_adapter);
-                            /*
-                            notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    //cancello notifica su db
-                                    Toast.makeText(GymMenageWorkerActivity.this, "Elemento: " + i + "; testo: " + nutritionists_list.get(i), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                             */
+                            //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
+                            trainer_adapter = new CustomGymTrainerAdapter(GymAddTrainerActivity.this, trainers_list);
+                            lv_trainer.setAdapter(trainer_adapter);
+
                         }
                     });
                 } else {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymAddNutritionistActivity.this, "Nessun nutrizionista come dipendente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymAddTrainerActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
-                //for (int j = 0; j < nutritionists_list.size(); j++) {
-                //    Log.e("nutritionist n:" + j, nutritionists_list.get(j).toString());
-                //}
             }
+
         }).execute(String.valueOf(user_id));
     }
-    public static ArrayList<NutritionistObject> getAllNutritionist(){
-        return nutritionists_list;
-    };
-    private static class ReceiveNutritionistsConn extends AsyncTask<String, String, JsonArray> {
+
+    private static class ReceiveTrainersConn extends AsyncTask<String, String, JsonArray> {
 
         public interface AsyncResponse {
-            void processFinish(ArrayList<NutritionistObject> nutritionists);
+            void processFinish(ArrayList<TrainerObject> trainers);
         }
 
-        public GymAddNutritionistActivity.ReceiveNutritionistsConn.AsyncResponse delegate = null;
+        public GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse delegate = null;
 
-        public ReceiveNutritionistsConn(GymAddNutritionistActivity.ReceiveNutritionistsConn.AsyncResponse delegate) {
+        public ReceiveTrainersConn(GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -146,11 +135,11 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
 
             URL url;
             HttpURLConnection urlConnection = null;
-            JsonArray _nutritionists = null;
-            ArrayList<NutritionistObject> t_objects = new ArrayList<NutritionistObject>();
+            JsonArray _trainers = null;
+            ArrayList<TrainerObject> t_objects = new ArrayList<TrainerObject>();
 
             try {
-                url = new URL("http://10.0.2.2:4000/gym/get_new_nutritionists/" + params[0]);
+                url = new URL("http://10.0.2.2:4000/gym/get_new_trainers/" + params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(5000);
@@ -162,19 +151,19 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
 
                     Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    _nutritionists = JsonParser.parseString(responseString).getAsJsonArray();
+                    _trainers = JsonParser.parseString(responseString).getAsJsonArray();
 
-                    for (int i = 0; i < _nutritionists.size(); i++) {
-                        JsonObject nutritionist = (JsonObject) _nutritionists.get(i);
+                    for (int i = 0; i < _trainers.size(); i++) {
+                        JsonObject trainer = (JsonObject) _trainers.get(i);
 
-                        String user_id = nutritionist.get("user_id").getAsString().trim();
-                        String name = nutritionist.get("name").getAsString().trim();
-                        String lastname = nutritionist.get("lastname").getAsString().trim();
-                        String email = nutritionist.get("email").getAsString().trim();
-                        String qualification = nutritionist.get("qualification").getAsString().trim();
-                        String fiscal_code = nutritionist.get("fiscal_code").getAsString().trim();
+                        String user_id = trainer.get("user_id").getAsString().trim();
+                        String name = trainer.get("name").getAsString().trim();
+                        String lastname = trainer.get("lastname").getAsString().trim();
+                        String email = trainer.get("email").getAsString().trim();
+                        String qualification = trainer.get("qualification").getAsString().trim();
+                        String fiscal_code = trainer.get("fiscal_code").getAsString().trim();
 
-                        NutritionistObject t_obj = new NutritionistObject(user_id, name, lastname, email, qualification, fiscal_code);
+                        TrainerObject t_obj = new TrainerObject(user_id, name, lastname, email, qualification, fiscal_code);
                         t_objects.add(t_obj);
 
                     }
@@ -183,7 +172,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
-                    delegate.processFinish(new ArrayList<NutritionistObject>());
+                    delegate.processFinish(new ArrayList<TrainerObject>());
                 } else {
                     Log.e("GET TRAINER", "SERVER ERROR");
                 }
@@ -194,7 +183,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            return _nutritionists;
+            return _trainers;
         }
 
         private String readStream(InputStream in) throws UnsupportedEncodingException {
@@ -221,11 +210,14 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         }
     }
 
+
     public static void redirectManage(Activity context) {
         Log.e("REDIRECT", "Gym Menege Worker");
         Intent i = new Intent(context, GymMenageWorkerActivity.class);
         i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
         context.startActivity(i);
+        context.finish();
     }
+
 
 }

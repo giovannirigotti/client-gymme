@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_worker;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,37 +31,32 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.customer.CustomerNotificationActivity;
 import android_team.gymme_client.nutritionist.NutritionistObject;
 import android_team.gymme_client.support.MyApplication;
-import android_team.gymme_client.trainer.TrainerObject;
 
-public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObject> implements Filterable {
+public class CustomGymNutritionistAssumedAdapter extends ArrayAdapter<NutritionistObject> {
 
     private ArrayList<NutritionistObject> nutritionist;
     private Activity context;
 
-    public CustomGymNutritionistAdapter(Activity _context, ArrayList<NutritionistObject> _nutritionist) {
+    public CustomGymNutritionistAssumedAdapter(Activity _context, ArrayList<NutritionistObject> _nutritionist) {
         super(_context, R.layout.notification_item, _nutritionist);
         this.context = _context;
         this.nutritionist = _nutritionist;
     }
-    @Override
-    public int getCount() {
-        return nutritionist.size();
-    }
+
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View r = convertView;
-        CustomGymNutritionistAdapter.ViewHolder viewHolder = null;
+        CustomGymNutritionistAssumedAdapter.ViewHolder viewHolder = null;
         if (r == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
-            r = layoutInflater.inflate(R.layout.gym_nutritionist_item, null);
-            viewHolder = new CustomGymNutritionistAdapter.ViewHolder(r);
+            r = layoutInflater.inflate(R.layout.gym_nutritionist_assumed_item, null);
+            viewHolder = new CustomGymNutritionistAssumedAdapter.ViewHolder(r);
             r.setTag(viewHolder);
         } else {
-            viewHolder = (CustomGymNutritionistAdapter.ViewHolder) r.getTag();
+            viewHolder = (CustomGymNutritionistAssumedAdapter.ViewHolder) r.getTag();
         }
 
         final String nutritionist_id = nutritionist.get(position).user_id;
@@ -73,80 +66,39 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
         final String qualification = nutritionist.get(position).qualification;
         final String fiscal_code = nutritionist.get(position).fiscal_code;
 
-        viewHolder.tv_gym_nutritionist_name.setText(name);
-        viewHolder.tv_gym_nutritionist_lastname.setText(lastname);
-        viewHolder.tv_gym_nutritionist_email.setText(email);
+        viewHolder.tv_gym_nutritionist_assumed_name.setText(name);
+        viewHolder.tv_gym_nutritionist_assumed_lastname.setText(lastname);
+        viewHolder.tv_gym_nutritionist_assumed_email.setText(email);
 
-        viewHolder.btn_gym_nutritionist_add.setOnClickListener(new View.OnClickListener() {
+        viewHolder.btn_gym_nutritionist_assumed_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hireNutritionist(context, nutritionist_id, name, lastname, email, qualification, fiscal_code, position);
+                dismissNutritionist(context, nutritionist_id, name, lastname, email, qualification, fiscal_code, position);
             }
         });
         return r;
     }
 
     class ViewHolder {
-        TextView tv_gym_nutritionist_name,tv_gym_nutritionist_lastname,tv_gym_nutritionist_email;
-        ImageView btn_gym_nutritionist_add;
+        TextView tv_gym_nutritionist_assumed_name,tv_gym_nutritionist_assumed_lastname,tv_gym_nutritionist_assumed_email;
+        ImageView btn_gym_nutritionist_assumed_add;
 
         ViewHolder(View v) {
-            tv_gym_nutritionist_name = v.findViewById(R.id.tv_gym_nutritionist_name);
-            tv_gym_nutritionist_lastname = v.findViewById(R.id.tv_gym_nutritionist_lastname);
-            tv_gym_nutritionist_email = v.findViewById(R.id.tv_gym_nutritionist_email);
+            tv_gym_nutritionist_assumed_name = v.findViewById(R.id.tv_gym_nutritionist_assumed_name);
+            tv_gym_nutritionist_assumed_lastname = v.findViewById(R.id.tv_gym_nutritionist_assumed_lastname);
+            tv_gym_nutritionist_assumed_email = v.findViewById(R.id.tv_gym_nutritionist_assumed_email);
 
-            btn_gym_nutritionist_add = v.findViewById(R.id.btn_gym_nutritionist_add);
+            btn_gym_nutritionist_assumed_add = v.findViewById(R.id.btn_gym_nutritionist_assumed_add);
         }
     }
 
-    @NonNull
-    @Override
-    public Filter getFilter() {
-        Filter filter = new Filter() {
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results = new FilterResults();
-                ArrayList<NutritionistObject> allNutritionist = GymAddNutritionistActivity.getAllNutritionist();
-                if (constraint == null || constraint.length() == 0) {
-                    results.values = allNutritionist;
-                    results.count = allNutritionist.size();
-                } else {
-                    ArrayList<NutritionistObject> FilteredNutritionists = new ArrayList<NutritionistObject>();
-                    // perform your search here using the searchConstraint String.
-                    constraint = constraint.toString().toLowerCase();
-                    for (NutritionistObject t : nutritionist) {
-                        String dataNames = t.name;
-                        if (dataNames.toLowerCase().startsWith(constraint.toString())) {
-                            FilteredNutritionists.add(t);
-                        }
-                    }
-                    results.values = FilteredNutritionists;
-                    results.count = FilteredNutritionists.size();
-                    Log.e("VALUES", results.values.toString());
-                }
-
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.e("TEST", results.values.toString());
-                nutritionist = (ArrayList<NutritionistObject>) results.values;
-                notifyDataSetChanged();
-            }
-
-
-        };
-        return filter;
-    }
-    public void hireNutritionist(Activity a, String trainer_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
-        CustomGymNutritionistAdapter.CustomDialogHireNutritionist cdd = new CustomGymNutritionistAdapter.CustomDialogHireNutritionist(a, trainer_id, name, lastname, email, qualification, fiscal_code, position);
+    public void dismissNutritionist(Activity a, String nutritionist_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
+        CustomGymNutritionistAssumedAdapter.CustomDialogRemoveNutritionist cdd = new CustomGymNutritionistAssumedAdapter.CustomDialogRemoveNutritionist(a, nutritionist_id, name, lastname, email, qualification, fiscal_code, position);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
     }
 
-    private class CustomDialogHireNutritionist extends Dialog implements View.OnClickListener {
+    private class CustomDialogRemoveNutritionist extends Dialog implements View.OnClickListener {
 
         public Activity c;
         public Button Licenzia, Esci;
@@ -154,7 +106,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
         public String nutritionist_id, name, lastname, email, qualification, fiscal_code;
         Integer position;
 
-        public CustomDialogHireNutritionist(Activity a, String nutritionist_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
+        public CustomDialogRemoveNutritionist(Activity a, String nutritionist_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
             super(a);
             this.c = a;
             this.nutritionist_id = nutritionist_id;
@@ -173,7 +125,6 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.dialog_dismiss_nutritionist);
             Licenzia = (Button) findViewById(R.id.dialog_confirm_user_type_yes);
-            Licenzia.setText("Assumi");
             Esci = (Button) findViewById(R.id.dialog_confirm_user_type_no);
 
             _name = (TextView) findViewById(R.id.tv_dismiss_name);
@@ -198,14 +149,14 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
 
             switch (v.getId()) {
                 case R.id.dialog_confirm_user_type_yes:
-                    CustomGymNutritionistAdapter.HireNutritionistConnection asyncTask = (CustomGymNutritionistAdapter.HireNutritionistConnection) new CustomGymNutritionistAdapter.HireNutritionistConnection(new CustomGymNutritionistAdapter.HireNutritionistConnection.AsyncResponse() {
+                    CustomGymNutritionistAssumedAdapter.DismissNutritionistConnection asyncTask = (CustomGymNutritionistAssumedAdapter.DismissNutritionistConnection) new CustomGymNutritionistAssumedAdapter.DismissNutritionistConnection(new CustomGymNutritionistAssumedAdapter.DismissNutritionistConnection.AsyncResponse() {
                         @Override
                         public void processFinish(Integer output) {
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, nutritionist assunto", Toast.LENGTH_SHORT).show();
-                                        GymAddNutritionistActivity.redirectManage(context);
+                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, nutritionist licenziato", Toast.LENGTH_SHORT).show();
+                                        GymMenageWorkerActivity.redoAdapterNutri(context, nutritionist, position);
                                     }
                                 });
                             } else {
@@ -230,16 +181,16 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
 
     }
 
-    public static class HireNutritionistConnection extends AsyncTask<String, String, Integer> {
+    public static class DismissNutritionistConnection extends AsyncTask<String, String, Integer> {
 
         // you may separate this or combined to caller class.
         public interface AsyncResponse {
             void processFinish(Integer output);
         }
 
-        public CustomGymNutritionistAdapter.HireNutritionistConnection.AsyncResponse delegate = null;
+        public CustomGymNutritionistAssumedAdapter.DismissNutritionistConnection.AsyncResponse delegate = null;
 
-        public HireNutritionistConnection(CustomGymNutritionistAdapter.HireNutritionistConnection.AsyncResponse delegate) {
+        public DismissNutritionistConnection(CustomGymNutritionistAssumedAdapter.DismissNutritionistConnection.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -250,7 +201,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
             JsonObject user = null;
             int responseCode = 500;
             try {
-                url = new URL("http://10.0.2.2:4000/gym/hire_nutritionist/");
+                url = new URL("http://10.0.2.2:4000/gym/dismiss_nutritionist/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setConnectTimeout(5000);
@@ -275,11 +226,11 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM NUTRITIONIST", "ASSUNTO OK");
+                    Log.e("GYM TRAINER", "LICENZIATO OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM NUTRITIONIST", "Error ASSUNZIONE");
+                    Log.e("GYM TRAINER", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

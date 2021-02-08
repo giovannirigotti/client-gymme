@@ -1,25 +1,19 @@
 
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -27,24 +21,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.customer.CustomNotificationAdapter;
-import android_team.gymme_client.customer.CustomerNotificationActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.nutritionist.NutritionistObject;
-import android_team.gymme_client.nutritionist.NutritionistProfileActivity;
-import android_team.gymme_client.support.MyApplication;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymMenageWorkerActivity extends AppCompatActivity {
