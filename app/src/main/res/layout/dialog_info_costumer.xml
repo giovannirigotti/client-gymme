@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Personal Trainer Info"
-        android:textSize="20sp" />
+        android:text="Info Cliente"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text"
@@ -21,13 +21,13 @@
         android:text="Nome"
         android:layout_marginTop="10dp"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tv_dismiss_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome" />
+        android:text="Nome"/>
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text3"
