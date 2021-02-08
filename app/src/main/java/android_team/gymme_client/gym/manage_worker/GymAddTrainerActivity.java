@@ -85,6 +85,9 @@ public class GymAddTrainerActivity extends AppCompatActivity {
             }
         });
     }
+    public static ArrayList<TrainerObject> getAllTrainers(){
+        return trainers_list;
+    };
 
     private void getTrainers() {
         GymAddTrainerActivity.ReceiveTrainersConn asyncTaskUser = (GymAddTrainerActivity.ReceiveTrainersConn) new GymAddTrainerActivity.ReceiveTrainersConn(new GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse() {
@@ -105,21 +108,14 @@ public class GymAddTrainerActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymAddTrainerActivity.this, "Nessun personal triner disponibile", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymAddTrainerActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
-                //for (int j = 0; j < trainers_list.size(); j++) {
-                //    Log.e("trainer n:" + j, trainers_list.get(j).toString());
-                //}
             }
 
         }).execute(String.valueOf(user_id));
     }
-
-    public static ArrayList<TrainerObject> getAllTrainers(){
-        return trainers_list;
-    };
 
     private static class ReceiveTrainersConn extends AsyncTask<String, String, JsonArray> {
 

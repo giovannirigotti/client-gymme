@@ -2,7 +2,9 @@ package android_team.gymme_client.gym;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +14,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.manage_worker.CustomCourseTrainerAdapter;
+import android_team.gymme_client.gym.manage_worker.CustomGymTrainerAdapter;
+import android_team.gymme_client.gym.manage_worker.GymAddTrainerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.trainer.TrainerObject;
 
@@ -22,15 +38,18 @@ public class GymCoursesActivity extends AppCompatActivity {
 
     private int gym_id;
     private int user_id;
-    private int traienr_id;
 
-    private ArrayList<TrainerObject> trainer_list;
+    static private int traienr_id;
+    static CustomCourseTrainerAdapter trainer_adapter;
+    static private ArrayList<TrainerObject> trainer_list;
 
-    private ListView lv_trainer;
+    static private TextView tv_trainer_selezionato;
+    static private String trainer_selezionato;
+
+    static private ListView lv_trainer;
     public Button btn_add_course;
-    private TextView tv_trainer_selezionato;
     private EditText et_descrizione, et_titolo, et_categoria, et_data_inizio, et_data_fine, et_numero_massimo;
-    private String trainer_selezionato, descrizione, titolo, categoria, data_inizio, data_fine;
+    private String descrizione, titolo, categoria, data_inizio, data_fine;
     private Integer numero_massimo;
 
     private void initialize() {
@@ -80,6 +99,7 @@ public class GymCoursesActivity extends AppCompatActivity {
         // PRENDO DATI PER LA ListView
         // Controllo che non siano vuoti altrimenti apro dialog con errore (MANCANO TRAINER CHE POSSANO TENERE IL CORSO)
         // Se non sono vuoti faccio inserire i dati dalla activity
+        getTrainers();
 
         btn_add_course.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +114,132 @@ public class GymCoursesActivity extends AppCompatActivity {
 
     }
 
+    //CARIMENTO
+    private void getTrainers() {
+        GymCoursesActivity.ReceiveTrainersConn asyncTaskUser = (GymCoursesActivity.ReceiveTrainersConn) new GymCoursesActivity.ReceiveTrainersConn(new GymCoursesActivity.ReceiveTrainersConn.AsyncResponse() {
+            @Override
+            public void processFinish(ArrayList<TrainerObject> trainers) {
+                trainer_list = trainers;
+                if (trainer_list.size() > 0) {
+                    //DATI RICEVUTI
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
+                            trainer_adapter = new CustomCourseTrainerAdapter(GymCoursesActivity.this, trainer_list);
+                            lv_trainer.setAdapter(trainer_adapter);
+
+                        }
+                    });
+                } else {
+                    // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(GymCoursesActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
+                            //TODO: DIALOG ERROR
+                        }
+                    });
+                }
+            }
+        }).execute(String.valueOf(user_id));
+
+    }
+
+    private static class ReceiveTrainersConn extends AsyncTask<String, String, JsonArray> {
+
+        public interface AsyncResponse {
+            void processFinish(ArrayList<TrainerObject> trainers);
+        }
+
+        public GymCoursesActivity.ReceiveTrainersConn.AsyncResponse delegate = null;
+
+        public ReceiveTrainersConn(GymCoursesActivity.ReceiveTrainersConn.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @SuppressLint("WrongThread")
+        @Override
+        protected JsonArray doInBackground(String... params) {
+
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonArray _trainers = null;
+            ArrayList<TrainerObject> t_objects = new ArrayList<TrainerObject>();
+
+            try {
+                url = new URL("http://10.0.2.2:4000/gym/get_gym_trainers/" + params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.connect();
+                int responseCode = urlConnection.getResponseCode();
+                urlConnection.disconnect();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    Log.e("Server response", "HTTP_OK");
+                    String responseString = readStream(urlConnection.getInputStream());
+                    _trainers = JsonParser.parseString(responseString).getAsJsonArray();
+
+                    for (int i = 0; i < _trainers.size(); i++) {
+                        JsonObject trainer = (JsonObject) _trainers.get(i);
+
+                        String user_id = trainer.get("user_id").getAsString().trim();
+                        String name = trainer.get("name").getAsString().trim();
+                        String lastname = trainer.get("lastname").getAsString().trim();
+                        String email = trainer.get("email").getAsString().trim();
+                        String qualification = trainer.get("qualification").getAsString().trim();
+                        String fiscal_code = trainer.get("fiscal_code").getAsString().trim();
+
+                        TrainerObject t_obj = new TrainerObject(user_id, name, lastname, email, qualification, fiscal_code);
+                        t_objects.add(t_obj);
+
+                    }
+                    //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
+                    delegate.processFinish(t_objects);
+
+                } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                    Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
+                    delegate.processFinish(new ArrayList<TrainerObject>());
+                } else {
+                    Log.e("GET TRAINER", "SERVER ERROR");
+                    delegate.processFinish(new ArrayList<TrainerObject>());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
+                delegate.processFinish(new ArrayList<TrainerObject>());
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return _trainers;
+        }
+
+        private String readStream(InputStream in) throws UnsupportedEncodingException {
+            BufferedReader reader = null;
+            StringBuffer response = new StringBuffer();
+            try {
+                reader = new BufferedReader(new InputStreamReader(in));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return response.toString();
+        }
+    }
+
+    //CONTROLLI
     private boolean checkInputData() {
 
         if (checkTrainer()) {
@@ -187,7 +333,6 @@ public class GymCoursesActivity extends AppCompatActivity {
             return true;
         }
     }
-
 
     private boolean checkDescrizione() {
         descrizione = et_descrizione.getText().toString().trim();
