@@ -12,12 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.menage_course.GymAddCoursesActivity;
 import android_team.gymme_client.gym.menage_course.GymCourseActivity;
+import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
 
 public class GymHomeActivity extends AppCompatActivity {
 
-    Button btn_profile, btn_corsi,btn_gestione_dipendenti;
+    Button btn_profile, btn_corsi,btn_gestione_dipendenti, btn_gestione_clienti;
     private int user_id;
 
     @Override
@@ -44,6 +45,7 @@ public class GymHomeActivity extends AppCompatActivity {
         btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
         btn_corsi = (Button) findViewById(R.id.btn_gym_home_corsi);
         btn_gestione_dipendenti = (Button) findViewById(R.id.btn_gym_home_gestione_dipendenti);
+        btn_gestione_clienti = (Button) findViewById(R.id.btn_gym_home_dipendenti);
 
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +72,16 @@ public class GymHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.e("REDIRECT", "Gym Megagment Worker Activity");
                 Intent i = new Intent(getApplicationContext(), GymMenageWorkerActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+        btn_gestione_clienti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Gym Customers Activity");
+                Intent i = new Intent(getApplicationContext(), GymCustomersActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }
