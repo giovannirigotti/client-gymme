@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_name"
+        android:text="nome"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_address"
+        android:text="address"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_vat_number"
+        android:text="vat number"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_zip_code"
+        android:text="zip code"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_pool"
+        android:text="Piscina non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_box_ring"
+        android:text="box ring non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_aerobics"
+        android:text="zona di aerobica non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_spa"
+        android:text="spa non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_wifi"
+        android:text="wifi non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_parkin_area"
+        android:text="parcheggio non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_personal_trainer_service"
+        android:text="Servizio di personal trainer non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_nutritionist_service"
+        android:text="Servizio di alimentazione non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_impedance_balance"
+        android:text="Bilancia ad impedenza non presente"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_courses"
+        android:text="Corsi non presenti"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_customer_my_gym_showers"
+        android:text="Docce non presenti"
+        />
+
+</LinearLayout>

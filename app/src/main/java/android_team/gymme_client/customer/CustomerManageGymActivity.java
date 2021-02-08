@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -92,6 +93,17 @@ public class CustomerManageGymActivity extends AppCompatActivity {
                             //setto tramite l'adapter la lista delle gym da visualizzare nella recycler view(notificationView)
                             gym_adapter = new CustomCustomerGymAdapter(CustomerManageGymActivity.this, gym_list);
                             lv_gym.setAdapter(gym_adapter);
+
+                            lv_gym.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                    Intent intent = new Intent(getApplicationContext(), CustomerMyGymActivity.class);
+                                    intent.putExtra("user_id", Integer.parseInt(gym_list.get(i).user_id));
+                                    Log.e("gym_id before",  gym_list.get(i).user_id );
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     });
                 } else {

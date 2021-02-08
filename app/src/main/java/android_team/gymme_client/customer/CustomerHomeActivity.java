@@ -108,6 +108,17 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
+          _btn_customer_home_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Customer Manage Gym Activity");
+                Intent i = new Intent(getApplicationContext(), CustomerNotificationActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+
         drawer_home_link.setPadding(20, 10, 20, 10);
         drawer_home_link.setBackground(getDrawable(R.drawable.rounded_rectangle));
         drawer_home_link.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
