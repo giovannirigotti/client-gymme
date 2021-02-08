@@ -463,7 +463,10 @@ public class GymCoursesActivity extends AppCompatActivity {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
                             Toast.makeText(GymCoursesActivity.this, "SUCCESS, corso aggiunto", Toast.LENGTH_SHORT).show();
-                            //TODO CAMBIO INTENT
+                            Log.e("REDIRECT", "Gym Profile Activity");
+                            Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
+                            i.putExtra("user_id", user_id);
+                            startActivity(i);
                         }
                     });
                 } else {

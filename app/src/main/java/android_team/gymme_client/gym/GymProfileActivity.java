@@ -119,7 +119,7 @@ public class GymProfileActivity extends AppCompatActivity {
         btn_gym_dati_palestra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Profile Activity");
+                Log.e("REDIRECT", "Gym Edit Data Activity");
                 Intent i = new Intent(getApplicationContext(), GymEditDataActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
