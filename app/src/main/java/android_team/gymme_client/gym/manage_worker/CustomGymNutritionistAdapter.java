@@ -204,6 +204,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
                                     public void run() {
                                         Toast.makeText(MyApplication.getContext(), "SUCCESS, nutritionist assunto", Toast.LENGTH_SHORT).show();
                                         GymAddNutritionistActivity.redirectManage(context);
+
                                     }
                                 });
                             } else {

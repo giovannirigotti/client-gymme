@@ -1,37 +1,19 @@
-package android_team.gymme_client.gym.manage_worker;
+package android_team.gymme_client.gym;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.gson.JsonObject;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.support.MyApplication;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class CustomCourseTrainerAdapter extends ArrayAdapter<TrainerObject> {
@@ -78,7 +60,7 @@ public class CustomCourseTrainerAdapter extends ArrayAdapter<TrainerObject> {
         viewHolder.btn_gym_trainer_assumed_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: CHIAMATA PER MODIFICARE DATI VIEW
+                GymCoursesActivity.selectTrainer(position);
             }
         });
         return r;

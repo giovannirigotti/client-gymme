@@ -28,9 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.manage_worker.CustomCourseTrainerAdapter;
-import android_team.gymme_client.gym.manage_worker.CustomGymTrainerAdapter;
-import android_team.gymme_client.gym.manage_worker.GymAddTrainerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.trainer.TrainerObject;
 
@@ -39,14 +36,14 @@ public class GymCoursesActivity extends AppCompatActivity {
     private int gym_id;
     private int user_id;
 
-    static private int traienr_id;
+    static String traienr_id;
     static CustomCourseTrainerAdapter trainer_adapter;
-    static private ArrayList<TrainerObject> trainer_list;
+    static ArrayList<TrainerObject> trainer_list;
 
-    static private TextView tv_trainer_selezionato;
-    static private String trainer_selezionato;
+    static TextView tv_trainer_selezionato;
+    static String trainer_selezionato;
 
-    static private ListView lv_trainer;
+    static ListView lv_trainer;
     public Button btn_add_course;
     private EditText et_descrizione, et_titolo, et_categoria, et_data_inizio, et_data_fine, et_numero_massimo;
     private String descrizione, titolo, categoria, data_inizio, data_fine;
@@ -114,7 +111,7 @@ public class GymCoursesActivity extends AppCompatActivity {
 
     }
 
-    //CARIMENTO
+    //CARIMENTO DATI
     private void getTrainers() {
         GymCoursesActivity.ReceiveTrainersConn asyncTaskUser = (GymCoursesActivity.ReceiveTrainersConn) new GymCoursesActivity.ReceiveTrainersConn(new GymCoursesActivity.ReceiveTrainersConn.AsyncResponse() {
             @Override
@@ -239,7 +236,19 @@ public class GymCoursesActivity extends AppCompatActivity {
         }
     }
 
-    //CONTROLLI
+    //SELEZIONE TRAINER
+    public static void selectTrainer(Integer position) {
+        String nominativo = trainer_list.get(position).name + " " + trainer_list.get(position).lastname;
+
+        traienr_id = trainer_list.get(position).user_id;
+        trainer_selezionato = nominativo;
+
+        tv_trainer_selezionato.setText(trainer_selezionato);
+        Log.e("Trainer selezionato", traienr_id + " " + trainer_selezionato);
+
+    }
+
+    //CONTROLLI INPUT
     private boolean checkInputData() {
 
         if (checkTrainer()) {
@@ -373,6 +382,5 @@ public class GymCoursesActivity extends AppCompatActivity {
 
         return (checkNumber && checkFormat);
     }
-
 
 }

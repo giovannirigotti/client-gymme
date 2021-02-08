@@ -224,6 +224,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         Intent i = new Intent(context, GymMenageWorkerActivity.class);
         i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
         context.startActivity(i);
+        context.finish();
     }
 
 }
