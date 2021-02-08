@@ -96,7 +96,6 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
             tv_gym_trainer_name = v.findViewById(R.id.tv_gym_trainer_assumed_name);
             tv_gym_trainer_lastname = v.findViewById(R.id.tv_gym_trainer_assumed_lastname);
             tv_gym_trainer_email = v.findViewById(R.id.tv_gym_trainer_assumed_email);
-
             btn_gym_trainer_add = v.findViewById(R.id.btn_gym_trainer_assumed_add);
         }
     }
@@ -197,15 +196,14 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
 
             switch (v.getId()) {
                 case R.id.dialog_remove_customer:
-                    /*
-                    CustomGymCustomerAdapter.HireTrainerConnection asyncTask = (CustomGymCustomerAdapter.HireTrainerConnection) new CustomGymCustomerAdapter.HireTrainerConnection(new CustomGymCustomerAdapter.HireTrainerConnection.AsyncResponse() {
+                    CustomGymCustomerAdapter.RemoveCustomerConncection asyncTask = (CustomGymCustomerAdapter.RemoveCustomerConncection) new CustomGymCustomerAdapter.RemoveCustomerConncection(new CustomGymCustomerAdapter.RemoveCustomerConncection.AsyncResponse() {
                         @Override
                         public void processFinish(Integer output) {
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer assunto", Toast.LENGTH_SHORT).show();
-                                        GymAddTrainerActivity.redirectManage(context);
+                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, Cliente rimosso", Toast.LENGTH_SHORT).show();
+                                        GymCustomersActivity.redirectManage(context);
                                     }
                                 });
                             } else {
@@ -216,7 +214,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
                                 });
                             }
                         }
-                    }).execute(trainer_id, GymMenageWorkerActivity.getGymId());*/
+                    }).execute(user_id, GymCustomersActivity.getGymId());
                     dismiss();
                     break;
                 case R.id.dialog_exit_from_info_cutomer:
@@ -230,16 +228,16 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
 
     }
 
-    public static class HireTrainerConnection extends AsyncTask<String, String, Integer> {
+    public static class RemoveCustomerConncection extends AsyncTask<String, String, Integer> {
 
         // you may separate this or combined to caller class.
         public interface AsyncResponse {
             void processFinish(Integer output);
         }
 
-        public CustomGymCustomerAdapter.HireTrainerConnection.AsyncResponse delegate = null;
+        public CustomGymCustomerAdapter.RemoveCustomerConncection.AsyncResponse delegate = null;
 
-        public HireTrainerConnection(CustomGymCustomerAdapter.HireTrainerConnection.AsyncResponse delegate) {
+        public RemoveCustomerConncection(CustomGymCustomerAdapter.RemoveCustomerConncection.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -250,7 +248,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
             JsonObject user = null;
             int responseCode = 500;
             try {
-                url = new URL("http://10.0.2.2:4000/gym/hire_trainer/");
+                url = new URL("http://10.0.2.2:4000/gym/delete_gym_customer/");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setConnectTimeout(5000);
@@ -275,11 +273,11 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM TRAINER", "ASSUNTO OK");
+                    Log.e("GYM CUSTOMER", "Cancellazione ok");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM TRAINER", "Error ASSUNZIONE");
+                    Log.e("GYM CUSTOMER", "Error cancellazione");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
@@ -287,6 +285,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
             } catch (IOException e) {
                 e.printStackTrace();
                 responseCode = 69;
+                Log.e("GYM CUSTOMER", "Error I/O");
                 delegate.processFinish(responseCode);
             } finally {
                 if (urlConnection != null)

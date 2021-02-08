@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.customer.CustomerSmallObject;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.gym.menage_worker.CustomGymTrainerAdapter;
 import android_team.gymme_client.gym.menage_worker.GymAddTrainerActivity;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
@@ -38,7 +39,7 @@ import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymCustomersActivity extends AppCompatActivity {
 
-    private int user_id;
+    private static int user_id;
 
     ListView lv_clienti;
     EditText et_search_client;
@@ -70,8 +71,10 @@ public class GymCustomersActivity extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
             }
         });
+    }
 
-
+    public static String getGymId() {
+        return String.valueOf(user_id);
     }
 
     private void initialize() {
@@ -100,9 +103,11 @@ public class GymCustomersActivity extends AppCompatActivity {
 
     }
 
-    public static ArrayList<CustomerSmallObject> getAllCustomers(){
+    public static ArrayList<CustomerSmallObject> getAllCustomers() {
         return lista_clienti;
-    };
+    }
+
+    ;
 
     private void getCustomers() {
         GymCustomersActivity.ReceiveCustomerConnection asyncTaskUser = (GymCustomersActivity.ReceiveCustomerConnection) new GymCustomersActivity.ReceiveCustomerConnection(new GymCustomersActivity.ReceiveCustomerConnection.AsyncResponse() {
@@ -177,7 +182,7 @@ public class GymCustomersActivity extends AppCompatActivity {
                         String email = customer.get("email").getAsString().trim();
                         String birthdate = customer.get("birthdate").getAsString().trim();
 
-                        CustomerSmallObject t_obj = new CustomerSmallObject(user_id, name, lastname,email, birthdate);
+                        CustomerSmallObject t_obj = new CustomerSmallObject(user_id, name, lastname, email, birthdate);
                         t_objects.add(t_obj);
 
                     }
@@ -226,9 +231,9 @@ public class GymCustomersActivity extends AppCompatActivity {
 
 
     public static void redirectManage(Activity context) {
-        Log.e("REDIRECT", "Gym Menege Worker");
-        Intent i = new Intent(context, GymMenageWorkerActivity.class);
-        i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
+        Log.e("REDIRECT", "Gym Home Activity");
+        Intent i = new Intent(context, GymHomeActivity.class);
+        i.putExtra("user_id", Integer.valueOf(user_id));
         context.startActivity(i);
         context.finish();
     }
