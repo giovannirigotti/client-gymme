@@ -3,6 +3,7 @@ package android_team.gymme_client.gym.menage_course;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -150,7 +151,7 @@ public class GymCourseActivity extends AppCompatActivity {
 
                     for (int i = 0; i < _courses.size(); i++) {
                         JsonObject course = (JsonObject) _courses.get(i);
-
+                        String course_id = course.get("course_id").getAsString().trim();
                         String name = course.get("name").getAsString().trim();
                         String lastname = course.get("lastname").getAsString().trim();
                         String description = course.get("description").getAsString().trim();
@@ -160,7 +161,7 @@ public class GymCourseActivity extends AppCompatActivity {
                         String end_date = course.get("end_date").getAsString().trim();
                         String max_persons = course.get("max_persons").getAsString().trim();
 
-                        CourseObject c_obj = new CourseObject(name, lastname, description, title, category, start_date, end_date, max_persons);
+                        CourseObject c_obj = new CourseObject(course_id, name, lastname, description, title, category, start_date, end_date, max_persons);
                         c_objects.add(c_obj);
 
                     }
@@ -205,6 +206,17 @@ public class GymCourseActivity extends AppCompatActivity {
             }
             return response.toString();
         }
+    }
+
+    public static void redoAdapterCourse(Activity context, ArrayList<CourseObject> courses, Integer position) {
+        ArrayList<CourseObject> new_t = new ArrayList<>();
+        for(int i = 0; i < courses.size(); i++){
+            if(i != position){
+                new_t.add(courses.get(i));
+            }
+        }
+        course_adapter = new CustomCourseAdapter(context, new_t);
+        lv_my_courses.setAdapter(course_adapter);
     }
 
 

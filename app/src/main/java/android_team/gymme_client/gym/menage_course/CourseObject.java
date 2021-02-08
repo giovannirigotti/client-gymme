@@ -1,6 +1,8 @@
 package android_team.gymme_client.gym.menage_course;
 
 public class CourseObject {
+
+    private String course_id;
     private String trainer_name;
     private String trainer_lastname;
     private String description;
@@ -9,6 +11,14 @@ public class CourseObject {
     private String start_date;
     private String end_date;
     private String free_spaces;
+
+    public String getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(String course_id) {
+        this.course_id = course_id;
+    }
 
     public String getTrainer_name() {
         return trainer_name;
@@ -75,7 +85,8 @@ public class CourseObject {
     }
 
 
-    public CourseObject(String trainer_name, String trainer_lastname, String description, String title, String category, String start_date, String end_date, String free_spaces) {
+    public CourseObject(String course_id,String trainer_name, String trainer_lastname, String description, String title, String category, String start_date, String end_date, String free_spaces) {
+        this.course_id = course_id;
         this.trainer_name = trainer_name;
         this.trainer_lastname = trainer_lastname;
         this.description = description;
@@ -89,7 +100,8 @@ public class CourseObject {
     @Override
     public String toString() {
         return "CourseObject{" +
-                "trainer_name='" + trainer_name + '\'' +
+                "Course_id='" + course_id + '\'' +
+                ", trainer_name='" + trainer_name + '\'' +
                 ", trainer_lastname='" + trainer_lastname + '\'' +
                 ", description='" + description + '\'' +
                 ", title='" + title + '\'' +

@@ -1,5 +1,6 @@
 package android_team.gymme_client.gym.menage_course;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -20,12 +21,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -64,7 +71,7 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
         } else {
             viewHolder = (CustomCourseAdapter.ViewHolder) r.getTag();
         }
-
+        final String course_id = courses.get(position).getCourse_id();
         final String name = courses.get(position).getTrainer_name();
         final String lastname = courses.get(position).getTrainer_lastname();
         final String description = courses.get(position).getDescription();
@@ -81,8 +88,7 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
         viewHolder.btn_course_item_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO dialog con informazioni
-                //dismissTrainer(context, trainer_id, name, lastname, email, qualification, fiscal_code, position);
+                courseInfo(context, course_id, name, lastname, description, title, category, start_date, end_date, max_persons, position);
             }
         });
         return r;
@@ -101,30 +107,33 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
         }
     }
 
-/*
-    public void dismissTrainer(Activity a, String trainer_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
-        CustomCourseAdapter.CustomDialogRemoveTrainer cdd = new CustomCourseAdapter.CustomDialogRemoveTrainer(a, trainer_id, name, lastname, email, qualification, fiscal_code, position);
+
+    public void courseInfo(Activity a, String course_id, String name, String lastname, String description, String title, String category, String start_date, String end_date, String max_persons, Integer position) {
+        CustomCourseAdapter.CustomDialogRemoveCourse cdd = new CustomCourseAdapter.CustomDialogRemoveCourse(a, course_id, name, lastname, description, title, category, start_date, end_date, max_persons, position);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
     }
 
-    private class CustomDialogRemoveTrainer extends Dialog implements View.OnClickListener {
+    private class CustomDialogRemoveCourse extends Dialog implements View.OnClickListener {
 
         public Activity c;
-        public Button Licenzia, Esci;
-        public TextView _name, _lastname, _email, _qualification, _fiscal_code;
-        public String trainer_id, name, lastname, email, qualification, fiscal_code;
+        public Button Cancella, Esci;
+        public TextView _nominativo, _description, _title, _category, _start_date, _end_date, _max_persons;
+        public String course_id, name, lastname, description, title, category, start_date, end_date, max_persons;
         Integer position;
 
-        public CustomDialogRemoveTrainer(Activity a, String trainer_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
+        public CustomDialogRemoveCourse(Activity a, String course_id, String name, String lastname, String description, String title, String category, String start_date, String end_date, String max_persons, Integer position) {
             super(a);
             this.c = a;
-            this.trainer_id = trainer_id;
+            this.course_id = course_id;
             this.name = name;
             this.lastname = lastname;
-            this.email = email;
-            this.qualification = qualification;
-            this.fiscal_code = fiscal_code;
+            this.description = description;
+            this.title = title;
+            this.category = category;
+            this.start_date = start_date;
+            this.end_date = end_date;
+            this.max_persons = max_persons;
             this.position = position;
         }
 
@@ -133,23 +142,28 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
 
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.dialog_dismiss_trainer);
-            Licenzia = (Button) findViewById(R.id.dialog_confirm_user_type_yes);
-            Esci = (Button) findViewById(R.id.dialog_confirm_user_type_no);
+            setContentView(R.layout.dialog_course_info);
+            Cancella = (Button) findViewById(R.id.btn_delete_course);
+            Esci = (Button) findViewById(R.id.btn_exit_course);
 
-            _name = (TextView) findViewById(R.id.tv_dismiss_name);
-            _lastname = (TextView) findViewById(R.id.tv_dismiss_lastname);
-            _email = (TextView) findViewById(R.id.tv_dismiss_email);
-            _qualification = (TextView) findViewById(R.id.tv_dismiss_qualification);
-            _fiscal_code = (TextView) findViewById(R.id.tv_dismiss_fiscal_code);
+            _nominativo = (TextView) findViewById(R.id.tv_course_nominativo);
+            _description = (TextView) findViewById(R.id.tv_course_description);
+            _title = (TextView) findViewById(R.id.tv_course_title);
+            _category = (TextView) findViewById(R.id.tv_course_category);
+            _start_date = (TextView) findViewById(R.id.tv_course_start_date);
+            _end_date = (TextView) findViewById(R.id.tv_course_end_date);
+            _max_persons = (TextView) findViewById(R.id.tv_course_max_persons);
 
-            _name.setText(name);
-            _lastname.setText(lastname);
-            _email.setText(email);
-            _qualification.setText(qualification);
-            _fiscal_code.setText(fiscal_code);
 
-            Licenzia.setOnClickListener(this);
+            _nominativo.setText(name + " " + lastname);
+            _description.setText(description);
+            _title.setText(title);
+            _category.setText(category);
+            _start_date.setText(start_date.split("T")[0]);
+            _end_date.setText(end_date.split("T")[0]);
+            _max_persons.setText(max_persons);
+
+            Cancella.setOnClickListener(this);
             Esci.setOnClickListener(this);
         }
 
@@ -158,15 +172,15 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
         public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.dialog_confirm_user_type_yes:
-                    CustomCourseAdapter.DismissTrainerConnection asyncTask = (CustomCourseAdapter.DismissTrainerConnection) new CustomCourseAdapter.DismissTrainerConnection(new CustomCourseAdapter.DismissTrainerConnection.AsyncResponse() {
+                case R.id.btn_delete_course:
+                    CustomCourseAdapter.DeleteCourseConnection asyncTask = (CustomCourseAdapter.DeleteCourseConnection) new CustomCourseAdapter.DeleteCourseConnection(new CustomCourseAdapter.DeleteCourseConnection.AsyncResponse() {
                         @Override
                         public void processFinish(Integer output) {
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
                                         Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer licenziato", Toast.LENGTH_SHORT).show();
-                                        GymMenageWorkerActivity.redoAdapterTrainer(context, trainers, position);
+                                        GymCourseActivity.redoAdapterCourse(context, courses, position);
                                     }
                                 });
                             } else {
@@ -177,10 +191,10 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
                                 });
                             }
                         }
-                    }).execute(trainer_id, GymMenageWorkerActivity.getGymId());
+                    }).execute(course_id);
                     dismiss();
                     break;
-                case R.id.dialog_confirm_user_type_no:
+                case R.id.btn_exit_course:
                     //
                     dismiss();
                     break;
@@ -188,76 +202,57 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
                     break;
             }
         }
-
     }
 
-    public static class DismissTrainerConnection extends AsyncTask<String, String, Integer> {
+    private static class DeleteCourseConnection extends AsyncTask<String, String, Integer> {
 
-        // you may separate this or combined to caller class.
         public interface AsyncResponse {
             void processFinish(Integer output);
         }
 
-        public CustomCourseAdapter.DismissTrainerConnection.AsyncResponse delegate = null;
+        public CustomCourseAdapter.DeleteCourseConnection.AsyncResponse delegate = null;
 
-        public DismissTrainerConnection(CustomCourseAdapter.DismissTrainerConnection.AsyncResponse delegate) {
+        public DeleteCourseConnection(CustomCourseAdapter.DeleteCourseConnection.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
+        @SuppressLint("WrongThread")
         @Override
         protected Integer doInBackground(String... params) {
+
             URL url;
             HttpURLConnection urlConnection = null;
-            JsonObject user = null;
-            int responseCode = 500;
+            Integer responseCode = 500;
+
             try {
-                url = new URL("http://10.0.2.2:4000/gym/dismiss_trainer/");
+                url = new URL("http://10.0.2.2:4000/gym/delete_course/" + params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(5000);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                JsonObject paramsJson = new JsonObject();
-
-                paramsJson.addProperty("user_id", params[0]);
-                paramsJson.addProperty("gym_id", params[1]);
-
-                urlConnection.setDoOutput(true);
-
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(paramsJson.toString());
-                writer.flush();
-                writer.close();
-                os.close();
-
                 urlConnection.connect();
                 responseCode = urlConnection.getResponseCode();
+                urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM TRAINER", "LICENZIATO OK");
-                    responseCode = 200;
-                    delegate.processFinish(responseCode);
+
+                    Log.e("Server response", "HTTP_OK");
+                    //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
+                    delegate.processFinish(HttpURLConnection.HTTP_OK);
+
                 } else {
-                    Log.e("GYM TRAINER", "Error");
-                    responseCode = 500;
-                    delegate.processFinish(responseCode);
-                    urlConnection.disconnect();
+                    Log.e("DELETE COURSE", "SERVER ERROR");
+                    delegate.processFinish(500);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                responseCode = 69;
-                delegate.processFinish(responseCode);
+                Log.e("DELETE COURSE", "I/O EXCEPTION ERROR");
+                delegate.processFinish(500);
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
             return responseCode;
         }
-
     }
-
-    */
 
 }
