@@ -3,6 +3,7 @@ package android_team.gymme_client.customer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -18,7 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -167,8 +173,13 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject> {
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "Corso cancellato", Toast.LENGTH_SHORT).show();
-                                        GymCourseActivity.redoAdapterCourse(context, courses, position);
+                                        Toast.makeText(MyApplication.getContext(), "Iscrizione effettuata", Toast.LENGTH_SHORT).show();
+                                        CustomerAddCourseActivity.redoAdapterCourse(context, courses, position);
+                                        Log.e("REDIRECT", "Customer Manage Gym Activity");
+                                        Intent i = new Intent(context, CustomerManageCourseActivity.class);
+                                        i.putExtra("user_id", Integer.parseInt(CustomerAddCourseActivity.getUserId()));
+                                        context.startActivity(i);
+                                        context.finish();
                                     }
                                 });
                             } else {
@@ -179,7 +190,7 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject> {
                                 });
                             }
                         }
-                    }).execute(course_id);
+                    }).execute(CustomerAddCourseActivity.getUserId(), course_id);
                     dismiss();
                     break;
                 case R.id.btn_exit_course:
@@ -210,39 +221,55 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject> {
 
             URL url;
             HttpURLConnection urlConnection = null;
-            Integer responseCode = 500;
-
+            JsonObject user = null;
+            int responseCode = 500;
             try {
-                url = new URL("http://10.0.2.2:4000/gym/send_del_course_notification/" + params[0]);
+                url = new URL("http://10.0.2.2:4000/customer/inscription_course/");
                 urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestMethod("POST");
                 urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("user_id", params[0]);
+                paramsJson.addProperty("course_id", params[1]);
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
                 urlConnection.connect();
                 responseCode = urlConnection.getResponseCode();
-                urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                    Log.e("Server response", "HTTP_OK");
-                    //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
-                    delegate.processFinish(HttpURLConnection.HTTP_OK);
-
+                    Log.e("CUSTOMER COURSE", "ISCRIZIONE OK");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
                 } else {
-                    Log.e("DELETE COURSE", "SERVER ERROR");
-                    delegate.processFinish(500);
+                    Log.e("CUSTOMER COURSE", "Error ISCRIZIONE");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("DELETE COURSE", "I/O EXCEPTION ERROR");
-                delegate.processFinish(500);
+                responseCode = 69;
+                delegate.processFinish(responseCode);
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
             return responseCode;
         }
-    }
 
+    }
 }
 
 

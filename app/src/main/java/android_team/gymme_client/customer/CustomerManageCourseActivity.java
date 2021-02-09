@@ -4,6 +4,7 @@ import android_team.gymme_client.R;
 import android_team.gymme_client.gym.GymObject;
 import android_team.gymme_client.gym.menage_course.CourseObject;
 
+import android_team.gymme_client.gym.menage_course.CustomCourseAdapter;
 import android_team.gymme_client.login.LoginActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
@@ -40,8 +41,8 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
     Button _btn_customer_manage_course_to_disponible_gym;
 
     static CustomMyCourseAdapter course_adapter;
-    private int user_id;
-    ListView lv_course;
+    private static int user_id;
+    static ListView lv_course;
     public static ArrayList<CourseObject> course_list;
 
     @Override
@@ -66,7 +67,7 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
                 startActivity(new_i);
             }
         }
-        lv_course = (ListView) findViewById(R.id.lv_customer_gym);
+        lv_course = (ListView) findViewById(R.id.lv_customer_course);
 
         getCourse();
 
@@ -204,4 +205,20 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
         }
     }
 
+
+    public static String getUserId()
+    {
+        return String.valueOf(user_id);
+    }
+
+    public static void redoAdapterCourse(Activity context, ArrayList<CourseObject> courses, Integer position) {
+        ArrayList<CourseObject> new_t = new ArrayList<>();
+        for(int i = 0; i < courses.size(); i++){
+            if(i != position){
+                new_t.add(courses.get(i));
+            }
+        }
+        course_adapter = new CustomMyCourseAdapter(context, new_t);
+        lv_course.setAdapter(course_adapter);
+    }
 }

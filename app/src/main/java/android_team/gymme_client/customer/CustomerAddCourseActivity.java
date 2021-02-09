@@ -8,6 +8,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,8 +34,8 @@ import java.util.ArrayList;
 public class CustomerAddCourseActivity extends AppCompatActivity {
 
     static CustomDisponibleCourseAdapter course_adapter;
-    private int user_id;
-    ListView lv_course;
+    private static int user_id;
+    static ListView lv_course;
     public static ArrayList<CourseObject> course_list;
 
     @Override
@@ -188,4 +189,18 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
         }
     }
 
+    public static String getUserId() {
+        return String.valueOf(user_id);
+    }
+
+    public static void redoAdapterCourse(Activity context, ArrayList<CourseObject> courses, Integer position) {
+        ArrayList<CourseObject> new_t = new ArrayList<>();
+        for(int i = 0; i < courses.size(); i++){
+            if(i != position){
+                new_t.add(courses.get(i));
+            }
+        }
+        course_adapter = new CustomDisponibleCourseAdapter(context, new_t);
+        lv_course.setAdapter(course_adapter);
+    }
 }
