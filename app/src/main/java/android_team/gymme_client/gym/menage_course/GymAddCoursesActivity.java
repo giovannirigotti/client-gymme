@@ -467,6 +467,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
                             Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
                             i.putExtra("user_id", user_id);
                             startActivity(i);
+                            finish();
                         }
                     });
                 } else {

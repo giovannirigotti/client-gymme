@@ -179,7 +179,7 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer licenziato", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Corso cancellato", Toast.LENGTH_SHORT).show();
                                         GymCourseActivity.redoAdapterCourse(context, courses, position);
                                     }
                                 });
@@ -225,7 +225,7 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
             Integer responseCode = 500;
 
             try {
-                url = new URL("http://10.0.2.2:4000/gym/delete_course/" + params[0]);
+                url = new URL("http://10.0.2.2:4000/gym/send_del_course_notification/" + params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(5000);
