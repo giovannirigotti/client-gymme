@@ -102,6 +102,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
     Integer gym_id, user_id;
     private int pool, box_ring, aerobics, spa, wifi, parking_area, personal_trainer, nutritionist, impedance_balance, courses, showers;
     private String vat_number, gym_name, gym_address, gym_code;
+    private String  name = "", address = "", code="", vat = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,10 +176,15 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                     finish();
                 } else if (_pool == 1 || _pool == 0) {
                     //  -   SETTO VIEW grazie ai dati ricevuti
-                    _tv_customer_my_gym_name.setText(_gym_name);
-                    _tv_customer_my_gym_address.setText(_gym_address);
-                    _tv_customer_my_gym_zip_code.setText(_zip_code);
-                    _tv_customer_my_gym_vat_number.setText(_vat_number);
+                    name = _gym_name; address = _gym_address; code = _zip_code; vat = _vat_number;
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            _tv_customer_my_gym_name.setText(name);
+                            _tv_customer_my_gym_address.setText(address);
+                            _tv_customer_my_gym_zip_code.setText(code);
+                            _tv_customer_my_gym_vat_number.setText(vat);
+                        }
+                    });
                     if (_pool == 1) {
                         pool = _pool;
                         runOnUiThread(new Runnable() {
@@ -371,7 +377,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
             @Override
             public void processFinish(Integer output) {
                 if (output == 200) {
-                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(CustomerMyGymActivity.this, "SUCCESS, Palestra rimossa", Toast.LENGTH_SHORT).show();
                             Log.e("REDIRECT", "Customer MyGyms Activity");
@@ -382,7 +388,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
                         }
