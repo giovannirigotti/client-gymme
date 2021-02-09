@@ -66,6 +66,7 @@ public class CustomerManageGymActivity extends AppCompatActivity {
             }
         }
         lv_gym = (ListView) findViewById(R.id.lv_customer_gym);
+
         getGym();
 
         _btn_customer_manage_gym_to_disponible_gym.setOnClickListener(new View.OnClickListener() {

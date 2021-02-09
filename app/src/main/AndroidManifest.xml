@@ -19,6 +19,7 @@
         <activity android:name=".gym.menage_course.GymCourseActivity" />
 
         <activity android:name=".customer.CustomerMyGymActivity"></activity>
+        <activity android:name=".customer.CustomerNewGymActivity"></activity>
         <activity android:name=".customer.CustomerAddGymActivity" />
         <activity android:name=".customer.CustomerManageGymActivity" />
         <activity android:name=".gym.menage_worker.GymAddNutritionistActivity" />

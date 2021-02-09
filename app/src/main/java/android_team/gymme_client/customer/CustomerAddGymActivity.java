@@ -92,8 +92,14 @@ public class CustomerAddGymActivity extends AppCompatActivity {
                             lv_gym.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    Log.e("REDIRECT", "Customer New Gym Activity");
+                                    Intent in = new Intent(getApplicationContext(), CustomerNewGymActivity.class);
+                                    in.putExtra("user_id", user_id);
+                                    in.putExtra("gym_id", Integer.valueOf(gym_list.get(i).user_id));
+                                    startActivity(in);
+                                    //Log.e("LV USER, GYM", user_id + " " + Integer.valueOf(gym_list.get(i).user_id));
+                                    finish();
                                     //cancello notifica su db
-                                    ViewGym(CustomerAddGymActivity.this, user_id, gym_list.get(i).user_id, gym_list.get(i));
                                     //Toast.makeText(CustomerAddGymActivity.this, "Elemento: " + i + "; testo: " + gym_list.get(i).gym_name, Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -217,168 +223,6 @@ public class CustomerAddGymActivity extends AppCompatActivity {
         }
     }
 
-    private void ViewGym(Activity a, int user_id, String gym_id, GymObject gym ) {
-        Log.e("VIEW GYM", user_id+" "+gym_id);
-        CustomerAddGymActivity.CustomDialogViewGymClass cdd = new CustomerAddGymActivity.CustomDialogViewGymClass(a, user_id, gym_id, gym);
-        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        cdd.show();
-    }
-
-    private class CustomDialogViewGymClass extends Dialog implements android.view.View.OnClickListener {
-
-        public Activity c;
-        public Button Inscription, Esc;
-        public TextView name, address;
-        public String gym_id;
-        public Integer user_id;
-        public GymObject gym;
-
-        public CustomDialogViewGymClass(Activity a, Integer user_id, String gym_id, GymObject gym) {
-            super(a);
-            this.c = a;
-            this.user_id = user_id;
-            this.gym_id = gym_id;
-            this.gym = gym;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.dialog_customer_gym_iscription);
-            Inscription = (Button) findViewById(R.id.btn_dialog_customer_gym_inscription_inscription);
-            Esc = (Button) findViewById(R.id.btn_dialog_customer_gym_inscription_type_no);
-            name = (TextView) findViewById(R.id.tv_dialog_customer_gym_inscription_name);
-            address = (TextView) findViewById(R.id.tv_dialog_customer_gym_inscription_address);
-            Inscription.setOnClickListener(this);
-            Esc.setOnClickListener(this);
-
-            name.setText(gym.gym_name);
-            address.setText(gym.gym_address);
-        }
-
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_dialog_customer_gym_inscription_inscription:
-                    dismiss();
-                    iscriptionGym(user_id, gym_id);
-
-                    break;
-                case R.id.btn_dialog_customer_gym_inscription_type_no:
-                    //
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-
-
-
-    }
-
-    private void iscriptionGym(final Integer user_id, String gym_id) {
-        CustomerAddGymActivity.InsertGymConnection asyncTaskUser = (CustomerAddGymActivity.InsertGymConnection) new CustomerAddGymActivity.InsertGymConnection(new CustomerAddGymActivity.InsertGymConnection.AsyncResponse() {
-            @Override
-            public void processFinish(Integer output) {
-
-                if (output==200) {
-                    //DATI RICEVUTI
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(CustomerAddGymActivity.this, "Iscrizione avvenuta", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CustomerAddGymActivity.this, CustomerManageGymActivity.class);
-                            intent.putExtra("user_id",user_id);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-
-                } else {
-                    // NESSUN DATO RICEVUTO PERCHE' NON C'è NESSUNA GYM DISPONIBILE
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(CustomerAddGymActivity.this, "Errore iscrizione", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-
-        }).execute(String.valueOf(user_id), gym_id);
-    }
-
-    private static class InsertGymConnection extends AsyncTask<String, String, Integer> {
-
-        public interface AsyncResponse {
-            void processFinish(Integer output);
-        }
-
-        public CustomerAddGymActivity.InsertGymConnection.AsyncResponse delegate = null;
-
-        public InsertGymConnection(CustomerAddGymActivity.InsertGymConnection.AsyncResponse delegate) {
-            this.delegate = delegate;
-        }
-
-        @SuppressLint("WrongThread")
-        @Override
-        protected Integer doInBackground(String... params) {
-
-            URL url;
-            HttpURLConnection urlConnection = null;
-            int responseCode = 500;
-
-            try {
-                url = new URL("http://10.0.2.2:4000/customer/inscription");
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setConnectTimeout(5000);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                JsonObject paramsJson = new JsonObject();
-
-                paramsJson.addProperty("user_id", params[0]);
-                paramsJson.addProperty("gym_id", params[1]);
-
-                urlConnection.setDoOutput(true);
-
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(paramsJson.toString());
-                writer.flush();
-                writer.close();
-                os.close();
-
-                urlConnection.connect();
-                responseCode = urlConnection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                    Log.e("Server response", "HTTP_OK");
-
-
-                    //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
-                    delegate.processFinish(HttpURLConnection.HTTP_OK);
-                } else {
-                    Log.e("ISCRIPTION GYM", "SERVER ERROR");
-                    delegate.processFinish(500);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("ISCRIPTION GYM", "I/O EXCEPTION ERROR");
-                delegate.processFinish(500);
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            return responseCode;
-        }
-
-
-    }
     //endregion
 }
 

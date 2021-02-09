@@ -1,20 +1,6 @@
 package android_team.gymme_client.customer;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.gym.GymEditDataActivity;
-import android_team.gymme_client.gym.GymEditHoursActivity;
-import android_team.gymme_client.gym.menage_customer.CustomGymCustomerAdapter;
-import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
-import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
-import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.signup.SignupActivity;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android_team.gymme_client.support.MyApplication;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,14 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -42,7 +27,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class CustomerMyGymActivity extends AppCompatActivity {
+import android_team.gymme_client.R;
+import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.MyApplication;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class CustomerNewGymActivity extends AppCompatActivity {
     @BindView(R.id.tv_customer_my_gym_name)
     TextView _tv_customer_my_gym_name;
     @BindView(R.id.tv_customer_my_gym_address)
@@ -97,7 +89,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
     @BindView(R.id.check11)
     ImageView _check11;
 
-    private Button Esci, Disiscriviti;
+    private Button Esci, Iscriviti;
 
     Integer gym_id, user_id;
     private int pool, box_ring, aerobics, spa, wifi, parking_area, personal_trainer, nutritionist, impedance_balance, courses, showers;
@@ -130,15 +122,16 @@ public class CustomerMyGymActivity extends AppCompatActivity {
         } else {
             user_id = i.getIntExtra("user_id", -1);
             if (user_id == -1) {
-                Toast.makeText(this, "Gym non creata.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "User_id non creato.", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
         }
 
-        Log.e("USER, GYM", user_id + " " + gym_id);
+        Log.e("NA USER, GYM", user_id + " " + gym_id);
         Esci = (Button) findViewById(R.id.btn_my_gym_esci);
-        Disiscriviti = (Button) findViewById(R.id.btn_my_gym_disiscriviti);
+        Iscriviti = (Button) findViewById(R.id.btn_my_gym_disiscriviti);
+        Iscriviti.setText("ISCRIVITI");
 
         GetGymData();
 
@@ -153,10 +146,10 @@ public class CustomerMyGymActivity extends AppCompatActivity {
             }
         });
 
-        Disiscriviti.setOnClickListener(new View.OnClickListener() {
+        Iscriviti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unSuscribe();
+                iscriptionGym(user_id, String.valueOf(gym_id));
             }
         });
     }
@@ -164,13 +157,13 @@ public class CustomerMyGymActivity extends AppCompatActivity {
     // GET DATA
 
     private void GetGymData() {
-        CustomerMyGymActivity.GetGymDataConnection asyncTaskTrainer = (CustomerMyGymActivity.GetGymDataConnection) new CustomerMyGymActivity.GetGymDataConnection(new CustomerMyGymActivity.GetGymDataConnection.AsyncResponse() {
+        CustomerNewGymActivity.GetGymDataConnection asyncTaskTrainer = (CustomerNewGymActivity.GetGymDataConnection) new CustomerNewGymActivity.GetGymDataConnection(new CustomerNewGymActivity.GetGymDataConnection.AsyncResponse() {
             @Override
             public void processFinish(int _user_id, String _vat_number, String _gym_name, String _gym_address, String _zip_code, int _pool, int _box_ring, int _aerobics, int _spa, int _wifi, int _parking_area, int _personal_trainer, int _nutritionist, int _impedance_balance, int _courses, int _showers) {
 
                 if (_pool == -1) {
                     //Toast.makeText(CustomerMyGymActivity.this, "ERRORE CARICAMENTO DATI", Toast.LENGTH_SHORT).show();
-                    Intent new_i = new Intent(CustomerMyGymActivity.this, LoginActivity.class);
+                    Intent new_i = new Intent(CustomerNewGymActivity.this, LoginActivity.class);
                     startActivity(new_i);
                     finish();
                 } else if (_pool == 1 || _pool == 0) {
@@ -281,7 +274,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                 } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(CustomerMyGymActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CustomerNewGymActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -294,9 +287,9 @@ public class CustomerMyGymActivity extends AppCompatActivity {
             void processFinish(int _user_id, String _vat_number, String _gym_name, String _gym_address, String _zip_code, int _pool, int _box_ring, int _aerobics, int _spa, int _wifi, int _parking_area, int _personal_trainer, int _nutritionist, int _impedance_balance, int _courses, int _showers);
         }
 
-        public CustomerMyGymActivity.GetGymDataConnection.AsyncResponse delegate = null;
+        public CustomerNewGymActivity.GetGymDataConnection.AsyncResponse delegate = null;
 
-        public GetGymDataConnection(CustomerMyGymActivity.GetGymDataConnection.AsyncResponse delegate) {
+        public GetGymDataConnection(CustomerNewGymActivity.GetGymDataConnection.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -365,54 +358,59 @@ public class CustomerMyGymActivity extends AppCompatActivity {
 
     // LOGIC DISISCRIZIONE
 
-
-    private void unSuscribe() {
-        CustomerMyGymActivity.RemoveCustomerConncection asyncTask = (CustomerMyGymActivity.RemoveCustomerConncection) new CustomerMyGymActivity.RemoveCustomerConncection(new CustomerMyGymActivity.RemoveCustomerConncection.AsyncResponse() {
+    private void iscriptionGym(final Integer user_id, String gym_id) {
+        CustomerNewGymActivity.InsertGymConnection asyncTaskUser = (CustomerNewGymActivity.InsertGymConnection) new CustomerNewGymActivity.InsertGymConnection(new CustomerNewGymActivity.InsertGymConnection.AsyncResponse() {
             @Override
             public void processFinish(Integer output) {
-                if (output == 200) {
-                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+
+                if (output==200) {
+                    //DATI RICEVUTI
+                    runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(CustomerMyGymActivity.this, "SUCCESS, Palestra rimossa", Toast.LENGTH_SHORT).show();
-                            Log.e("REDIRECT", "Customer MyGyms Activity");
-                            Intent i = new Intent(getApplicationContext(), CustomerManageGymActivity.class);
-                            i.putExtra("user_id", user_id);
-                            startActivity(i);
+                            Toast.makeText(CustomerNewGymActivity.this, "Iscrizione avvenuta", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CustomerNewGymActivity.this, CustomerManageGymActivity.class);
+                            intent.putExtra("user_id",user_id);
+                            startActivity(intent);
                             finish();
+
                         }
                     });
+
                 } else {
-                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+                    // NESSUN DATO RICEVUTO PERCHE' NON C'è NESSUNA GYM DISPONIBILE
+                    runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CustomerNewGymActivity.this, "Errore iscrizione", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
-        }).execute(String.valueOf(user_id), String.valueOf(gym_id));
+
+        }).execute(String.valueOf(user_id), gym_id);
     }
 
-    public static class RemoveCustomerConncection extends AsyncTask<String, String, Integer> {
+    private static class InsertGymConnection extends AsyncTask<String, String, Integer> {
 
-        // you may separate this or combined to caller class.
         public interface AsyncResponse {
             void processFinish(Integer output);
         }
 
-        public CustomerMyGymActivity.RemoveCustomerConncection.AsyncResponse delegate = null;
+        public CustomerNewGymActivity.InsertGymConnection.AsyncResponse delegate = null;
 
-        public RemoveCustomerConncection(CustomerMyGymActivity.RemoveCustomerConncection.AsyncResponse delegate) {
+        public InsertGymConnection(CustomerNewGymActivity.InsertGymConnection.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
+        @SuppressLint("WrongThread")
         @Override
         protected Integer doInBackground(String... params) {
+
             URL url;
             HttpURLConnection urlConnection = null;
-            JsonObject user = null;
             int responseCode = 500;
+
             try {
-                url = new URL("http://10.0.2.2:4000/gym/delete_gym_customer/");
+                url = new URL("http://10.0.2.2:4000/customer/inscription");
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setConnectTimeout(5000);
@@ -435,28 +433,28 @@ public class CustomerMyGymActivity extends AppCompatActivity {
 
                 urlConnection.connect();
                 responseCode = urlConnection.getResponseCode();
-
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM CUSTOMER", "Cancellazione ok");
-                    responseCode = 200;
-                    delegate.processFinish(responseCode);
+
+                    Log.e("Server response", "HTTP_OK");
+
+
+                    //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
+                    delegate.processFinish(HttpURLConnection.HTTP_OK);
                 } else {
-                    Log.e("GYM CUSTOMER", "Error cancellazione");
-                    responseCode = 500;
-                    delegate.processFinish(responseCode);
-                    urlConnection.disconnect();
+                    Log.e("ISCRIPTION GYM", "SERVER ERROR");
+                    delegate.processFinish(500);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                responseCode = 69;
-                Log.e("GYM CUSTOMER", "Error I/O");
-                delegate.processFinish(responseCode);
+                Log.e("ISCRIPTION GYM", "I/O EXCEPTION ERROR");
+                delegate.processFinish(500);
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
             return responseCode;
         }
+
 
     }
 
