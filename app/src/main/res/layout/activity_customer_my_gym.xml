@@ -371,16 +371,16 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="ESCI" />
 
         <Button
-            android:id="@+id/btn_disiscriviti"
+            android:id="@+id/btn_my_gym_disiscriviti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="DISISCRIVITI" />
     </LinearLayout>
 
 

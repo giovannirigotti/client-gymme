@@ -99,7 +99,8 @@ public class CustomerManageGymActivity extends AppCompatActivity {
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                                     Intent intent = new Intent(getApplicationContext(), CustomerMyGymActivity.class);
-                                    intent.putExtra("user_id", Integer.parseInt(gym_list.get(i).user_id));
+                                    intent.putExtra("gym_id", Integer.parseInt(gym_list.get(i).user_id));
+                                    intent.putExtra("user_id", user_id);
                                     Log.e("gym_id before",  gym_list.get(i).user_id );
                                     startActivity(intent);
                                 }
