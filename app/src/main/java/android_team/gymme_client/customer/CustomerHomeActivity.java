@@ -55,6 +55,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
     @BindView(R.id.btn_customer_home_gym)
     Button _btn_customer_home_gym;
 
+    @BindView(R.id.btn_customer_home_course)
+    Button _btn_customer_home_course;
+
     @BindView(R.id.drawer_layout_home_activity)
     DrawerLayout drawerLayout;
     @BindView(R.id.main_toolbar_title)
@@ -118,6 +121,16 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
+
+        _btn_customer_home_course.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("REDIRECT", "Customer Manage Course Activity");
+                Intent i = new Intent(getApplicationContext(), CustomerManageCourseActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
 
         drawer_home_link.setPadding(20, 10, 20, 10);
         drawer_home_link.setBackground(getDrawable(R.drawable.rounded_rectangle));
