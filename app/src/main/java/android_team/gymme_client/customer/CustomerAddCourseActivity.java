@@ -2,6 +2,7 @@ package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.menage_course.CourseObject;
+import android_team.gymme_client.gym.menage_worker.GymAddTrainerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
@@ -12,9 +13,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,7 +40,9 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
     static CustomDisponibleCourseAdapter course_adapter;
     private static int user_id;
     static ListView lv_course;
+    EditText inputSearch;
     public static ArrayList<CourseObject> course_list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,23 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
 
         getCourse();
 
+
+        inputSearch = (EditText) findViewById(R.id.et_search_disponible_courses);
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                CustomerAddCourseActivity.this.course_adapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
 
     }
     private void getCourse() {
@@ -92,6 +115,10 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
             }
 
         }).execute(String.valueOf(user_id));
+    }
+
+    public static ArrayList<CourseObject> getAllCourses() {
+        return course_list;
     }
 
     private static class ReceiveCourseConn extends AsyncTask<String, String, JsonArray> {

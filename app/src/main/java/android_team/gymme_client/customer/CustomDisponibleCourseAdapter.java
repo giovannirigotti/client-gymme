@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,12 +34,15 @@ import java.util.ArrayList;
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.menage_course.CourseObject;
 import android_team.gymme_client.gym.menage_course.GymCourseActivity;
+import android_team.gymme_client.gym.menage_worker.GymAddTrainerActivity;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.support.MyApplication;
+import android_team.gymme_client.trainer.TrainerObject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject> {
+public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject>  implements Filterable {
     private static ArrayList<CourseObject> courses;
     private Activity context;
 
@@ -99,6 +104,46 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject> {
 
             btn_course_item_info = v.findViewById(R.id.btn_course_item_info);
         }
+    }
+
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<CourseObject> allCourse = CustomerAddCourseActivity.getAllCourses();
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = allCourse;
+                    results.count = allCourse.size();
+                } else {
+                    ArrayList<CourseObject> FilteredCourses = new ArrayList<CourseObject>();
+                    // perform your search here using the searchConstraint String.
+                    constraint = constraint.toString().toLowerCase();
+                    for (CourseObject t : courses) {
+                        String dataNames = t.getTitle();
+                        if (dataNames.toLowerCase().startsWith(constraint.toString())) {
+                            FilteredCourses.add(t);
+                        }
+                    }
+                    results.values = FilteredCourses;
+                    results.count = FilteredCourses.size();
+                    Log.e("VALUES", results.values.toString());
+                }
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                Log.e("TEST", results.values.toString());
+                courses = (ArrayList<CourseObject>) results.values;
+                notifyDataSetChanged();
+            }
+
+
+        };
+        return filter;
     }
 
 
