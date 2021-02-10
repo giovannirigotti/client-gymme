@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.gym.menage_worker.CustomGymTrainerAssumedAdapter;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
@@ -82,6 +83,14 @@ public class GymCourseActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("REDIRECT", "Gym Home Activity");
+        Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
+        i.putExtra("user_id", user_id);
+        startActivity(i);
     }
 
     private void loadCourses() {

@@ -30,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.nutritionist.NutritionistObject;
 import android_team.gymme_client.trainer.TrainerObject;
@@ -113,7 +114,14 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        Log.e("REDIRECT", "Gym Home Activity");
+        Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
+        i.putExtra("user_id", user_id);
+        startActivity(i);
     }
 
     //region GET DATA REGION
