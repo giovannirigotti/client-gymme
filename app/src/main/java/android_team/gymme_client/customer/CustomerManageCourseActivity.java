@@ -1,6 +1,7 @@
 package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.gym.GymObject;
 import android_team.gymme_client.gym.menage_course.CourseObject;
 
@@ -81,6 +82,17 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("REDIRECT", "Customer Home Activity");
+        Intent i = new Intent(getApplicationContext(), CustomerHomeActivity.class);
+        i.putExtra("user_id", user_id);
+        startActivity(i);
+    }
+
+
+
     private void getCourse() {
         CustomerManageCourseActivity.ReceiveCourseConn asyncTaskUser = (CustomerManageCourseActivity.ReceiveCourseConn) new CustomerManageCourseActivity.ReceiveCourseConn(new CustomerManageCourseActivity.ReceiveCourseConn.AsyncResponse() {
             @Override

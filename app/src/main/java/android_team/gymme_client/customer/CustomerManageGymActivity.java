@@ -1,6 +1,7 @@
 package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.gym.GymObject;
 import android_team.gymme_client.login.LoginActivity;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,6 +81,13 @@ public class CustomerManageGymActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.e("REDIRECT", "Customer Home Activity");
+        Intent i = new Intent(getApplicationContext(), CustomerHomeActivity.class);
+        i.putExtra("user_id", user_id);
+        startActivity(i);
+    }
 
     private void getGym() {
         CustomerManageGymActivity.ReceiveGymConnection asyncTaskUser = (CustomerManageGymActivity.ReceiveGymConnection) new CustomerManageGymActivity.ReceiveGymConnection(new CustomerManageGymActivity.ReceiveGymConnection.AsyncResponse() {

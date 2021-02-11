@@ -1,10 +1,13 @@
 package android_team.gymme_client.customer;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,10 +15,12 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.GymObject;
+import android_team.gymme_client.gym.menage_course.CourseObject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject> {
+public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject>  implements Filterable {
 
     private ArrayList<GymObject> gym;
     private Activity context;
@@ -24,6 +29,11 @@ public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject> {
         super(_context, R.layout.customer_gym_item, _gym);
         this.context = _context;
         this.gym = _gym;
+    }
+
+    @Override
+    public int getCount() {
+        return gym.size();
     }
 
     @NonNull
@@ -59,6 +69,49 @@ public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject> {
 
 
         }
+    }
+
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<GymObject> allGyms = CustomerAddGymActivity.getAllGyms();
+                if (constraint == null || constraint.length() == 0) {
+                    results.values = allGyms;
+                    results.count = allGyms.size();
+                } else {
+                    ArrayList<GymObject> FilteredGyms = new ArrayList<GymObject>();
+                    // perform your search here using the searchConstraint String.
+                    constraint = constraint.toString().toLowerCase();
+                    for (GymObject g : gym) {
+                        String dataNames = g.gym_name;
+
+                        Log.e("VALUES GYM NAME", g.gym_name);
+                        if (dataNames.toLowerCase().startsWith(constraint.toString())) {
+                            FilteredGyms.add(g);
+                            Log.e("ADD", g.gym_name);
+                        }
+                    }
+                    results.values = FilteredGyms;
+                    results.count = FilteredGyms.size();
+                    Log.e("VALUES", results.values.toString());
+                }
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                Log.e("TEST", results.values.toString());
+                gym = (ArrayList<GymObject>) results.values;
+                notifyDataSetChanged();
+            }
+
+
+        };
+        return filter;
     }
 }
 

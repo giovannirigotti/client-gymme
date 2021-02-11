@@ -2,6 +2,7 @@ package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.GymObject;
+import android_team.gymme_client.gym.menage_course.CourseObject;
 import android_team.gymme_client.login.LoginActivity;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -43,7 +46,7 @@ public class CustomerAddGymActivity extends AppCompatActivity {
 
     private int user_id;
     static CustomCustomerGymAdapter gym_adapter;
-
+    EditText inputSearch;
     ListView lv_gym;
 
     public static ArrayList<GymObject> gym_list;
@@ -70,10 +73,31 @@ public class CustomerAddGymActivity extends AppCompatActivity {
             }
         }
         lv_gym = (ListView) findViewById(R.id.lv_customer_disponible_gym);
+
         getGym();
+
+        inputSearch = (EditText) findViewById(R.id.et_search_disponible_gym);
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                CustomerAddGymActivity.this.gym_adapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+        });
 
     }
 
+    public static ArrayList<GymObject> getAllGyms() {
+        return gym_list;
+    }
 
     private void getGym() {
         CustomerAddGymActivity.ReceiveGymConnection asyncTaskUser = (CustomerAddGymActivity.ReceiveGymConnection) new CustomerAddGymActivity.ReceiveGymConnection(new CustomerAddGymActivity.ReceiveGymConnection.AsyncResponse() {
