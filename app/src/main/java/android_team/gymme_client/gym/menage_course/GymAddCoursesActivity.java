@@ -37,7 +37,6 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.GymHomeActivity;
-import android_team.gymme_client.gym.GymProfileActivity;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.MyApplication;

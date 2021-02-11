@@ -1,13 +1,7 @@
 package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.GymEditDataActivity;
-import android_team.gymme_client.gym.GymEditHoursActivity;
-import android_team.gymme_client.gym.menage_customer.CustomGymCustomerAdapter;
-import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
-import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.signup.SignupActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,14 +16,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

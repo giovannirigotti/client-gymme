@@ -8,17 +8,22 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.menage_course.GymAddCoursesActivity;
 import android_team.gymme_client.gym.menage_course.GymCourseActivity;
 import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
+import android_team.gymme_client.gym.menage_profile.GymProfileActivity;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 
 public class GymHomeActivity extends AppCompatActivity {
 
-    Button btn_profile, btn_corsi,btn_gestione_dipendenti, btn_gestione_clienti;
+
+    DrawerListener drawerListener;
+    DrawerLayout drawerLayout;
+    Button btn_profile, btn_corsi, btn_gestione_dipendenti, btn_gestione_clienti;
     private int user_id;
 
     @Override
@@ -41,6 +46,9 @@ public class GymHomeActivity extends AppCompatActivity {
                 startActivity(new_i);
             }
         }
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_home_activity);
+        drawerListener = new DrawerListener(this, user_id);
 
         btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
         btn_corsi = (Button) findViewById(R.id.btn_gym_home_corsi);
@@ -88,5 +96,39 @@ public class GymHomeActivity extends AppCompatActivity {
         });
 
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerListener.toHome();
+    }
+    //endregion
+
+
+
 
 }

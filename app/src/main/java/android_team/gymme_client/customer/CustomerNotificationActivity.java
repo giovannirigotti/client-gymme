@@ -1,16 +1,12 @@
 package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.GymEditDataActivity;
-import android_team.gymme_client.gym.GymProfileActivity;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.nutritionist.NutritionistProfileActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,12 +21,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;

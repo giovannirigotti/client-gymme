@@ -1,12 +1,9 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.nutritionist.NutritionistProfileActivity;
-import android_team.gymme_client.signup.GymSignupActivity3;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -16,7 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.Toast;
 

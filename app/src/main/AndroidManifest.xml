@@ -84,10 +84,10 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".gym.GymHomeActivity" />
         <activity
-            android:name=".gym.GymProfileActivity"
+            android:name=".gym.menage_profile.GymProfileActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".gym.GymEditDataActivity" />
-        <activity android:name=".gym.GymEditHoursActivity" />
+        <activity android:name=".gym.menage_profile.GymEditDataActivity" />
+        <activity android:name=".gym.menage_profile.GymEditHoursActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

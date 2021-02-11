@@ -1,4 +1,4 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -32,7 +31,6 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Iterator;
 
 public class GymEditHoursActivity extends AppCompatActivity {
 
