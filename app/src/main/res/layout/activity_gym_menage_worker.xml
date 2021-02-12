@@ -1,60 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_gym_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:orientation="vertical"
+    android:layout_gravity="left"
     tools:context=".gym.menage_worker.GymMenageWorkerActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Personal Trainers"
-        android:textColor="#191818"
-        android:textSize="18sp" />
-
-    <ListView
-        android:id="@+id/lv_menage_trainer"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginBottom="5dp">
+        android:layout_height="match_parent">
 
-    </ListView>
+        <include
+            android:id="@+id/include8"
+            layout="@layout/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/btn_menage_trainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Aggiungi Personal Trainer" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="52dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/include8"
+            tools:layout_editor_absoluteX="0dp">
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Personal Trainers"
+                android:textColor="#191818"
+                android:textSize="18sp" />
 
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Nutrizionisti"
-        android:textColor="#191818"
-        android:textSize="18sp" />
+            <ListView
+                android:id="@+id/lv_menage_trainer"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginBottom="5dp">
 
-    <ListView
-        android:id="@+id/lv_menage_nutritionist"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:layout_marginBottom="5dp" />
+            </ListView>
+
+            <Button
+                android:id="@+id/btn_menage_trainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aggiungi Personal Trainer" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Nutrizionisti"
+                android:textColor="#191818"
+                android:textSize="18sp" />
+
+            <ListView
+                android:id="@+id/lv_menage_nutritionist"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_marginBottom="5dp" />
 
 
-    <Button
-        android:id="@+id/btn_menage_nutritionist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Aggiungi Nutrizionista" />
-</LinearLayout>
+            <Button
+                android:id="@+id/btn_menage_nutritionist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aggiungi Nutrizionista" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#FFFFFF">
+
+        <include layout="@layout/gym_drawer"></include>
+
+    </RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

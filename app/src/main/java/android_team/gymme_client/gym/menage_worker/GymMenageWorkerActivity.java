@@ -2,6 +2,7 @@
 package android_team.gymme_client.gym.menage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -30,9 +32,11 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.DrawerListener;
 import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.nutritionist.NutritionistObject;
+import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymMenageWorkerActivity extends AppCompatActivity {
@@ -40,6 +44,11 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
     static Activity myContext;
 
     private static int user_id;
+
+    DrawerListener drawerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
+
     static CustomGymTrainerAssumedAdapter trainer_adapter;
     static CustomGymNutritionistAssumedAdapter nutritionist_adapter;
 
@@ -92,6 +101,11 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         btn_add_trainer = (Button) findViewById(R.id.btn_menage_trainer);
         btn_add_nutri = (Button) findViewById(R.id.btn_menage_nutritionist);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
+        drawerListener = new DrawerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("DIPENDENTI");
+
         getWorkerData();
 
         btn_add_trainer.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +137,37 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         i.putExtra("user_id", user_id);
         startActivity(i);
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerListener.toHome();
+    }
+    //endregion
 
     //region GET DATA REGION
     private void getWorkerData() {

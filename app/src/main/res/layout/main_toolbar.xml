@@ -23,8 +23,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center"
+        android:layout_marginLeft="5dp"
         android:text="Titolo"
         android:textColor="#FFFFFF"
-        android:textSize="25dp" />
+        android:textSize="22dp" />
 
 </LinearLayout>

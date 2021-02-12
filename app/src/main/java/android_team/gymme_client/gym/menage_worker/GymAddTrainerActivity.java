@@ -1,6 +1,7 @@
 package android_team.gymme_client.gym.menage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,8 +11,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -28,12 +31,19 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.DrawerListener;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymAddTrainerActivity extends AppCompatActivity {
 
     private int user_id;
+
+    DrawerListener drawerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
+
     public static ArrayList<TrainerObject> trainers_list;
     static CustomGymTrainerAdapter trainer_adapter;
     static ListView lv_trainer;
@@ -67,6 +77,11 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         lv_trainer = (ListView) findViewById(R.id.lv_free_trainers);
         inputSearch = (EditText) findViewById(R.id.et_search_trainer);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
+        drawerListener = new DrawerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("PERSONAL TRAIENRS");
+
         getTrainers();
 
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -85,6 +100,38 @@ public class GymAddTrainerActivity extends AppCompatActivity {
             }
         });
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerListener.toHome();
+    }
+    //endregion
+
     public static ArrayList<TrainerObject> getAllTrainers(){
         return trainers_list;
     };

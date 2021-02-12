@@ -1,6 +1,7 @@
 package android_team.gymme_client.gym.menage_worker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,8 +11,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -28,12 +31,19 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.DrawerListener;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.nutritionist.NutritionistObject;
+import android_team.gymme_client.support.Drawer;
 
 public class GymAddNutritionistActivity extends AppCompatActivity {
 
     private int user_id;
+
+    DrawerListener drawerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
+
     static CustomGymNutritionistAdapter nutritionist_adapter;
     EditText inputSearch;
     ListView lv_nutri;
@@ -65,6 +75,11 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         lv_nutri = (ListView) findViewById(R.id.lv_free_nutritionists);
         inputSearch = (EditText) findViewById(R.id.et_search_nutritionist);  //prendo logica funzionamento da GymAddTrainerActivity
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
+        drawerListener = new DrawerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("NUTRIZIONISTI");
+
         getNutritionists();
 
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -84,6 +99,36 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         });
     }
 
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerListener.toHome();
+    }
+    //endregion
 
     private void getNutritionists() {
         GymAddNutritionistActivity.ReceiveNutritionistsConn asyncTaskUser = (GymAddNutritionistActivity.ReceiveNutritionistsConn) new GymAddNutritionistActivity.ReceiveNutritionistsConn(new GymAddNutritionistActivity.ReceiveNutritionistsConn.AsyncResponse() {
