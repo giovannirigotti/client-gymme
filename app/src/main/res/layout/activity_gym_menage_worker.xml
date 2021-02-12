@@ -72,7 +72,7 @@
             <ListView
                 android:id="@+id/lv_menage_nutritionist"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="165dp"
                 android:layout_marginBottom="5dp" />
 
 

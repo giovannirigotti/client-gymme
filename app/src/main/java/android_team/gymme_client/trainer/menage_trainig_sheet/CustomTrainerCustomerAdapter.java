@@ -2,6 +2,7 @@ package android_team.gymme_client.trainer.menage_trainig_sheet;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -61,7 +62,7 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
         CustomTrainerCustomerAdapter.ViewHolder viewHolder = null;
         if (r == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
-            r = layoutInflater.inflate(R.layout.gym_trainer_assumed_item, null);
+            r = layoutInflater.inflate(R.layout.trainer_customer_item, null);
             viewHolder = new CustomTrainerCustomerAdapter.ViewHolder(r);
             r.setTag(viewHolder);
         } else {
@@ -81,7 +82,13 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
         viewHolder.btn_gym_trainer_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Visualizzo schede utente selezionato
+              Log.e("REDIRECT", "Trainer Training Sheet Customer Activity");
+                Intent i = new Intent(context, TrainerTrainingSheetCustomer.class);
+                Log.e("User_id", user_id);
+                i.putExtra("user_id", Integer.parseInt(user_id));
+                Log.e("Trainer_id",  ""+TrainerMenageTrainingSheet.getTrainerId());
+                i.putExtra("trainer_id", TrainerMenageTrainingSheet.getTrainerId());
+                context.startActivity(i);
             }
         });
         return r;
@@ -107,7 +114,7 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                ArrayList<CustomerSmallObject> allCustomers = GymCustomersActivity.getAllCustomers();
+                ArrayList<CustomerSmallObject> allCustomers = TrainerMenageTrainingSheet.getAllCustomers();
                 if (constraint == null || constraint.length() == 0) {
                     results.values = allCustomers;
                     results.count = allCustomers.size();
@@ -141,157 +148,5 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
         return filter;
     }
 
-    public void InfoCustomer(Activity a, String user_id, String name, String lastname, String email, String birthdate, Integer position) {
-        CustomTrainerCustomerAdapter.CustomDialogCustomerInfo cdd = new CustomTrainerCustomerAdapter.CustomDialogCustomerInfo(a, user_id, name, lastname, email, birthdate, position);
-        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        cdd.show();
-    }
 
-    private class CustomDialogCustomerInfo extends Dialog implements View.OnClickListener {
-
-        public Activity c;
-        public Button Rimouvi, Esci;
-        public TextView _name, _lastname, _email, _birthdate;
-        public String user_id, name, lastname, email, birthdate;
-        Integer position;
-
-        public CustomDialogCustomerInfo(Activity a, String user_id, String name, String lastname, String email, String birthdate, Integer position) {
-            super(a);
-            this.c = a;
-            this.user_id = user_id;
-            this.name = name;
-            this.lastname = lastname;
-            this.email = email;
-            this.birthdate= birthdate;
-            this.position = position;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-
-            super.onCreate(savedInstanceState);
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.dialog_info_costumer);
-            Rimouvi = (Button) findViewById(R.id.dialog_remove_customer);
-            Esci = (Button) findViewById(R.id.dialog_exit_from_info_cutomer);
-
-            _name = (TextView) findViewById(R.id.tv_dismiss_name);
-            _lastname = (TextView) findViewById(R.id.tv_dismiss_lastname);
-            _email = (TextView) findViewById(R.id.tv_dismiss_email);
-            _birthdate = (TextView) findViewById(R.id.tv_dismiss_birthdate);
-
-            _name.setText(name);
-            _lastname.setText(lastname);
-            _email.setText(email);
-            _birthdate.setText(birthdate.split("T")[0]);
-
-            Rimouvi.setOnClickListener(this);
-            Esci.setOnClickListener(this);
-        }
-
-
-        @Override
-        public void onClick(View v) {
-
-            switch (v.getId()) {
-                case R.id.dialog_remove_customer:
-                    CustomTrainerCustomerAdapter.RemoveCustomerConncection asyncTask = (CustomTrainerCustomerAdapter.RemoveCustomerConncection) new CustomTrainerCustomerAdapter.RemoveCustomerConncection(new CustomTrainerCustomerAdapter.RemoveCustomerConncection.AsyncResponse() {
-                        @Override
-                        public void processFinish(Integer output) {
-                            if (output == 200) {
-                                GymMenageWorkerActivity.runOnUI(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, Cliente rimosso", Toast.LENGTH_SHORT).show();
-                                        GymCustomersActivity.redirectManage(context);
-                                    }
-                                });
-                            } else {
-                                GymMenageWorkerActivity.runOnUI(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).execute(user_id, GymCustomersActivity.getGymId());
-                    dismiss();
-                    break;
-                case R.id.dialog_exit_from_info_cutomer:
-                    //
-                    dismiss();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-    }
-
-    public static class RemoveCustomerConncection extends AsyncTask<String, String, Integer> {
-
-        // you may separate this or combined to caller class.
-        public interface AsyncResponse {
-            void processFinish(Integer output);
-        }
-
-        public CustomTrainerCustomerAdapter.RemoveCustomerConncection.AsyncResponse delegate = null;
-
-        public RemoveCustomerConncection(CustomTrainerCustomerAdapter.RemoveCustomerConncection.AsyncResponse delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            URL url;
-            HttpURLConnection urlConnection = null;
-            JsonObject user = null;
-            int responseCode = 500;
-            try {
-                url = new URL("http://10.0.2.2:4000/gym/delete_gym_customer/");
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setConnectTimeout(5000);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                JsonObject paramsJson = new JsonObject();
-
-                paramsJson.addProperty("user_id", params[0]);
-                paramsJson.addProperty("gym_id", params[1]);
-
-                urlConnection.setDoOutput(true);
-
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(paramsJson.toString());
-                writer.flush();
-                writer.close();
-                os.close();
-
-                urlConnection.connect();
-                responseCode = urlConnection.getResponseCode();
-
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM CUSTOMER", "Cancellazione ok");
-                    responseCode = 200;
-                    delegate.processFinish(responseCode);
-                } else {
-                    Log.e("GYM CUSTOMER", "Error cancellazione");
-                    responseCode = 500;
-                    delegate.processFinish(responseCode);
-                    urlConnection.disconnect();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                responseCode = 69;
-                Log.e("GYM CUSTOMER", "Error I/O");
-                delegate.processFinish(responseCode);
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            return responseCode;
-        }
-
-    }
 }

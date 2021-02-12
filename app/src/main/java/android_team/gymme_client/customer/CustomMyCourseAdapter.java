@@ -1,4 +1,4 @@
-package android_team.gymme_client.customer;
+    package android_team.gymme_client.customer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

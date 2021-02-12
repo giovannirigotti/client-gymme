@@ -1,6 +1,10 @@
 package android_team.gymme_client.trainer.menage_trainig_sheet;
 
-import android_team.gymme_client.support.MyApplication;
+import android_team.gymme_client.R;
+import android_team.gymme_client.customer.CustomerSmallObject;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
+import android_team.gymme_client.trainer.DrawerTrainerListener;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -8,8 +12,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -30,38 +32,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.customer.CustomerSmallObject;
-import android_team.gymme_client.gym.DrawerGymListener;
-import android_team.gymme_client.gym.menage_customer.CustomGymCustomerAdapter;
-import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
-import android_team.gymme_client.gym.menage_worker.CustomGymTrainerAdapter;
-import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.Drawer;
-import android_team.gymme_client.trainer.DrawerTrainerListener;
-import android_team.gymme_client.trainer.TrainerObject;
+public class TrainerTrainingSheetCustomer extends AppCompatActivity {
 
-public class TrainerMenageTrainingSheet extends AppCompatActivity {
-
-    private static int user_id;
+    private int user_id, trainer_id;
 
     DrawerTrainerListener drawerTrainerListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
 
-    public static ArrayList<CustomerSmallObject> customer_list;
-    static CustomTrainerCustomerAdapter customer_adapter;
-    static ListView lv_customer;
-    EditText inputSearch;
-
-    public static int getTrainerId() {
-        return user_id;
-    }
+    public static ArrayList<TrainingSheetObject> sheet_list;
+    static CustomTrainerTrainingSheetCustomerAdapter training_sheet_adapter;
+    static ListView lv_training_sheets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainer_new_training_sheet);
+        setContentView(R.layout.activity_trainer_training_sheet_customer);
+
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
@@ -78,37 +65,32 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
             }
         }
 
-        lv_customer = (ListView) findViewById(R.id.lv_trainer_customer);
-        inputSearch = (EditText) findViewById(R.id.et_search_trainer_customer);
+        if (!i.hasExtra("trainer_id")) {
+            Toast.makeText(this, "trainer_id mancante", Toast.LENGTH_LONG).show();
+            Intent new_i = new Intent(this, LoginActivity.class);
+            startActivity(new_i);
+        } else {
+            trainer_id = i.getIntExtra("trainer_id", -1);
+            Log.w("trainer_id ricevuto:", String.valueOf(trainer_id));
+            if (trainer_id == -1) {
+                Toast.makeText(this, "Trainer non creato.", Toast.LENGTH_LONG).show();
+                Intent new_i = new Intent(this, LoginActivity.class);
+                startActivity(new_i);
+            }
+        }
+
+        lv_training_sheets = (ListView) findViewById(R.id.lv_trainer_training_sheet_customer);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
         tv_title.setText("SCHEDE ALLENAMENTI");
 
-        getTrainerCustomer();
 
-        inputSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                TrainerMenageTrainingSheet.this.customer_adapter.getFilter().filter(cs);
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-        });
     }
 
-    public static ArrayList<CustomerSmallObject> getAllCustomers() {
-        return customer_list;
-    }
-
+/*
     private void getTrainerCustomer() {
         TrainerMenageTrainingSheet.ReceiveCustomerConnection asyncTaskUser = (TrainerMenageTrainingSheet.ReceiveCustomerConnection) new TrainerMenageTrainingSheet.ReceiveCustomerConnection(new TrainerMenageTrainingSheet.ReceiveCustomerConnection.AsyncResponse() {
             @Override
@@ -228,6 +210,8 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
             return response.toString();
         }
     }
+*/
+
 
     //region DRAWER
     @Override
