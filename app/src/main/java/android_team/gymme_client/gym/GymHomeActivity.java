@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +21,10 @@ import android_team.gymme_client.support.Drawer;
 
 public class GymHomeActivity extends AppCompatActivity {
 
-
     DrawerListener drawerListener;
     DrawerLayout drawerLayout;
+    TextView tv_title;
+
     Button btn_profile, btn_corsi, btn_gestione_dipendenti, btn_gestione_clienti;
     private int user_id;
 
@@ -47,8 +49,10 @@ public class GymHomeActivity extends AppCompatActivity {
             }
         }
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_home_activity);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerListener = new DrawerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("GYM HOME");
 
         btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
         btn_corsi = (Button) findViewById(R.id.btn_gym_home_corsi);
@@ -127,8 +131,5 @@ public class GymHomeActivity extends AppCompatActivity {
         drawerListener.toHome();
     }
     //endregion
-
-
-
 
 }

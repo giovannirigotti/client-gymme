@@ -1,6 +1,7 @@
 package android_team.gymme_client.gym.menage_customer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,8 +11,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -29,17 +32,23 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.customer.CustomerSmallObject;
+import android_team.gymme_client.gym.DrawerListener;
 import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.gym.menage_worker.CustomGymTrainerAdapter;
 import android_team.gymme_client.gym.menage_worker.GymAddTrainerActivity;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.support.MyApplication;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymCustomersActivity extends AppCompatActivity {
 
     private static int user_id;
+
+    DrawerListener drawerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
 
     ListView lv_clienti;
     EditText et_search_client;
@@ -100,14 +109,49 @@ public class GymCustomersActivity extends AppCompatActivity {
 
         lista_clienti = new ArrayList<>();
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
+        drawerListener = new DrawerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("GYM HOME");
+
 
     }
 
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerListener.toHome();
+    }
+    //endregion
+    
     public static ArrayList<CustomerSmallObject> getAllCustomers() {
         return lista_clienti;
     }
 
-    ;
 
     private void getCustomers() {
         GymCustomersActivity.ReceiveCustomerConnection asyncTaskUser = (GymCustomersActivity.ReceiveCustomerConnection) new GymCustomersActivity.ReceiveCustomerConnection(new GymCustomersActivity.ReceiveCustomerConnection.AsyncResponse() {

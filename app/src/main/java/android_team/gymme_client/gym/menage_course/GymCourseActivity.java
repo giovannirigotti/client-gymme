@@ -1,6 +1,7 @@
 package android_team.gymme_client.gym.menage_course;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -27,10 +29,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.DrawerListener;
 import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.gym.menage_worker.CustomGymTrainerAssumedAdapter;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymCourseActivity extends AppCompatActivity {
@@ -39,6 +43,10 @@ public class GymCourseActivity extends AppCompatActivity {
 
     static ArrayList<CourseObject> courses_list;
     static CustomCourseAdapter course_adapter;
+
+    DrawerListener drawerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
 
     static ListView lv_my_courses;
     private Button btn_create_course;
@@ -68,6 +76,11 @@ public class GymCourseActivity extends AppCompatActivity {
         //inizializzo
         lv_my_courses = (ListView) findViewById(R.id.lv_my_courses);
         btn_create_course = (Button) findViewById(R.id.btn_create_course);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
+        drawerListener = new DrawerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("GYM COURSE");
         
         //carico corsi
         loadCourses();
@@ -92,6 +105,37 @@ public class GymCourseActivity extends AppCompatActivity {
         i.putExtra("user_id", user_id);
         startActivity(i);
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerListener.toHome();
+    }
+    //endregion
 
     private void loadCourses() {
         GymCourseActivity.ReceiveCourseConn asyncTaskUser = (GymCourseActivity.ReceiveCourseConn) new GymCourseActivity.ReceiveCourseConn(new GymCourseActivity.ReceiveCourseConn.AsyncResponse() {
