@@ -16,6 +16,7 @@ public class DrawerTrainerListener {
         this.user_id = user_id;
     }
 
+
     public void toTrainingSheet() {
         redirectActivity(activity, TrainerMenageTrainingSheet.class);
     }
