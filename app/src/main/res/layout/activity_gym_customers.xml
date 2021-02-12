@@ -1,33 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_gym_activity"
     android:layout_width="match_parent"
-    android:padding="15dp"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".gym.menage_customer.GymCustomersActivity">
+    android:layout_gravity="left"
+    tools:context=".gym.GymHomeActivity">
 
-    <TextView
-        android:id="@+id/textView23"
-        android:padding="5dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lista clienti"
-        android:textAlignment="center"
-        android:textColor="#252121"
-        android:textSize="20sp" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/et_search_cliente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Ricerca clienti per nome"
-        android:inputType="textPersonName" />
+        <include
+            android:id="@+id/include4"
+            layout="@layout/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <ListView
-        android:id="@+id/lv_clienti_palestra"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="48dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/include4"
+            tools:context=".gym.menage_customer.GymCustomersActivity"
+            tools:layout_editor_absoluteX="-16dp">
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Lista clienti"
+                android:textAlignment="center"
+                android:textColor="#252121"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/et_search_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Ricerca clienti per nome"
+                android:inputType="textPersonName" />
+
+            <ListView
+                android:id="@+id/lv_clienti_palestra"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#FFFFFF">
+
+        <include layout="@layout/gym_drawer"></include>
+
+    </RelativeLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

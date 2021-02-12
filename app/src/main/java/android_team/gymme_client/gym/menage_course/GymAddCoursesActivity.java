@@ -92,7 +92,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerListener = new DrawerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("GYM COURSE");
+        tv_title.setText("CORSI");
 
         // Initialize and associates Wies
         lv_trainer = (ListView) findViewById(R.id.lv_course_trainer);
