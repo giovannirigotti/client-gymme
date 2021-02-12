@@ -1,9 +1,12 @@
 package android_team.gymme_client.gym.menage_profile;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.DrawerListener;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.support.Utili;
 
 import android.app.Activity;
@@ -38,6 +41,10 @@ import java.net.URL;
 public class GymProfileActivity extends AppCompatActivity {
 
     private int user_id;
+
+    DrawerListener drawerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
 
     TextView tv_gym_nome, tv_gym_cognome, tv_gym_nascita, tv_gym_email;
     String nome, cognome, nascita, email;
@@ -74,6 +81,11 @@ public class GymProfileActivity extends AppCompatActivity {
         btn_gym_orari = (Button) findViewById(R.id.btn_gym_orari);
         btn_gym_dati_palestra = (Button) findViewById(R.id.btn_gym_dati_palestra);
         btn_gym_logout = (Button) findViewById(R.id.btn_gym_logout);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
+        drawerListener = new DrawerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("PROFILO");
 
         //Get User Data & Customer Data from DB
         GetDataSetView(user_id);
@@ -126,6 +138,37 @@ public class GymProfileActivity extends AppCompatActivity {
 
 
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerListener.toHome();
+    }
+    //endregion
 
     //USER DATA
     private void GetDataSetView(int user_id) {
