@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_rectangle"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Info Scheda"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/dialog_sheet_info_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Titolo"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_dialog_sheet_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome"/>
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descrizione:"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dialog_sheet_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descrizione" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Giorno creazione: "
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dialog_sheet_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Numero giorni:"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dialog_sheet_number_of_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="number of days" />
+
+    <TextView
+        android:id="@+id/dialog_confirm_user_type_text7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scheda fatta da:"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_dialog_sheet_trainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Trainer" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dialog_exit_from_info_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ESCI"
+            app:cornerRadius="30dp" />
+
+    </LinearLayout>
+</LinearLayout>

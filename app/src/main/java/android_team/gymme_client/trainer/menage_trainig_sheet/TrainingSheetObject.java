@@ -10,9 +10,11 @@ public class TrainingSheetObject {
     private String description;
     private String number_of_days;
     private String strength;
+    private String name;
+    private String lastname;
 
 
-    public TrainingSheetObject(String training_sheet_id, String customer_id, String trainer_id, String creation_date, String title, String description, String number_of_days, String strength) {
+    public TrainingSheetObject(String training_sheet_id, String customer_id, String trainer_id, String creation_date, String title, String description, String number_of_days, String strength, String name, String lastname) {
         this.training_sheet_id = training_sheet_id;
         this.customer_id = customer_id;
         this.trainer_id = trainer_id;
@@ -21,6 +23,8 @@ public class TrainingSheetObject {
         this.description = description;
         this.number_of_days = number_of_days;
         this.strength = strength;
+        this.name = name;
+        this.lastname = lastname;
     }
 
 
@@ -88,6 +92,22 @@ public class TrainingSheetObject {
         this.strength = strength;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     @Override
     public String toString() {
         return "TrainingSheetObject{" +
@@ -99,6 +119,8 @@ public class TrainingSheetObject {
                 ", description='" + description + '\'' +
                 ", number_of_days='" + number_of_days + '\'' +
                 ", strength='" + strength + '\'' +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
                 '}';
     }
 }

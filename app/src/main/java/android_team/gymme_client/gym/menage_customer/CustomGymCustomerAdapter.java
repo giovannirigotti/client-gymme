@@ -75,6 +75,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         final String email = customers.get(position).getEmail();
         final String birthdate = customers.get(position).getBirthdate();
 
+
         viewHolder.tv_gym_trainer_name.setText(name);
         viewHolder.tv_gym_trainer_lastname.setText(lastname);
         viewHolder.tv_gym_trainer_email.setText(email);

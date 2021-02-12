@@ -76,15 +76,17 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
         final String description = sheets.get(position).getDescription();
         final String number_of_days = sheets.get(position).getNumber_of_days();
         final String strength = sheets.get(position).getStrength();
+        final String name = sheets.get(position).getName();
+        final String lastname = sheets.get(position).getLastname();
 
         viewHolder.tv_title.setText(title);
         viewHolder.tv_date.setText(creation_date);
-        viewHolder.tv_days.setText(number_of_days);
+        viewHolder.tv_days.setText("Numero giorni: " + number_of_days);
 
         viewHolder.btn_sheet_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                InfoSheet(context, training_sheet_id, customer_id, trainer_id, creation_date, title, description, number_of_days, strength, name, lastname,  position);
             }
         });
         return r;
@@ -103,28 +105,42 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
     }
 
 
-    public void InfoCustomer(Activity a, String user_id, String name, String lastname, String email, String birthdate, Integer position) {
-        CustomTrainerTrainingSheetCustomerAdapter.CustomDialogCustomerInfo cdd = new CustomTrainerTrainingSheetCustomerAdapter.CustomDialogCustomerInfo(a, user_id, name, lastname, email, birthdate, position);
+    public void InfoSheet(Activity a, String training_sheet_id, String customer_id, String trainer_id, String creation_date, String title, String description, String number_of_days, String strength, String name, String lastname, Integer position) {
+        CustomTrainerTrainingSheetCustomerAdapter.CustomDialogSheetInfo cdd = new CustomTrainerTrainingSheetCustomerAdapter.CustomDialogSheetInfo(a, training_sheet_id, customer_id, trainer_id, creation_date, title, description, number_of_days, strength, name, lastname,  position);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
     }
 
-    private class CustomDialogCustomerInfo extends Dialog implements View.OnClickListener {
+    private class CustomDialogSheetInfo extends Dialog implements View.OnClickListener {
 
         public Activity c;
-        public Button Rimouvi, Esci;
-        public TextView _name, _lastname, _email, _birthdate;
-        public String user_id, name, lastname, email, birthdate;
+        public Button Esci;
+        public TextView _creation_date, _title, _description, _numberOfDay, _trainer;
+        private String training_sheet_id;
+        private String customer_id;
+        private String trainer_id;
+        private String creation_date;
+        private String title;
+        private String description;
+        private String number_of_days;
+        private String strength;
+        private String name;
+        private String lastname;
         Integer position;
 
-        public CustomDialogCustomerInfo(Activity a, String user_id, String name, String lastname, String email, String birthdate, Integer position) {
+        public CustomDialogSheetInfo(Activity a, String training_sheet_id, String customer_id, String trainer_id, String creation_date, String title, String description, String number_of_days, String strength, String name, String lastname, Integer position)  {
             super(a);
             this.c = a;
-            this.user_id = user_id;
+            this.training_sheet_id = training_sheet_id;
+            this.customer_id = customer_id;
+            this.trainer_id = trainer_id;
+            this.creation_date = creation_date.split("T")[0];
+            this.title = title;
+            this.description = description;
+            this.number_of_days = number_of_days;
+            this.strength = strength;
             this.name = name;
             this.lastname = lastname;
-            this.email = email;
-            this.birthdate= birthdate;
             this.position = position;
         }
 
@@ -133,21 +149,21 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
 
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
-            setContentView(R.layout.dialog_info_costumer);
-            Rimouvi = (Button) findViewById(R.id.dialog_remove_customer);
-            Esci = (Button) findViewById(R.id.dialog_exit_from_info_cutomer);
+            setContentView(R.layout.dialog_info_sheet);
+            Esci = (Button) findViewById(R.id.dialog_exit_from_info_sheet);
 
-            _name = (TextView) findViewById(R.id.tv_dismiss_name);
-            _lastname = (TextView) findViewById(R.id.tv_dismiss_lastname);
-            _email = (TextView) findViewById(R.id.tv_dismiss_email);
-            _birthdate = (TextView) findViewById(R.id.tv_dismiss_birthdate);
+            _title = (TextView) findViewById(R.id.dialog_sheet_info_title);
+            _description = (TextView) findViewById(R.id.tv_dialog_sheet_description);
+            _creation_date = (TextView) findViewById(R.id.tv_dialog_sheet_date);
+            _numberOfDay = (TextView) findViewById(R.id.tv_dialog_sheet_number_of_days);
+            _trainer = (TextView) findViewById(R.id.tv_dialog_sheet_trainer);
 
-            _name.setText(name);
-            _lastname.setText(lastname);
-            _email.setText(email);
-            _birthdate.setText(birthdate.split("T")[0]);
+            _title.setText(title);
+            _description.setText(description);
+            _numberOfDay.setText(number_of_days);
+            _creation_date.setText(creation_date);
+            _trainer.setText(name + " " + lastname);
 
-            Rimouvi.setOnClickListener(this);
             Esci.setOnClickListener(this);
         }
 
@@ -156,29 +172,7 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
         public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.dialog_remove_customer:
-                    CustomTrainerTrainingSheetCustomerAdapter.RemoveCustomerConncection asyncTask = (CustomTrainerTrainingSheetCustomerAdapter.RemoveCustomerConncection) new CustomTrainerTrainingSheetCustomerAdapter.RemoveCustomerConncection(new CustomTrainerTrainingSheetCustomerAdapter.RemoveCustomerConncection.AsyncResponse() {
-                        @Override
-                        public void processFinish(Integer output) {
-                            if (output == 200) {
-                                GymMenageWorkerActivity.runOnUI(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, Cliente rimosso", Toast.LENGTH_SHORT).show();
-                                        GymCustomersActivity.redirectManage(context);
-                                    }
-                                });
-                            } else {
-                                GymMenageWorkerActivity.runOnUI(new Runnable() {
-                                    public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    }).execute(user_id, GymCustomersActivity.getGymId());
-                    dismiss();
-                    break;
-                case R.id.dialog_exit_from_info_cutomer:
+                case R.id.dialog_exit_from_info_sheet:
                     //
                     dismiss();
                     break;
@@ -189,71 +183,4 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
 
     }
 
-    public static class RemoveCustomerConncection extends AsyncTask<String, String, Integer> {
-
-        // you may separate this or combined to caller class.
-        public interface AsyncResponse {
-            void processFinish(Integer output);
-        }
-
-        public CustomTrainerTrainingSheetCustomerAdapter.RemoveCustomerConncection.AsyncResponse delegate = null;
-
-        public RemoveCustomerConncection(CustomTrainerTrainingSheetCustomerAdapter.RemoveCustomerConncection.AsyncResponse delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        protected Integer doInBackground(String... params) {
-            URL url;
-            HttpURLConnection urlConnection = null;
-            JsonObject user = null;
-            int responseCode = 500;
-            try {
-                url = new URL("http://10.0.2.2:4000/gym/delete_gym_customer/");
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setConnectTimeout(5000);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-
-                JsonObject paramsJson = new JsonObject();
-
-                paramsJson.addProperty("user_id", params[0]);
-                paramsJson.addProperty("gym_id", params[1]);
-
-                urlConnection.setDoOutput(true);
-
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(paramsJson.toString());
-                writer.flush();
-                writer.close();
-                os.close();
-
-                urlConnection.connect();
-                responseCode = urlConnection.getResponseCode();
-
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM CUSTOMER", "Cancellazione ok");
-                    responseCode = 200;
-                    delegate.processFinish(responseCode);
-                } else {
-                    Log.e("GYM CUSTOMER", "Error cancellazione");
-                    responseCode = 500;
-                    delegate.processFinish(responseCode);
-                    urlConnection.disconnect();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                responseCode = 69;
-                Log.e("GYM CUSTOMER", "Error I/O");
-                delegate.processFinish(responseCode);
-            } finally {
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-            return responseCode;
-        }
-
-    }
 }

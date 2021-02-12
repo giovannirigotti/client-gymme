@@ -86,23 +86,23 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
         tv_title.setText("SCHEDE ALLENAMENTI");
 
-
+        getSheetInfo();
 
     }
 
-/*
-    private void getTrainerCustomer() {
-        TrainerMenageTrainingSheet.ReceiveCustomerConnection asyncTaskUser = (TrainerMenageTrainingSheet.ReceiveCustomerConnection) new TrainerMenageTrainingSheet.ReceiveCustomerConnection(new TrainerMenageTrainingSheet.ReceiveCustomerConnection.AsyncResponse() {
+
+    private void getSheetInfo() {
+        TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection asyncTaskUser = (TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection) new TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection(new TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection.AsyncResponse() {
             @Override
-            public void processFinish(ArrayList<CustomerSmallObject> customers) {
-                customer_list = customers;
-                if (customer_list.size() > 0) {
+            public void processFinish(final ArrayList<TrainingSheetObject> sheets) {
+                sheet_list = sheets;
+                if (sheet_list.size() > 0) {
                     //DATI RICEVUTI
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //setto tramite l'adapter la lista dei trainer da visualizzare nella recycler view(notificationView)
-                            customer_adapter = new CustomTrainerCustomerAdapter(TrainerMenageTrainingSheet.this, customer_list);
-                            lv_customer.setAdapter(customer_adapter);
+                            training_sheet_adapter = new CustomTrainerTrainingSheetCustomerAdapter(TrainerTrainingSheetCustomer.this, sheet_list);
+                            lv_training_sheets.setAdapter(training_sheet_adapter);
 
                         }
                     });
@@ -110,7 +110,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(TrainerMenageTrainingSheet.this, "Nessun cliente nella tua palestra", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TrainerTrainingSheetCustomer.this, "Nessuna scheda di allenamento", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -119,15 +119,15 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
         }).execute(String.valueOf(user_id));
     }
 
-    private static class ReceiveCustomerConnection extends AsyncTask<String, String, JsonArray> {
+    private static class ReceiveTrainingSheetConnection extends AsyncTask<String, String, JsonArray> {
 
         public interface AsyncResponse {
-            void processFinish(ArrayList<CustomerSmallObject> customers);
+            void processFinish(ArrayList<TrainingSheetObject> customers);
         }
 
-        public TrainerMenageTrainingSheet.ReceiveCustomerConnection.AsyncResponse delegate = null;
+        public TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection.AsyncResponse delegate = null;
 
-        public ReceiveCustomerConnection(TrainerMenageTrainingSheet.ReceiveCustomerConnection.AsyncResponse delegate) {
+        public ReceiveTrainingSheetConnection(TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection.AsyncResponse delegate) {
             this.delegate = delegate;
         }
 
@@ -137,11 +137,11 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
 
             URL url;
             HttpURLConnection urlConnection = null;
-            JsonArray _customers = null;
-            ArrayList<CustomerSmallObject> t_objects = new ArrayList<CustomerSmallObject>();
+            JsonArray _sheets = null;
+            ArrayList<TrainingSheetObject> t_objects = new ArrayList<TrainingSheetObject>();
 
             try {
-                url = new URL("http://10.0.2.2:4000/trainer/get_customers/" + params[0]);
+                url = new URL("http://10.0.2.2:4000/trainer/get_training_sheets_customer/" + params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(5000);
@@ -153,18 +153,24 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
 
                     Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    _customers = JsonParser.parseString(responseString).getAsJsonArray();
+                    _sheets = JsonParser.parseString(responseString).getAsJsonArray();
 
-                    for (int i = 0; i < _customers.size(); i++) {
-                        JsonObject customer = (JsonObject) _customers.get(i);
+                    for (int i = 0; i < _sheets.size(); i++) {
+                        JsonObject sheet = (JsonObject) _sheets.get(i);
 
-                        String user_id = customer.get("user_id").getAsString().trim();
-                        String name = customer.get("name").getAsString().trim();
-                        String lastname = customer.get("lastname").getAsString().trim();
-                        String email = customer.get("email").getAsString().trim();
-                        String birthdate = customer.get("birthdate").getAsString().trim();
+                        String training_sheet_id = sheet.get("training_sheet_id").getAsString().trim();
+                        String customer_id = sheet.get("customer_id").getAsString().trim();
+                        String trainer_id = sheet.get("trainer_id").getAsString().trim();
+                        String creation_date = sheet.get("creation_date").getAsString().trim();
+                        String title = sheet.get("title").getAsString().trim();
+                        String description = sheet.get("description").getAsString().trim();
+                        String number_of_days = sheet.get("number_of_days").getAsString().trim();
+                        String strength = sheet.get("strength").getAsString().trim();
+                        String name = sheet.get("name").getAsString().trim();
+                        String lastname = sheet.get("lastname").getAsString().trim();
 
-                        CustomerSmallObject t_obj = new CustomerSmallObject(user_id, name, lastname, email, birthdate);
+
+                        TrainingSheetObject t_obj = new TrainingSheetObject(training_sheet_id, customer_id, trainer_id, creation_date, title, description, number_of_days, strength, name, lastname);
                         t_objects.add(t_obj);
 
                     }
@@ -173,7 +179,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     Log.e("GET CUSTOMERS", "response: HTTP_NOT_FOUND");
-                    delegate.processFinish(new ArrayList<CustomerSmallObject>());
+                    delegate.processFinish(new ArrayList<TrainingSheetObject>());
                 } else {
                     Log.e("GET CUSTOMERS", "SERVER ERROR");
                 }
@@ -184,7 +190,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
-            return _customers;
+            return _sheets;
         }
 
         private String readStream(InputStream in) throws UnsupportedEncodingException {
@@ -210,7 +216,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
             return response.toString();
         }
     }
-*/
+
 
 
     //region DRAWER
