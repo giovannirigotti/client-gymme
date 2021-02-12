@@ -10,12 +10,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.customer.CustomerProfileActivity;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.trainer.menage_trainig_sheet.TrainerMenageTrainingSheet;
 
 public class TrainerHomeActivity extends AppCompatActivity {
 
-    Button btn_profile;
+    Button btn_profile, btn_training_sheet;
     private int user_id;
 
     @Override
@@ -40,12 +40,23 @@ public class TrainerHomeActivity extends AppCompatActivity {
         }
 
         btn_profile = (Button) findViewById(R.id.btn_trainer_home_profile);
+        btn_profile = (Button) findViewById(R.id.btn_trainer_training_sheet);
 
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("REDIRECT", "Trainer Profile Activity");
                 Intent i = new Intent(getApplicationContext(), TrainerProfileActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+        btn_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Trainer Training Sheet Activity");
+                Intent i = new Intent(getApplicationContext(), TrainerMenageTrainingSheet.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }

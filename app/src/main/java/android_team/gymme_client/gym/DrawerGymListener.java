@@ -8,12 +8,12 @@ import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
 import android_team.gymme_client.gym.menage_profile.GymProfileActivity;
 import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 
-public class DrawerListener {
+public class DrawerGymListener {
 
     Activity activity;
     Integer user_id;
 
-    public DrawerListener(Activity activity, Integer user_id) {
+    public DrawerGymListener(Activity activity, Integer user_id) {
         this.activity = activity;
         this.user_id = user_id;
     }

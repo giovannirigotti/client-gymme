@@ -29,13 +29,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.DrawerListener;
+import android_team.gymme_client.gym.DrawerGymListener;
 import android_team.gymme_client.gym.GymHomeActivity;
-import android_team.gymme_client.gym.menage_worker.CustomGymTrainerAssumedAdapter;
-import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
-import android_team.gymme_client.trainer.TrainerObject;
 
 public class GymCourseActivity extends AppCompatActivity {
 
@@ -44,7 +41,7 @@ public class GymCourseActivity extends AppCompatActivity {
     static ArrayList<CourseObject> courses_list;
     static CustomCourseAdapter course_adapter;
 
-    DrawerListener drawerListener;
+    DrawerGymListener drawerGymListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
 
@@ -78,7 +75,7 @@ public class GymCourseActivity extends AppCompatActivity {
         btn_create_course = (Button) findViewById(R.id.btn_create_course);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
-        drawerListener = new DrawerListener(this, user_id);
+        drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
         tv_title.setText("CORSI");
         
@@ -121,19 +118,19 @@ public class GymCourseActivity extends AppCompatActivity {
     }
 
     public void gymToCorsi(View view){
-        drawerListener.toCourse();
+        drawerGymListener.toCourse();
     }
     public void gymToClienti(View view){
-        drawerListener.toCustomer();
+        drawerGymListener.toCustomer();
     }
     public void gymToDipendenti(View view){
-        drawerListener.toEmployees();
+        drawerGymListener.toEmployees();
     }
     public void gymToProfilo(View view){
-        drawerListener.toProfile();
+        drawerGymListener.toProfile();
     }
     public void gymToHome(View view){
-        drawerListener.toHome();
+        drawerGymListener.toHome();
     }
     //endregion
 

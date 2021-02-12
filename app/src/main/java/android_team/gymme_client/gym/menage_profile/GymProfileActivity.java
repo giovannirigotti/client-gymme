@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.DrawerListener;
+import android_team.gymme_client.gym.DrawerGymListener;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.support.Utili;
@@ -42,7 +42,7 @@ public class GymProfileActivity extends AppCompatActivity {
 
     private int user_id;
 
-    DrawerListener drawerListener;
+    DrawerGymListener drawerGymListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
 
@@ -83,7 +83,7 @@ public class GymProfileActivity extends AppCompatActivity {
         btn_gym_logout = (Button) findViewById(R.id.btn_gym_logout);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
-        drawerListener = new DrawerListener(this, user_id);
+        drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
         tv_title.setText("PROFILO");
 
@@ -154,19 +154,19 @@ public class GymProfileActivity extends AppCompatActivity {
     }
 
     public void gymToCorsi(View view){
-        drawerListener.toCourse();
+        drawerGymListener.toCourse();
     }
     public void gymToClienti(View view){
-        drawerListener.toCustomer();
+        drawerGymListener.toCustomer();
     }
     public void gymToDipendenti(View view){
-        drawerListener.toEmployees();
+        drawerGymListener.toEmployees();
     }
     public void gymToProfilo(View view){
-        drawerListener.toProfile();
+        drawerGymListener.toProfile();
     }
     public void gymToHome(View view){
-        drawerListener.toHome();
+        drawerGymListener.toHome();
     }
     //endregion
 
