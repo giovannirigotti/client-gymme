@@ -42,23 +42,33 @@ import android_team.gymme_client.trainer.DrawerTrainerListener;
 import android_team.gymme_client.trainer.TrainerProfileActivity;
 
 public class TrainerCreateSingleDayActivity extends AppCompatActivity {
+
+    private int user_id, seq, sheet_id;
+
     DrawerTrainerListener drawerTrainerListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
     Button btn_add_exercise, btn_end;
-    ArrayList<ExerciseObject> exercise_list;
 
     //DIALOG
+    ArrayList<ExerciseObject> exercise_list;
     static TextView tv_dialog;
     static CustomExerciseAdapter exercise_adapter;
     static ListView lv_exercise;
-    private int user_id, seq, sheet_id;
+    static Integer exercise_id;
 
+    //LISTVIEW ESERCIZI E RIPETIZIONI
+    static ArrayList<CompleteExerciseObject> complete_list;
+    static CustomCompleteExerciseAdapter complete_adapter;
+    static ListView lv_complete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_create_single_day);
+
+        complete_list = new ArrayList<>();
+        lv_complete = (ListView) findViewById(R.id.lv_create_days);
 
         //region CHET INTENT EXTRAS
         Intent i = getIntent();
@@ -119,11 +129,23 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
                 InsertExercise(TrainerCreateSingleDayActivity.this, user_id);
             }
         });
+
+        btn_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //BLOCCO BOTTONE
+                TrainerCreateDaysActivity.blockButton();
+                //DO PER VERO CHE CRO IL GIORNO
+                TrainerCreateDaysActivity.checkDayOK();
+                finish();
+            }
+        });
     }
 
 
     public static void selectExercise(ExerciseObject exerciseObject) {
         tv_dialog.setText(exerciseObject.getName());
+        exercise_id = Integer.parseInt(exerciseObject.getExercise_id());
     }
 
     private void InsertExercise(Activity a, int user_id) {
@@ -138,8 +160,6 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
         public Button Inserisci, Esci;
         public EditText repetitions;
         public Integer user_id;
-
-
 
         public CustomDialogoSelectExercise(Activity a, Integer user_id) {
             super(a);
@@ -157,25 +177,26 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
             repetitions = (EditText) findViewById(R.id.et_dialog_insert_repetitions);
             lv_exercise = (ListView) findViewById(R.id.lv_select_exercise);
             tv_dialog = (TextView) findViewById(R.id.tv_selected_exercise);
+
             getExercises();
-
-
 
             Inserisci.setOnClickListener(this);
             Esci.setOnClickListener(this);
 
-
         }
-
-
-
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.dialog_confirm_exercise_yes:
-
-                    dismiss();
+                    if (checkData()) {
+                        //CREO NUOVO OGGETTO DA INSERIRE NEGLI ESERCIZI DI UNA GIORNATA
+                        CompleteExerciseObject to_add = new CompleteExerciseObject(String.valueOf(sheet_id), String.valueOf(seq), repetitions.getText().toString(), String.valueOf(exercise_id), tv_dialog.getText().toString());
+                        complete_list.add(to_add);
+                        complete_adapter = new CustomCompleteExerciseAdapter(c, complete_list);
+                        lv_complete.setAdapter(complete_adapter);
+                        dismiss();
+                    }
                     break;
                 case R.id.dialog_confirm_exercise_no:
                     //
@@ -186,7 +207,33 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
             }
         }
 
+        private boolean checkData() {
+            boolean res = true;
+            if (tv_dialog.getText().toString().equals("Esercizio selezionato")) {
+                res = false;
+                Toast.makeText(c, "Nessun esercizio selezionato", Toast.LENGTH_LONG).show();
+            }
+            if(repetitions.getText().toString().equals("")){
+                res = false;
+                Toast.makeText(c, "Inserisci il numero di ripetizioni", Toast.LENGTH_LONG).show();
+            }
+            return res;
+        }
+    }
 
+
+
+    public static void removeFromCompleteAdapter(Activity context,  Integer position){
+        ArrayList<CompleteExerciseObject> new_arr = new ArrayList<>();
+        for (int i = 0; i < complete_list.size(); i++){
+            if(position != i){
+                new_arr.add(complete_list.get(i));
+            }
+        }
+        complete_list = new_arr;
+
+        complete_adapter = new CustomCompleteExerciseAdapter(context, complete_list);
+        lv_complete.setAdapter(complete_adapter);
     }
 
 

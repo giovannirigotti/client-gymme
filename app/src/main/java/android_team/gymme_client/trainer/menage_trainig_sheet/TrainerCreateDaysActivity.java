@@ -24,6 +24,8 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
     private int days, sheet_id;
     private static int user_id;
 
+    private static int DAY_POSITION;
+
     DrawerTrainerListener drawerTrainerListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
@@ -91,6 +93,7 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
         }
 
         //endregion
+
         day_list = new ArrayList<>();
         for(int k = 1; k <= days; k++){
             day_list.add(k);
@@ -124,6 +127,10 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
 
     }
 
+    public static void updatePosition(Integer position) {
+        DAY_POSITION = position;
+    }
+
     private boolean checkAllDays() {
         boolean res = true;
         for (int i = 0; i < days; i++){
@@ -134,8 +141,14 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
         return res;
     }
 
-    public static void checkDayOK(Integer position){
-        day_check.set(position, true);
+    public static void blockButton() {
+        lv_day.getChildAt(DAY_POSITION).findViewById(R.id.btn_create_day_plus).setEnabled(false);
+        TextView to_edit = (TextView) lv_day.getChildAt(DAY_POSITION).findViewById(R.id.tv_create_day_text);
+        to_edit.setText("COMPLETATO");
+    }
+
+    public static void checkDayOK(){
+        day_check.set(DAY_POSITION, true);
     }
 
     //region DRAWER

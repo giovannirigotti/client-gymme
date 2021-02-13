@@ -53,12 +53,6 @@ public class CustomExerciseAdapter extends ArrayAdapter<ExerciseObject> {
             @Override
             public void onClick(View view) {
                 TrainerCreateSingleDayActivity.selectExercise(exercises.get(position));
-               /* Log.e("REDIRECT", "Trainer Training single day Activity");
-                Intent i = new Intent(context, TrainerCreateSingleDayActivity.class);
-                i.putExtra("sheet_id", sheet_id);
-                i.putExtra("seq", days.get(position));
-                i.putExtra("user_id", TrainerCreateDaysActivity.getUserId());
-                context.startActivity(i);*/
             }
         });
         return r;

@@ -20,12 +20,11 @@ import java.util.ArrayList;
 import android_team.gymme_client.R;
 import android_team.gymme_client.customer.CustomerSmallObject;
 
-public class CustomCreateDayAdapter extends ArrayAdapter<Integer>{
+public class CustomCreateDayAdapter extends ArrayAdapter<Integer> {
 
     private static ArrayList<Integer> days;
-    private static  Integer sheet_id;
+    private static Integer sheet_id;
     private Activity context;
-
 
 
     public CustomCreateDayAdapter(Activity _context, ArrayList<Integer> days, Integer sheet_id) {
@@ -60,7 +59,11 @@ public class CustomCreateDayAdapter extends ArrayAdapter<Integer>{
         viewHolder.btn_add_day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Log.e("REDIRECT", "Trainer Training single day Activity");
+                // AGGIORNO POSIZIONE
+                TrainerCreateDaysActivity.updatePosition(position);
+
+                //VADO A CREARE IL GIORNO
+                Log.e("REDIRECT", "Trainer Training single day Activity");
                 Intent i = new Intent(context, TrainerCreateSingleDayActivity.class);
                 i.putExtra("sheet_id", sheet_id);
                 i.putExtra("seq", days.get(position));
