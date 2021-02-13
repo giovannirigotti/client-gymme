@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
@@ -14,10 +17,16 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
 
     private int user_id, days, sheet_id;
 
+    private ArrayList<Integer> day_list;
+    static CustomCreateDayAdapter day_adapter;
+    static ListView lv_day;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainer_create_days);
+
+        lv_day = (ListView) findViewById(R.id.lv_create_days);
 
         //region CHET INTENT EXTRAS
         Intent i = getIntent();
@@ -62,10 +71,17 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
         }
 
         //endregion
+        day_list = new ArrayList<>();
+        for(int k = 1; k <= days; k++){
+            day_list.add(k);
+        }
 
-        Log.e("user_id", String.valueOf(user_id));
-        Log.e("days", String.valueOf(days));
-        Log.e("sheet_id", String.valueOf(sheet_id));
+        day_adapter = new CustomCreateDayAdapter(TrainerCreateDaysActivity.this, day_list, sheet_id);
+        lv_day.setAdapter(day_adapter);
+
+
+
+
 
     }
 }
