@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +13,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.GymHomeActivity;
 import android_team.gymme_client.gym.menage_course.GymAddCoursesActivity;
+import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.trainer.DrawerTrainerListener;
@@ -91,7 +103,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
 
     private void createTrainingSheet() {
         if (checkData()) {
-
+            insertTrainigSheet();
         }
         //ERRORI GESTITI NEI SINGOLI CHECK DI OGNI DATO
     }
@@ -220,5 +232,106 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
         drawerTrainerListener.toHome();
     }
     //endregion
+
+    private void insertTrainigSheet(){
+        TrainerCreateTrainingSheetActivity.AddSheetConnection asyncTask = (TrainerCreateTrainingSheetActivity.AddSheetConnection) new TrainerCreateTrainingSheetActivity.AddSheetConnection(new TrainerCreateTrainingSheetActivity.AddSheetConnection.AsyncResponse() {
+            @Override
+            public void processFinish(Integer output) {
+                if (output == 200) {
+                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+                        public void run() {
+                            Toast.makeText(TrainerCreateTrainingSheetActivity.this, "SUCCESS, scheda creata", Toast.LENGTH_SHORT).show();
+                            /*
+                            Log.e("REDIRECT", "Gym Profile Activity");
+                            Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
+                            i.putExtra("user_id", user_id);
+                            startActivity(i);
+                            finish();
+                            */
+                        }
+                    });
+                } else {
+                    GymMenageWorkerActivity.runOnUI(new Runnable() {
+                        public void run() {
+                            Toast.makeText(TrainerCreateTrainingSheetActivity.this, "ERRORE AGGIUNTA CORSO, server side", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).execute(String.valueOf(user_id), String.valueOf(trainer_id), str_title, str_description, str_date, String.valueOf(str_days));
+    }
+
+
+    public static class AddSheetConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public TrainerCreateTrainingSheetActivity.AddSheetConnection.AsyncResponse delegate = null;
+
+        public AddSheetConnection(TrainerCreateTrainingSheetActivity.AddSheetConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/trainer/create_training_sheet/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("customer_id", params[0]);
+                paramsJson.addProperty("trainer_id", params[1]);
+                paramsJson.addProperty("title", params[2]);
+                paramsJson.addProperty("description", params[3]);
+                paramsJson.addProperty("creation_date", params[4]);
+                paramsJson.addProperty("number_of_days", params[5]);
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("TRAINING SHEET", "AGGIUNTO OK");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("TRAINING SHEET", "Error INSERIMENTO TRAINING SHEET");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e){
+                Log.e("TRAINING SHEET", "I/O EXCEPTION ERROR");
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
+        }
+
+    }
 
 }
