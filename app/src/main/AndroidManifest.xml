@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android_team.gymme_client">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".support.MyApplication"
         android:allowBackup="true"
@@ -11,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".trainer.menage_trainig_sheet.TrainerTrainingSheetCustomer"></activity>
+        <activity android:name=".trainer.menage_trainig_sheet.TrainerCreateTrainingSheetActivity"></activity>
+        <activity android:name=".trainer.menage_trainig_sheet.TrainerTrainingSheetCustomer" />
         <activity android:name=".trainer.menage_trainig_sheet.TrainerMenageTrainingSheet" />
         <activity android:name=".customer.CustomerAddCourseActivity" />
         <activity android:name=".customer.CustomerManageCourseActivity" />
@@ -95,10 +101,5 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

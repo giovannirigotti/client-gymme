@@ -5,6 +5,8 @@ import android_team.gymme_client.customer.CustomerSmallObject;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.trainer.DrawerTrainerListener;
+import android_team.gymme_client.trainer.TrainerProfileActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -14,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +46,8 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
     public static ArrayList<TrainingSheetObject> sheet_list;
     static CustomTrainerTrainingSheetCustomerAdapter training_sheet_adapter;
     static ListView lv_training_sheets;
+
+    Button btn_aggiungi_corso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,17 +84,29 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
             }
         }
 
+        btn_aggiungi_corso = (Button) findViewById(R.id.btn_create_training_sheet);
+
         lv_training_sheets = (ListView) findViewById(R.id.lv_trainer_training_sheet_customer);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
-        drawerTrainerListener = new DrawerTrainerListener(this, user_id);
+        drawerTrainerListener = new DrawerTrainerListener(this, trainer_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
         tv_title.setText("SCHEDE ALLENAMENTI");
 
         getSheetInfo();
 
-    }
+        btn_aggiungi_corso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Trainer Create Training Sheet Activity");
+                Intent i = new Intent(getApplicationContext(), TrainerCreateTrainingSheetActivity.class);
+                i.putExtra("user_id", user_id);
+                i.putExtra("trainer_id", trainer_id);
+                startActivity(i);
+            }
+        });
 
+    }
 
     private void getSheetInfo() {
         TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection asyncTaskUser = (TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection) new TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection(new TrainerTrainingSheetCustomer.ReceiveTrainingSheetConnection.AsyncResponse() {
@@ -216,8 +233,6 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
             return response.toString();
         }
     }
-
-
 
     //region DRAWER
     @Override
