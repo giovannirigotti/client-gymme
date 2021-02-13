@@ -14,11 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -236,18 +241,20 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
     private void insertTrainigSheet(){
         TrainerCreateTrainingSheetActivity.AddSheetConnection asyncTask = (TrainerCreateTrainingSheetActivity.AddSheetConnection) new TrainerCreateTrainingSheetActivity.AddSheetConnection(new TrainerCreateTrainingSheetActivity.AddSheetConnection.AsyncResponse() {
             @Override
-            public void processFinish(Integer output) {
+            public void processFinish(Integer output, final Integer sheet_id) {
                 if (output == 200) {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
                             Toast.makeText(TrainerCreateTrainingSheetActivity.this, "SUCCESS, scheda creata", Toast.LENGTH_SHORT).show();
-                            /*
-                            Log.e("REDIRECT", "Gym Profile Activity");
-                            Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
-                            i.putExtra("user_id", user_id);
+                            Log.e("REDIRECT", "Trainer Create Days Activity");
+                            Intent i = new Intent(getApplicationContext(), TrainerCreateDaysActivity.class);
+                            // Prima user_id era diventato quello del customer e trainer_id quello che globalmente
+                            // viene chiamato user_id. Con questo passaggio torno nello standard
+                            i.putExtra("user_id", trainer_id);
+                            i.putExtra("days", str_days);
+                            i.putExtra("sheet_id", sheet_id);
                             startActivity(i);
                             finish();
-                            */
                         }
                     });
                 } else {
@@ -266,7 +273,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
 
         // you may separate this or combined to caller class.
         public interface AsyncResponse {
-            void processFinish(Integer output);
+            void processFinish(Integer output, Integer sheet_id);
         }
 
         public TrainerCreateTrainingSheetActivity.AddSheetConnection.AsyncResponse delegate = null;
@@ -313,23 +320,50 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     Log.e("TRAINING SHEET", "AGGIUNTO OK");
                     responseCode = 200;
-                    delegate.processFinish(responseCode);
+                    String responseString = readStream(urlConnection.getInputStream());
+                    JsonObject sheet = JsonParser.parseString(responseString).getAsJsonObject();
+                    Integer sheet_id = sheet.get("training_sheet_id").getAsInt();
+                    Log.e("sheet_id ricevuto", ""+sheet_id);
+                    delegate.processFinish(responseCode, sheet_id);
                 } else {
                     Log.e("TRAINING SHEET", "Error INSERIMENTO TRAINING SHEET");
                     responseCode = 500;
-                    delegate.processFinish(responseCode);
+                    delegate.processFinish(responseCode, 0);
                     urlConnection.disconnect();
                 }
             } catch (IOException e){
                 Log.e("TRAINING SHEET", "I/O EXCEPTION ERROR");
                 e.printStackTrace();
                 responseCode = 69;
-                delegate.processFinish(responseCode);
+                delegate.processFinish(responseCode, 0);
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
             }
             return responseCode;
+        }
+
+        private String readStream(InputStream in) throws UnsupportedEncodingException {
+            BufferedReader reader = null;
+            StringBuffer response = new StringBuffer();
+            try {
+                reader = new BufferedReader(new InputStreamReader(in));
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return response.toString();
         }
 
     }
