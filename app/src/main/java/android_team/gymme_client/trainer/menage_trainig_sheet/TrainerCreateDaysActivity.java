@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
@@ -21,7 +30,7 @@ import android_team.gymme_client.trainer.DrawerTrainerListener;
 
 public class TrainerCreateDaysActivity extends AppCompatActivity {
 
-    private int days, sheet_id;
+    private int days, sheet_id, customer_id;
     private static int user_id;
 
     private static int DAY_POSITION;
@@ -91,6 +100,19 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
                 startActivity(new_i);
             }
         }
+        if (!i.hasExtra("customer_id")) {
+            Toast.makeText(this, "customer_id mancante", Toast.LENGTH_LONG).show();
+            Intent new_i = new Intent(this, LoginActivity.class);
+            startActivity(new_i);
+        } else {
+            customer_id = i.getIntExtra("customer_id", -1);
+            Log.w("customer_id ricevuto:", String.valueOf(customer_id));
+            if (customer_id == -1) {
+                Toast.makeText(this, "customer_id passato male.", Toast.LENGTH_LONG).show();
+                Intent new_i = new Intent(this, LoginActivity.class);
+                startActivity(new_i);
+            }
+        }
 
         //endregion
 
@@ -118,6 +140,8 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkAllDays()){
                     //TODO VADO ALLA ACTIVITY DELLE SCHEDE e INVIO NOTIFICA
+                    sendNotify();
+
                 }
                 else{
                     Toast.makeText(TrainerCreateDaysActivity.this, "Completa l'inserimento di tutti i giorni", Toast.LENGTH_LONG).show();
@@ -125,6 +149,106 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+
+    private void sendNotify() {
+        TrainerCreateDaysActivity.InsertNotifyConnection asyncTask = (TrainerCreateDaysActivity.InsertNotifyConnection) new TrainerCreateDaysActivity.InsertNotifyConnection(new TrainerCreateDaysActivity.InsertNotifyConnection.AsyncResponse() {
+
+            @Override
+            public void processFinish(Integer output) {
+                if (output == 200) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(TrainerCreateDaysActivity.this, "SCHEDA INVIATA", Toast.LENGTH_SHORT).show();
+                            Log.e("REDIRECT", "Trainer Menage Training Sheet");
+                            Intent i = new Intent(getApplicationContext(), TrainerMenageTrainingSheet.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            i.putExtra("user_id", user_id);
+                            startActivity(i);
+                            finish();
+                        }
+                    });
+                }
+                else {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(TrainerCreateDaysActivity.this, "SERVER ERROR", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+            }
+        }).execute(String.valueOf(customer_id));
+    }
+
+
+    public static class InsertNotifyConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public TrainerCreateDaysActivity.InsertNotifyConnection.AsyncResponse delegate = null;
+
+        public InsertNotifyConnection(TrainerCreateDaysActivity.InsertNotifyConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/insert_notifications/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("user_id", params[0]);
+                paramsJson.addProperty("text", "Nuova scheda di allenamento disponibile");
+                paramsJson.addProperty("notification_type", 20);
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("NOTIFICA", "INSERITA SUL DB");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("NOTIFICA", "Error");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
+        }
     }
 
     public static void updatePosition(Integer position) {

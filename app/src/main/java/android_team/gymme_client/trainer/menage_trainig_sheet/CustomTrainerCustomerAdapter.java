@@ -45,7 +45,7 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
     private Activity context;
 
     public CustomTrainerCustomerAdapter(Activity _context, ArrayList<CustomerSmallObject> customers) {
-        super(_context, R.layout.notification_item, customers);
+        super(_context, R.layout.trainer_customer_item, customers);
         this.context = _context;
         this.customers = customers;
     }

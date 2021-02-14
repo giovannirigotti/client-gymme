@@ -26,9 +26,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -36,6 +39,8 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.customer.CustomerSmallObject;
+import android_team.gymme_client.gym.menage_profile.GymEditHoursActivity;
+import android_team.gymme_client.gym.menage_profile.GymProfileActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.trainer.DrawerTrainerListener;
@@ -44,6 +49,7 @@ import android_team.gymme_client.trainer.TrainerProfileActivity;
 public class TrainerCreateSingleDayActivity extends AppCompatActivity {
 
     private int user_id, seq, sheet_id;
+    private static boolean INSERT_ERROR;
 
     DrawerTrainerListener drawerTrainerListener;
     DrawerLayout drawerLayout;
@@ -113,7 +119,7 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
         }
 
         //endregion
-
+        INSERT_ERROR = true;
         btn_add_exercise = (Button) findViewById(R.id.btn_add_exercise);
         btn_end = (Button) findViewById(R.id.btn_end_create_day);
 
@@ -133,6 +139,8 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO INSERT DALLA LISTA CHE HO :)
+                insertCompletedExercises();
                 //BLOCCO BOTTONE
                 TrainerCreateDaysActivity.blockButton();
                 //DO PER VERO CHE CRO IL GIORNO
@@ -213,7 +221,7 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
                 res = false;
                 Toast.makeText(c, "Nessun esercizio selezionato", Toast.LENGTH_LONG).show();
             }
-            if(repetitions.getText().toString().equals("")){
+            if (repetitions.getText().toString().equals("")) {
                 res = false;
                 Toast.makeText(c, "Inserisci il numero di ripetizioni", Toast.LENGTH_LONG).show();
             }
@@ -222,11 +230,10 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
     }
 
 
-
-    public static void removeFromCompleteAdapter(Activity context,  Integer position){
+    public static void removeFromCompleteAdapter(Activity context, Integer position) {
         ArrayList<CompleteExerciseObject> new_arr = new ArrayList<>();
-        for (int i = 0; i < complete_list.size(); i++){
-            if(position != i){
+        for (int i = 0; i < complete_list.size(); i++) {
+            if (position != i) {
                 new_arr.add(complete_list.get(i));
             }
         }
@@ -264,6 +271,102 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
 
         }).execute(String.valueOf(user_id));
     }
+
+
+    private void insertCompletedExercises() {
+
+        for (int i = 0; i < complete_list.size(); i++) {
+            InsertExercise(complete_list.get(i));
+        }
+    }
+
+    private void InsertExercise(CompleteExerciseObject object_to_add) {
+        TrainerCreateSingleDayActivity.InsertExerciseConnection asyncTask = (TrainerCreateSingleDayActivity.InsertExerciseConnection) new TrainerCreateSingleDayActivity.InsertExerciseConnection(new TrainerCreateSingleDayActivity.InsertExerciseConnection.AsyncResponse() {
+
+            @Override
+            public void processFinish(Integer output) {
+                if (output != 200) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(TrainerCreateSingleDayActivity.this, "ERRORE inserimento", Toast.LENGTH_SHORT).show();
+                            INSERT_ERROR = false;
+                        }
+                    });
+                }
+            }
+        }).execute(object_to_add.getTraining_sheet_id(), object_to_add.getSeq(), object_to_add.getRepetitions(), object_to_add.getExercise_id());
+    }
+
+
+    public static class InsertExerciseConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public TrainerCreateSingleDayActivity.InsertExerciseConnection.AsyncResponse delegate = null;
+
+        public InsertExerciseConnection(TrainerCreateSingleDayActivity.InsertExerciseConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/trainer/insert_day_exercises/");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                JsonObject paramsJson = new JsonObject();
+
+                paramsJson.addProperty("training_sheet_id", params[0]);
+                paramsJson.addProperty("seq", params[1]);
+                paramsJson.addProperty("repetitions", params[2]);
+                paramsJson.addProperty("exercise_id", params[3]);
+
+
+                urlConnection.setDoOutput(true);
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(paramsJson.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("EXERCISE SHEET", "CAMBIATI SUL DB");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("EXERCISE SHEET", "Error");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
+        }
+    }
+
 
     private static class ReceiveExerciseConnection extends AsyncTask<String, String, JsonArray> {
 

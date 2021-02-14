@@ -253,6 +253,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
                             i.putExtra("user_id", trainer_id);
                             i.putExtra("days", str_days);
                             i.putExtra("sheet_id", sheet_id);
+                            i.putExtra("customer_id", user_id);
                             startActivity(i);
                             finish();
                         }

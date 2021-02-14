@@ -152,7 +152,7 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
             setContentView(R.layout.dialog_info_sheet);
             Esci = (Button) findViewById(R.id.dialog_exit_from_info_sheet);
 
-            _title = (TextView) findViewById(R.id.dialog_sheet_info_title);
+            _title = (TextView) findViewById(R.id.tv_dialog_sheet_title);
             _description = (TextView) findViewById(R.id.tv_dialog_sheet_description);
             _creation_date = (TextView) findViewById(R.id.tv_dialog_sheet_date);
             _numberOfDay = (TextView) findViewById(R.id.tv_dialog_sheet_number_of_days);
