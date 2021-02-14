@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android_team.gymme_client">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,8 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".customer.CustomerNotificationActivity"></activity>
-
+        <activity
+            android:name=".CustomerTrainingSheetActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
+        <activity android:name=".customer.CustomerNotificationActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity2"
             android:label="@string/title_activity_main2"
@@ -35,7 +39,7 @@
             android:name=".signup.SignupActivity2"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".customer.CustomerHomeActivity"></activity>
+        <activity android:name=".customer.CustomerHomeActivity" />
         <activity
             android:name=".signup.CustomerSignupActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
@@ -77,12 +81,10 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".gym.GymEditDataActivity" />
         <activity android:name=".gym.GymEditHoursActivity" />
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

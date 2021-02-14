@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigationTrainingSheetCalendar"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_today_24"
+        android:title="Calendario" />
+    <item
+        android:id="@+id/navigationTrainingSheetDetails"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Dettagli" />
+
+</menu>
+

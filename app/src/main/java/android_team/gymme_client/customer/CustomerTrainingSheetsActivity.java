@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,8 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
     @BindView(R.id.recycler_training_sheets_customer)
     RecyclerView recyclerView;
+    @BindView(R.id.spinner_customer_training_sheets)
+    ProgressBar spinner_customer_training_sheets;
 
 
     @Override
@@ -83,10 +86,12 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
         if(user_id!=-1) {
 
-            //TODO: fare sesso con giava e mostrare spin(n)e(r)llo.
+            spinner_customer_training_sheets.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+
+            new GetTrainingSheets(this, recyclerView, adapter, spinner_customer_training_sheets).execute(Integer.toString(user_id));
 
 
-            new GetTrainingSheets(this, recyclerView, adapter).execute(Integer.toString(user_id));
         } else {
             Toast.makeText(this,"Errore nel recuperare l'ud utente!", Toast.LENGTH_LONG).show();
         }
@@ -96,13 +101,25 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
         Activity activity;
         RecyclerView.Adapter adapter;
         RecyclerView recyclerView;
+        ProgressBar spinner;
         JsonArray trainig_sheets = null;
 
 
-        public GetTrainingSheets(Activity activity, RecyclerView recyclerView, RecyclerView.Adapter adapter){
+        public GetTrainingSheets(Activity activity, RecyclerView recyclerView, RecyclerView.Adapter adapter, ProgressBar spinner){
             this.activity=activity;
             this.recyclerView=recyclerView;
             this.adapter=adapter;
+            this.spinner= spinner;
+
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            spinner.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
 
         }
 
@@ -126,9 +143,10 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
                     Log.e("Server tr sheets", responseString);
                     trainig_sheets = JsonParser.parseString(responseString).getAsJsonArray();
 
-
+                    return 1;
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     Log.e("Server response", "HTTP_NOT_FOUND");
+                    return -1;
                 }
 
             } catch (IOException e) {
@@ -145,9 +163,16 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
             ///rimuovere spinner e far apparire la lista
 
-            adapter = new ListTrainingSheetsAdapter(trainig_sheets, activity);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            if(trainig_sheets!=null) {
+                spinner.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+
+                adapter = new ListTrainingSheetsAdapter(trainig_sheets, activity);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+            } else {
+                Toast.makeText(activity, "Errore", Toast.LENGTH_LONG).show();
+            }
 
         }
 
