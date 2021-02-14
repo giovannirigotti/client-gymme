@@ -2,12 +2,11 @@ package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 public class CustomerNotificationActivity extends AppCompatActivity {
 
     static ListView notificationView;
-    private int user_id;
+    public static int user_id;
     static CustomNotificationAdapter adapter;
     public static ArrayList<String> listNotification;
 
@@ -66,8 +65,11 @@ public class CustomerNotificationActivity extends AppCompatActivity {
         //Ricevo le notifiche dal server
         getNotification();
 
+        //
+
 
     }
+
 
     private void getNotification() {
         CustomerNotificationActivity.ReciveNotification asyncTaskUser = (CustomerNotificationActivity.ReciveNotification) new CustomerNotificationActivity.ReciveNotification(new CustomerNotificationActivity.ReciveNotification.AsyncResponse() {
@@ -84,6 +86,13 @@ public class CustomerNotificationActivity extends AppCompatActivity {
                             finish();
                         }
                     });
+                } else if (_texts.get(0).equals("empty")) {
+
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(CustomerNotificationActivity.this, "NESSUNA NUOVA NOTIFICA DA VISUALIZZARE", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else if (!_texts.get(0).equals("error")) {
                     //se la chiamata al server va a buon fine popolo listnotification con i valori ricevuti dal server
                     listNotification = _texts;
@@ -97,7 +106,7 @@ public class CustomerNotificationActivity extends AppCompatActivity {
                             notificationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                                    //cancello notifica su db
                                     Toast.makeText(CustomerNotificationActivity.this, "Elemento: " + i + "; testo: " + listNotification.get(i), Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -118,7 +127,9 @@ public class CustomerNotificationActivity extends AppCompatActivity {
         }).execute(String.valueOf(user_id));
     }
 
+
     public static void deleteNotification(int position, Activity context) {
+        deleteNotificationOnDb(listNotification.get(position).split(",")[0]);
         listNotification.remove(position);
         adapter = new CustomNotificationAdapter(context, listNotification);
         notificationView.setAdapter(adapter);
@@ -145,7 +156,11 @@ public class CustomerNotificationActivity extends AppCompatActivity {
             JsonArray notification = null;
             ArrayList<String> testi = new ArrayList<String>();
             ArrayList<String> errorList = new ArrayList<>();
+            ArrayList<String> emptyList = new ArrayList<>();
+
             errorList.add("error");
+            emptyList.add("empty");
+
             try {
                 url = new URL("http://10.0.2.2:4000/get_notifications/" + params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -165,9 +180,15 @@ public class CustomerNotificationActivity extends AppCompatActivity {
                     for (int i = 0; i < notification.size(); i++) {
                         JsonObject notifica = (JsonObject) notification.get(i);
                         String readtext = notifica.get("text").getAsString();
-                        testi.add(readtext);
+                        String readid = notifica.get("notification_id").getAsString();
+                        testi.add(readid + "," + readtext);
+
                     }
+
                     delegate.processFinish(testi);
+                } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
+                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    delegate.processFinish(emptyList);
                 } else {
                     Log.e("Server error", "errore :(");
                     delegate.processFinish(errorList);
@@ -203,6 +224,72 @@ public class CustomerNotificationActivity extends AppCompatActivity {
                 }
             }
             return response.toString();
+        }
+    }
+
+    public static void deleteNotificationOnDb(String notification_id) {
+        CustomerNotificationActivity.DeleteNotificationConnection asyncTask = (CustomerNotificationActivity.DeleteNotificationConnection) new CustomerNotificationActivity.DeleteNotificationConnection(new CustomerNotificationActivity.DeleteNotificationConnection.AsyncResponse() {
+
+            @Override
+            public void processFinish(Integer output) {
+                if (output == 200) {
+                    Log.e("NOTIFICA", "OK");
+                } else {
+                    Log.e("NOTIFICA", "Server error");
+                }
+            }
+
+        }).execute(notification_id);
+
+    }
+
+    public static class DeleteNotificationConnection extends AsyncTask<String, String, Integer> {
+
+        // you may separate this or combined to caller class.
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public CustomerNotificationActivity.DeleteNotificationConnection.AsyncResponse delegate = null;
+
+        public DeleteNotificationConnection(CustomerNotificationActivity.DeleteNotificationConnection.AsyncResponse delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            JsonObject user = null;
+            int responseCode = 500;
+            try {
+                url = new URL("http://10.0.2.2:4000/update_a_notification/" + params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setConnectTimeout(5000);
+                urlConnection.connect();
+                responseCode = urlConnection.getResponseCode();
+                urlConnection.disconnect();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    Log.e("NOTIFICATION", "cancellata da DB");
+                    responseCode = 200;
+                    delegate.processFinish(responseCode);
+                } else {
+                    Log.e("NOTIFICATION", "Error");
+                    responseCode = 500;
+                    delegate.processFinish(responseCode);
+                    urlConnection.disconnect();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                responseCode = 69;
+                delegate.processFinish(responseCode);
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return responseCode;
         }
     }
 

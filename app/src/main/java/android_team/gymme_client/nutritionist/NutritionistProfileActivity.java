@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -34,13 +35,20 @@ import java.net.URL;
 import android_team.gymme_client.R;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.support.Utili;
+import android_team.gymme_client.trainer.DrawerTrainerListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NutritionistProfileActivity extends AppCompatActivity {
 
     private int user_id;
+
+    DrawerNutriListener drawerNutriListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
+
     private DBManagerUser dbManagerUser = null;
 
     private String nome;
@@ -98,6 +106,10 @@ public class NutritionistProfileActivity extends AppCompatActivity {
             }
         }
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_nutri_activity);
+        drawerNutriListener = new DrawerNutriListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("PROFILO");
 
         //Get User Data & Customer Data from DB
         GetDataSetView(user_id);
@@ -136,6 +148,28 @@ public class NutritionistProfileActivity extends AppCompatActivity {
 
 
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void nutriToProfile(View view){
+        drawerNutriListener.toProfile();
+    }
+    public void nutriToHome(View view){
+        drawerNutriListener.toHome();
+    }
+    //endregion
 
     //USER DATA
     private void GetDataSetView(int user_id) {

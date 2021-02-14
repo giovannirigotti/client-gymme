@@ -52,6 +52,12 @@ public class CustomerHomeActivity extends AppCompatActivity {
     @BindView(R.id.btn_customer_home_notification)
     Button _btn_customer_home_notification;
 
+    @BindView(R.id.btn_customer_home_gym)
+    Button _btn_customer_home_gym;
+
+    @BindView(R.id.btn_customer_home_course)
+    Button _btn_customer_home_course;
+
     @BindView(R.id.drawer_layout_home_activity)
     DrawerLayout drawerLayout;
     @BindView(R.id.main_toolbar_title)
@@ -95,11 +101,32 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
-        _btn_customer_home_notification.setOnClickListener(new View.OnClickListener() {
+        _btn_customer_home_gym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Customer Notification Activity");
+                Log.e("REDIRECT", "Customer Manage Gym Activity");
+                Intent i = new Intent(getApplicationContext(), CustomerManageGymActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+          _btn_customer_home_notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Customer Manage Gym Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerNotificationActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+
+        _btn_customer_home_course.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("REDIRECT", "Customer Manage Course Activity");
+                Intent i = new Intent(getApplicationContext(), CustomerManageCourseActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }

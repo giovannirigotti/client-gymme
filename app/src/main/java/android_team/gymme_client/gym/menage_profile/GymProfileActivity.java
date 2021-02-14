@@ -1,12 +1,13 @@
-package android_team.gymme_client.gym;
+package android_team.gymme_client.gym.menage_profile;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android_team.gymme_client.R;
+import android_team.gymme_client.gym.DrawerGymListener;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.nutritionist.NutritionistProfileActivity;
+import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.support.Utili;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -40,6 +41,10 @@ import java.net.URL;
 public class GymProfileActivity extends AppCompatActivity {
 
     private int user_id;
+
+    DrawerGymListener drawerGymListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
 
     TextView tv_gym_nome, tv_gym_cognome, tv_gym_nascita, tv_gym_email;
     String nome, cognome, nascita, email;
@@ -76,6 +81,11 @@ public class GymProfileActivity extends AppCompatActivity {
         btn_gym_orari = (Button) findViewById(R.id.btn_gym_orari);
         btn_gym_dati_palestra = (Button) findViewById(R.id.btn_gym_dati_palestra);
         btn_gym_logout = (Button) findViewById(R.id.btn_gym_logout);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
+        drawerGymListener = new DrawerGymListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("PROFILO");
 
         //Get User Data & Customer Data from DB
         GetDataSetView(user_id);
@@ -119,7 +129,7 @@ public class GymProfileActivity extends AppCompatActivity {
         btn_gym_dati_palestra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Profile Activity");
+                Log.e("REDIRECT", "Gym Edit Data Activity");
                 Intent i = new Intent(getApplicationContext(), GymEditDataActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -128,6 +138,37 @@ public class GymProfileActivity extends AppCompatActivity {
 
 
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void gymToCorsi(View view){
+        drawerGymListener.toCourse();
+    }
+    public void gymToClienti(View view){
+        drawerGymListener.toCustomer();
+    }
+    public void gymToDipendenti(View view){
+        drawerGymListener.toEmployees();
+    }
+    public void gymToProfilo(View view){
+        drawerGymListener.toProfile();
+    }
+    public void gymToHome(View view){
+        drawerGymListener.toHome();
+    }
+    //endregion
 
     //USER DATA
     private void GetDataSetView(int user_id) {
