@@ -1,4 +1,4 @@
-    package android_team.gymme_client.customer;
+package android_team.gymme_client.customer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -148,7 +148,6 @@ public class CustomerProfileActivity extends AppCompatActivity {
 
 
     }
-
 
 
     //LOGOUT
@@ -318,6 +317,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
             URL url;
             HttpURLConnection urlConnection = null;
             JsonObject user = null;
+            String diseases, allergies;
 
             try {
                 url = new URL("http://10.0.2.2:4000/customer/get_all_data/" + params[0]);
@@ -333,11 +333,23 @@ public class CustomerProfileActivity extends AppCompatActivity {
                     String responseString = readStream(urlConnection.getInputStream());
                     Log.e("Server customer", responseString);
                     user = JsonParser.parseString(responseString).getAsJsonObject();
-                    delegate.processFinish(user.get("height").getAsString(), user.get("diseases").getAsString(), user.get("allergies").getAsString());
+
+                    if (user.get("diseases").isJsonNull()) {
+                        diseases = "";
+                    } else {
+                        diseases = user.get("diseases").getAsString();
+                    }
+                    if (user.get("allergies").isJsonNull()) {
+                        allergies = "";
+                    } else {
+                        allergies = user.get("allergies").getAsString();
+                    }
+
+                    delegate.processFinish(user.get("height").getAsString(), diseases, allergies);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     Log.e("Server response", "HTTP_NOT_FOUND");
-                    delegate.processFinish("error","error", "error");
+                    delegate.processFinish("error", "error", "error");
                 }
 
             } catch (IOException e) {

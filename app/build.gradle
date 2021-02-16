@@ -28,6 +28,19 @@ android {
     }
 
 
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+
+                            'src/main/res/layout',
+                            'src/main/res',
+                            'src/main/layuot/customer'
+                    ]
+        }
+    }
+
+
 }
 repositories {
     maven { url 'https://jitpack.io' }
