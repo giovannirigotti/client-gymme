@@ -7,16 +7,6 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="center_vertical"
-        android:text="Modifica le qualifiche e premi aggiorna altrimenti premi esci."
-        android:textAlignment="viewStart"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/dialog_confirm_user_type_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

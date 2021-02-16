@@ -139,13 +139,16 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO INSERT DALLA LISTA CHE HO :)
-                insertCompletedExercises();
-                //BLOCCO BOTTONE
-                TrainerCreateDaysActivity.blockButton();
-                //DO PER VERO CHE CRO IL GIORNO
-                TrainerCreateDaysActivity.checkDayOK();
-                finish();
+                if(exercise_list.size() < 1){
+                    Toast.makeText(TrainerCreateSingleDayActivity.this, "Nessun esercizio selezionato", Toast.LENGTH_LONG).show();
+                } else {
+                    insertCompletedExercises();
+                    //BLOCCO BOTTONE
+                    TrainerCreateDaysActivity.blockButton();
+                    //DO PER VERO CHE CRO IL GIORNO
+                    TrainerCreateDaysActivity.checkDayOK();
+                    finish();
+                }
             }
         });
     }

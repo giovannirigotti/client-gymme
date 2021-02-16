@@ -7,55 +7,30 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="center_vertical"
-        android:text="Confermi di voler aggiornare la password?"
-        android:textAlignment="viewStart"
-        android:textSize="20sp" />
-
-    <TextView
         android:id="@+id/dialog_confirm_user_type_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Vecchia password"
+        android:text="Nuova Email"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/et_old_password"
+        android:id="@+id/et_dialog_nuova_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:ems="10"
-        android:hint="insert old password..."
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/dialog_confirm_user_type_text2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nuova password"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/ed_new_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="insert new password..."
+        android:hint="Nuova email"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/et_confirm_password"
+        android:id="@+id/et_dialog_conferma_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:ems="10"
-        android:hint="confirm password..."
+        android:hint="Conferma email"
         android:inputType="textPersonName" />
 
     <LinearLayout
@@ -80,5 +55,6 @@
             android:layout_height="wrap_content"
             android:text="AGGIORNA"
             app:cornerRadius="30dp" />
+
     </LinearLayout>
 </LinearLayout>

@@ -32,10 +32,13 @@ android {
         main {
             res.srcDirs =
                     [
-
+                            'src/main/res/layout/customer',
+                            'src/main/res/layout/common',
+                            'src/main/res/layout/trainer',
+                            'src/main/res/layout/gym',
+                            'src/main/res/layout/nutritionist',
                             'src/main/res/layout',
-                            'src/main/res',
-                            'src/main/layuot/customer'
+                            'src/main/res'
                     ]
         }
     }
