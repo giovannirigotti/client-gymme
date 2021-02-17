@@ -85,7 +85,7 @@ public class CourseObject {
     }
 
 
-    public CourseObject(String course_id,String trainer_name, String trainer_lastname, String description, String title, String category, String start_date, String end_date, String free_spaces) {
+    public CourseObject(String course_id, String trainer_name, String trainer_lastname, String description, String title, String category, String start_date, String end_date, String free_spaces) {
         this.course_id = course_id;
         this.trainer_name = trainer_name;
         this.trainer_lastname = trainer_lastname;

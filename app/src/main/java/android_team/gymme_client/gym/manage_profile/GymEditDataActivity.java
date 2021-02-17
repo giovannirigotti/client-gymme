@@ -1,12 +1,5 @@
 package android_team.gymme_client.gym.manage_profile;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android_team.gymme_client.R;
-import android_team.gymme_client.login.LoginActivity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,6 +24,11 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import android_team.gymme_client.R;
+import android_team.gymme_client.login.LoginActivity;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class GymEditDataActivity extends AppCompatActivity {
 

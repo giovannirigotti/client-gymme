@@ -1,4 +1,4 @@
-    package android_team.gymme_client.customer;
+package android_team.gymme_client.customer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.JsonObject;
 
@@ -32,8 +34,6 @@ import android_team.gymme_client.R;
 import android_team.gymme_client.gym.manage_course.CourseObject;
 import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.support.MyApplication;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public class CustomMyCourseAdapter extends ArrayAdapter<CourseObject> {
     private static ArrayList<CourseObject> courses;
@@ -262,7 +262,6 @@ public class CustomMyCourseAdapter extends ArrayAdapter<CourseObject> {
             return responseCode;
         }
     }
-
 
 
 }

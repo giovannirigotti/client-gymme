@@ -21,14 +21,12 @@ public class CustomExerciseAdapter extends ArrayAdapter<ExerciseObject> {
     private Activity context;
 
 
-
     public CustomExerciseAdapter(Activity _context, ArrayList<ExerciseObject> exercises) {
         super(_context, R.layout.trainer_exercise_item, exercises);
         this.context = _context;
         this.exercises = exercises;
 
     }
-
 
 
     @NonNull

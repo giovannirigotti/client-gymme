@@ -2,7 +2,6 @@ package android_team.gymme_client.trainer.manage_training_sheet;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,7 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
         viewHolder.btn_gym_trainer_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //Log.e("REDIRECT", "Trainer Training Sheet Customer Activity");
+                //Log.e("REDIRECT", "Trainer Training Sheet Customer Activity");
                 Intent i = new Intent(context, TrainerTrainingSheetCustomer.class);
                 //Log.e("User_id", user_id);
                 i.putExtra("user_id", Integer.parseInt(user_id));

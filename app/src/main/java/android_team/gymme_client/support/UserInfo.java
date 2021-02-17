@@ -2,8 +2,8 @@ package android_team.gymme_client.support;
 
 public class UserInfo {
 
-public static int user_id;
-public static int user_type;
+    public static int user_id;
+    public static int user_type;
 
     public static int getUser_id() {
         return user_id;

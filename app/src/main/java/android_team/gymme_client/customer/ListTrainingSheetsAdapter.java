@@ -87,7 +87,7 @@ public class ListTrainingSheetsAdapter extends RecyclerView.Adapter<ListTraining
 
                 Intent intent = new Intent(activity, CustomerTrainingSheetActivity.class);
                 intent.putExtra("training_sheet_id", training_sheet.get("training_sheet_id").toString());
-                intent.putExtra("customer_id", training_sheet.get("customer_id").toString());
+                intent.putExtra("user_id", training_sheet.get("customer_id").toString());
                 activity.startActivity(intent);
             }
         });
@@ -139,7 +139,7 @@ public class ListTrainingSheetsAdapter extends RecyclerView.Adapter<ListTraining
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         entries.add(new PieEntry(strenght));
-        entries.add(new PieEntry(100-strenght));
+        entries.add(new PieEntry(100 - strenght));
 
         PieDataSet dataSet = new PieDataSet(entries, "Difficoltà");
 
@@ -151,7 +151,6 @@ public class ListTrainingSheetsAdapter extends RecyclerView.Adapter<ListTraining
 
 
         ArrayList<Integer> colors = new ArrayList<>();
-
 
 
         colors.add(Color.parseColor("#8f0032"));
@@ -168,7 +167,6 @@ public class ListTrainingSheetsAdapter extends RecyclerView.Adapter<ListTraining
         chart.highlightValues(null);
         chart.invalidate();
     }
-
 
 
 }

@@ -29,7 +29,6 @@ public class ExerciseObject {
     }
 
 
-
     @Override
     public String toString() {
         return "ExerciseObject{" +

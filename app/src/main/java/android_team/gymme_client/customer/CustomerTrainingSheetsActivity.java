@@ -1,15 +1,11 @@
 package android_team.gymme_client.customer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,13 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.MPPointF;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
@@ -36,7 +26,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
@@ -46,7 +35,7 @@ import butterknife.ButterKnife;
 
 public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
-    private int user_id=-1;
+    private int user_id = -1;
     public RecyclerView.Adapter adapter;
 
 
@@ -61,9 +50,11 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
     @BindView(R.id.spinner_customer_training_sheets)
     ProgressBar spinner_customer_training_sheets;
 
+
     DrawerCustomerListener drawerCustomerListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
+    static TextView no_item_cus_list_training_sheets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +64,7 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
         main_toolbar_title.setText("Allenamenti");
 
-
+        no_item_cus_list_training_sheets = (TextView) findViewById(R.id.no_item_cus_list_training_sheets);
 
         drawer_trainings_link.setPadding(20, 10, 20, 10);
         drawer_trainings_link.setBackground(getDrawable(R.drawable.rounded_rectangle));
@@ -85,7 +76,7 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
         user_id = cursor.getInt(cursor.getColumnIndex("id"));
 
 
-        if(user_id!=-1) {
+        if (user_id != -1) {
 
             spinner_customer_training_sheets.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -94,18 +85,17 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
 
         } else {
-            Toast.makeText(this,"Errore nel recuperare l'id utente!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Errore nel recuperare l'id utente!", Toast.LENGTH_LONG).show();
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
-        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        drawerCustomerListener = new DrawerCustomerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("I TUOI ALLENAMENTI");
+        tv_title.setText("I tuoi allenamenti");
     }
 
 
-
-    private static class GetTrainingSheets extends AsyncTask<String, String,Integer> {
+    private static class GetTrainingSheets extends AsyncTask<String, String, Integer> {
         Activity activity;
         RecyclerView.Adapter adapter;
         RecyclerView recyclerView;
@@ -113,11 +103,11 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
         JsonArray trainig_sheets = null;
 
 
-        public GetTrainingSheets(Activity activity, RecyclerView recyclerView, RecyclerView.Adapter adapter, ProgressBar spinner){
-            this.activity=activity;
-            this.recyclerView=recyclerView;
-            this.adapter=adapter;
-            this.spinner= spinner;
+        public GetTrainingSheets(Activity activity, RecyclerView recyclerView, RecyclerView.Adapter adapter, ProgressBar spinner) {
+            this.activity = activity;
+            this.recyclerView = recyclerView;
+            this.adapter = adapter;
+            this.spinner = spinner;
 
 
         }
@@ -154,7 +144,7 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
                     return 1;
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     //Log.e("Server response", "HTTP_NOT_FOUND");
-                    trainig_sheets= new JsonArray();
+                    trainig_sheets = new JsonArray();
                     return -1;
                 }
 
@@ -172,17 +162,18 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
             ///rimuovere spinner e far apparire la lista
 
-            if(trainig_sheets.size()!=0) {
+            if (trainig_sheets.size() != 0) {
                 spinner.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
 
                 adapter = new ListTrainingSheetsAdapter(trainig_sheets, activity);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            } else  if (trainig_sheets.size()==0) {
+            } else if (trainig_sheets.size() == 0) {
                 spinner.setVisibility(View.GONE);
+                no_item_cus_list_training_sheets.setVisibility(View.VISIBLE);
                 Toast.makeText(activity, "Nessuna scheda di allenamento", Toast.LENGTH_LONG).show();
-            }else if (trainig_sheets==null) {
+            } else if (trainig_sheets == null) {
                 spinner.setVisibility(View.GONE);
                 Toast.makeText(activity, "Errore", Toast.LENGTH_LONG).show();
             }
@@ -214,13 +205,13 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
     }
 
 
-
     //region DRAWER
     @Override
     protected void onPause() {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -229,22 +220,27 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void customerToNotify(View view){
+    public void customerToNotify(View view) {
         drawerCustomerListener.toNotify();
     }
-    public void customerToTrainings(View view){
+
+    public void customerToTrainings(View view) {
         drawerCustomerListener.toTrainings();
     }
-    public void customerToGym(View view){
+
+    public void customerToGym(View view) {
         drawerCustomerListener.toGym();
     }
-    public void customerToCourse(View view){
+
+    public void customerToCourse(View view) {
         drawerCustomerListener.toCourse();
     }
-    public void customerToProfile(View view){
+
+    public void customerToProfile(View view) {
         drawerCustomerListener.toProfile();
     }
-    public void customerToHome(View view){
+
+    public void customerToHome(View view) {
         drawerCustomerListener.toHome();
     }
 //endregion

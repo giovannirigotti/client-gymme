@@ -2,7 +2,7 @@ package android_team.gymme_client.gym;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
+
 import android_team.gymme_client.gym.manage_course.GymCourseActivity;
 import android_team.gymme_client.gym.manage_customer.GymCustomersActivity;
 import android_team.gymme_client.gym.manage_profile.GymProfileActivity;
@@ -21,15 +21,19 @@ public class DrawerGymListener {
     public void toCourse() {
         redirectActivity(activity, GymCourseActivity.class);
     }
+
     public void toProfile() {
         redirectActivity(activity, GymProfileActivity.class);
     }
+
     public void toCustomer() {
         redirectActivity(activity, GymCustomersActivity.class);
     }
+
     public void toEmployees() {
         redirectActivity(activity, GymMenageWorkerActivity.class);
     }
+
     public void toHome() {
         redirectActivity(activity, GymHomeActivity.class);
     }

@@ -1,8 +1,5 @@
 package android_team.gymme_client.gym.manage_course;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +11,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -77,11 +77,11 @@ public class GymCourseActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("CORSI");
-        
+        tv_title.setText("Corsi");
+
         //carico corsi
         loadCourses();
-        
+
 
         btn_create_course.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +109,7 @@ public class GymCourseActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -117,19 +118,23 @@ public class GymCourseActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion
@@ -260,8 +265,8 @@ public class GymCourseActivity extends AppCompatActivity {
 
     public static void redoAdapterCourse(Activity context, ArrayList<CourseObject> courses, Integer position) {
         ArrayList<CourseObject> new_t = new ArrayList<>();
-        for(int i = 0; i < courses.size(); i++){
-            if(i != position){
+        for (int i = 0; i < courses.size(); i++) {
+            if (i != position) {
                 new_t.add(courses.get(i));
             }
         }

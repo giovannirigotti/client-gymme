@@ -1,8 +1,5 @@
 package android_team.gymme_client.trainer.manage_training_sheet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -19,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -121,7 +121,7 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("ESERCIZI SCHEDA");
+        tv_title.setText("Esercizi scheda");
 
         btn_add_exercise.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(exercise_list.size() < 1){
+                if (exercise_list.size() < 1) {
                     Toast.makeText(TrainerCreateSingleDayActivity.this, "Nessun esercizio selezionato", Toast.LENGTH_LONG).show();
                 } else {
                     insertCompletedExercises();

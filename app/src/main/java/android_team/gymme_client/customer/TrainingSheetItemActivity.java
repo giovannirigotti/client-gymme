@@ -72,8 +72,8 @@ public class TrainingSheetItemActivity extends BasicActivity {
         ArrayList<Integer> colors = new ArrayList<>();
 
 
-            colors.add(Color.parseColor("#ff9700"));
-            colors.add(Color.parseColor("#8f0032"));
+        colors.add(Color.parseColor("#ff9700"));
+        colors.add(Color.parseColor("#8f0032"));
 
 
         dataSet.setColors(colors);

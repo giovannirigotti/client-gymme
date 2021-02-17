@@ -1,13 +1,5 @@
 package android_team.gymme_client.trainer.manage_training_sheet;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.Drawer;
-import android_team.gymme_client.trainer.DrawerTrainerListener;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -18,6 +10,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -32,13 +27,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android_team.gymme_client.R;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
+import android_team.gymme_client.trainer.DrawerTrainerListener;
+
 public class TrainerTrainingSheetCustomer extends AppCompatActivity {
 
     private int user_id, trainer_id;
 
     DrawerTrainerListener drawerTrainerListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_training_sheet_cus_list;
 
     public static ArrayList<TrainingSheetObject> sheet_list;
     static CustomTrainerTrainingSheetCustomerAdapter training_sheet_adapter;
@@ -88,7 +88,9 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, trainer_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("SCHEDE ALLENAMENTI");
+        no_item_training_sheet_cus_list = (TextView) findViewById(R.id.no_item_training_sheet_cus_list);
+
+        tv_title.setText("Schede allenamenti");
 
         getSheetInfo();
 
@@ -124,6 +126,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_training_sheet_cus_list.setVisibility(View.VISIBLE);
                             Toast.makeText(TrainerTrainingSheetCustomer.this, "Nessuna scheda di allenamento", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -237,6 +240,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -245,13 +249,15 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void trainerToTrainingSheet(View view){
+    public void trainerToTrainingSheet(View view) {
         drawerTrainerListener.toTrainingSheet();
     }
-    public void trainerToProfile(View view){
+
+    public void trainerToProfile(View view) {
         drawerTrainerListener.toProfile();
     }
-    public void trainerToHome(View view){
+
+    public void trainerToHome(View view) {
         drawerTrainerListener.toHome();
     }
     //endregion

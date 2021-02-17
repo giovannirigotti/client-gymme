@@ -1,11 +1,8 @@
 package android_team.gymme_client.signup;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +24,6 @@ import java.net.URL;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.NoNetworkActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -263,7 +259,6 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-
     private class CheckUserDataConnection extends AsyncTask<String, String, JsonObject> {
 
         String toastMessage = null;
@@ -289,7 +284,7 @@ public class SignupActivity extends AppCompatActivity {
             JsonObject user = null;
 
             try {
-                url = new URL("http://10.0.2.2:4000/get_user_data/"+params[0]);
+                url = new URL("http://10.0.2.2:4000/get_user_data/" + params[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setConnectTimeout(5000);
@@ -341,8 +336,6 @@ public class SignupActivity extends AppCompatActivity {
                 responseToast.show();
         }
     }
-
-
 
 
 }

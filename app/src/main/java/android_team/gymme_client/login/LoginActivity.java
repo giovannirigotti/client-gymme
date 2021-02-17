@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         dbManagerUser.open();
         ButterKnife.bind(this);
 
-        if(getIntent().hasExtra("email")){
+        if (getIntent().hasExtra("email")) {
             //Log.e("email", getIntent().getStringExtra("email"));
             _emailText.setText(getIntent().getStringExtra("email"));
         }
@@ -113,7 +113,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         Toast.makeText(this, "Effettua il login o registrati", Toast.LENGTH_LONG).show();
     }*/
-
 
 
     private void login() throws IOException {

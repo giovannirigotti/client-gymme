@@ -1,15 +1,5 @@
 package android_team.gymme_client.customer;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.gym.manage_course.CourseObject;
-
-import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.Drawer;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +11,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -35,6 +28,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android_team.gymme_client.R;
+import android_team.gymme_client.gym.manage_course.CourseObject;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CustomerManageCourseActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_customer_manage_course_to_disponible_gym)
@@ -46,7 +46,7 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
     public static ArrayList<CourseObject> course_list;
     DrawerCustomerListener drawerCustomerListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_list_courses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +72,11 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
-        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        drawerCustomerListener = new DrawerCustomerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("HOME");
+        no_item_cus_list_courses = (TextView) findViewById(R.id.no_item_cus_list_courses);
+
+        tv_title.setText("Home");
 
         lv_course = (ListView) findViewById(R.id.lv_customer_course);
 
@@ -100,7 +102,6 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
     }
 
 
-
     private void getCourse() {
         CustomerManageCourseActivity.ReceiveCourseConn asyncTaskUser = (CustomerManageCourseActivity.ReceiveCourseConn) new CustomerManageCourseActivity.ReceiveCourseConn(new CustomerManageCourseActivity.ReceiveCourseConn.AsyncResponse() {
             @Override
@@ -121,6 +122,7 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_cus_list_courses.setVisibility(View.VISIBLE);
                             Toast.makeText(CustomerManageCourseActivity.this, "Nessun corso", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -226,15 +228,14 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
     }
 
 
-    public static String getUserId()
-    {
+    public static String getUserId() {
         return String.valueOf(user_id);
     }
 
     public static void redoAdapterCourse(Activity context, ArrayList<CourseObject> courses, Integer position) {
         ArrayList<CourseObject> new_t = new ArrayList<>();
-        for(int i = 0; i < courses.size(); i++){
-            if(i != position){
+        for (int i = 0; i < courses.size(); i++) {
+            if (i != position) {
                 new_t.add(courses.get(i));
             }
         }
@@ -248,6 +249,7 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -256,22 +258,27 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void customerToNotify(View view){
+    public void customerToNotify(View view) {
         drawerCustomerListener.toNotify();
     }
-    public void customerToTrainings(View view){
+
+    public void customerToTrainings(View view) {
         drawerCustomerListener.toTrainings();
     }
-    public void customerToGym(View view){
+
+    public void customerToGym(View view) {
         drawerCustomerListener.toGym();
     }
-    public void customerToCourse(View view){
+
+    public void customerToCourse(View view) {
         drawerCustomerListener.toCourse();
     }
-    public void customerToProfile(View view){
+
+    public void customerToProfile(View view) {
         drawerCustomerListener.toProfile();
     }
-    public void customerToHome(View view){
+
+    public void customerToHome(View view) {
         drawerCustomerListener.toHome();
     }
 //endregion

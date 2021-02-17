@@ -1,8 +1,5 @@
 package android_team.gymme_client.trainer;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
@@ -53,7 +53,7 @@ public class TrainerHomeActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("HOME");
+        tv_title.setText("Home");
 
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +83,7 @@ public class TrainerHomeActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -91,13 +92,15 @@ public class TrainerHomeActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void trainerToTrainingSheet(View view){
+    public void trainerToTrainingSheet(View view) {
         drawerTrainerListener.toTrainingSheet();
     }
-    public void trainerToProfile(View view){
+
+    public void trainerToProfile(View view) {
         drawerTrainerListener.toProfile();
     }
-    public void trainerToHome(View view){
+
+    public void trainerToHome(View view) {
         drawerTrainerListener.toHome();
     }
     //endregion

@@ -1,8 +1,5 @@
 package android_team.gymme_client.gym.manage_worker;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -42,7 +42,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
 
     DrawerGymListener drawerGymListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_add_nut;
 
     static CustomGymNutritionistAdapter nutritionist_adapter;
     EditText inputSearch;
@@ -78,25 +78,29 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("NUTRIZIONISTI");
+        no_item_cus_add_nut = (TextView) findViewById(R.id.no_item_cus_add_nut);
+
+        tv_title.setText("Nutrizionisti");
 
         getNutritionists();
 
-        inputSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                GymAddNutritionistActivity.this.nutritionist_adapter.getFilter().filter(cs);
-            }
+        if (!nutritionists_list.isEmpty()) {
+            inputSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    GymAddNutritionistActivity.this.nutritionist_adapter.getFilter().filter(cs);
+                }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
+            });
+        }
     }
 
     //region DRAWER
@@ -105,6 +109,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -113,19 +118,23 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion
@@ -158,6 +167,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_cus_add_nut.setVisibility(View.VISIBLE);
                             Toast.makeText(GymAddNutritionistActivity.this, "Nessun nutrizionista come dipendente", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -168,9 +178,13 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
             }
         }).execute(String.valueOf(user_id));
     }
-    public static ArrayList<NutritionistObject> getAllNutritionist(){
+
+    public static ArrayList<NutritionistObject> getAllNutritionist() {
         return nutritionists_list;
-    };
+    }
+
+    ;
+
     private static class ReceiveNutritionistsConn extends AsyncTask<String, String, JsonArray> {
 
         public interface AsyncResponse {

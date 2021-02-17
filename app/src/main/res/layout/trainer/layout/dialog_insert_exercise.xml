@@ -61,7 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:dividerHeight="10.0sp" />
 
         <TextView
             android:id="@+id/textView23"

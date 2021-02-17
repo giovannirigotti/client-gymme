@@ -1,8 +1,5 @@
 package android_team.gymme_client.gym.manage_worker;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -42,7 +42,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
 
     DrawerGymListener drawerGymListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_add_trainer;
 
     public static ArrayList<TrainerObject> trainers_list;
     static CustomGymTrainerAdapter trainer_adapter;
@@ -80,25 +80,28 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("PERSONAL TRAIENRS");
+        no_item_cus_add_trainer = (TextView) findViewById(R.id.no_item_cus_add_trainer);
+        tv_title.setText("Personal trainers");
 
         getTrainers();
 
-        inputSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                GymAddTrainerActivity.this.trainer_adapter.getFilter().filter(cs);
-            }
+        if (!trainers_list.isEmpty()) {
+            inputSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    GymAddTrainerActivity.this.trainer_adapter.getFilter().filter(cs);
+                }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
+            });
+        }
     }
 
     //region DRAWER
@@ -107,6 +110,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -115,26 +119,32 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion
 
-    public static ArrayList<TrainerObject> getAllTrainers(){
+    public static ArrayList<TrainerObject> getAllTrainers() {
         return trainers_list;
-    };
+    }
+
+    ;
 
     private void getTrainers() {
         GymAddTrainerActivity.ReceiveTrainersConn asyncTaskUser = (GymAddTrainerActivity.ReceiveTrainersConn) new GymAddTrainerActivity.ReceiveTrainersConn(new GymAddTrainerActivity.ReceiveTrainersConn.AsyncResponse() {
@@ -155,6 +165,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_cus_add_trainer.setVisibility(View.VISIBLE);
                             Toast.makeText(GymAddTrainerActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
                         }
                     });

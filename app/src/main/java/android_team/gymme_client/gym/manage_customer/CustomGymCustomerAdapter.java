@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         CustomGymCustomerAdapter.ViewHolder viewHolder = null;
         if (r == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
-            r = layoutInflater.inflate(R.layout.gym_trainer_assumed_item, null);
+            r = layoutInflater.inflate(R.layout.gym_customer_item, null);
             viewHolder = new CustomGymCustomerAdapter.ViewHolder(r);
             r.setTag(viewHolder);
         } else {
@@ -74,11 +73,11 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
         final String birthdate = customers.get(position).getBirthdate();
 
 
-        viewHolder.tv_gym_trainer_name.setText(name);
-        viewHolder.tv_gym_trainer_lastname.setText(lastname);
-        viewHolder.tv_gym_trainer_email.setText(email);
+        viewHolder.tv_gym_customer_name.setText(name);
+        viewHolder.tv_gym_customer_lastname.setText(lastname);
+        viewHolder.tv_gym_customer_email.setText(email);
 
-        viewHolder.btn_gym_trainer_add.setOnClickListener(new View.OnClickListener() {
+        viewHolder.btn_gym_customer_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InfoCustomer(context, user_id, name, lastname, email, birthdate, position);
@@ -88,14 +87,14 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
     }
 
     class ViewHolder {
-        TextView tv_gym_trainer_name, tv_gym_trainer_lastname, tv_gym_trainer_email;
-        ImageView btn_gym_trainer_add;
+        TextView tv_gym_customer_name, tv_gym_customer_lastname, tv_gym_customer_email;
+        ImageView btn_gym_customer_info;
 
         ViewHolder(View v) {
-            tv_gym_trainer_name = v.findViewById(R.id.tv_gym_trainer_assumed_name);
-            tv_gym_trainer_lastname = v.findViewById(R.id.tv_gym_trainer_assumed_lastname);
-            tv_gym_trainer_email = v.findViewById(R.id.tv_gym_trainer_assumed_email);
-            btn_gym_trainer_add = v.findViewById(R.id.btn_gym_trainer_assumed_add);
+            tv_gym_customer_name = v.findViewById(R.id.tv_gym_customer_name);
+            tv_gym_customer_lastname = v.findViewById(R.id.tv_gym_customer_lastname);
+            tv_gym_customer_email = v.findViewById(R.id.tv_gym_customer_email);
+            btn_gym_customer_info = v.findViewById(R.id.btn_gym_customer_info);
         }
     }
 
@@ -162,7 +161,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
             this.name = name;
             this.lastname = lastname;
             this.email = email;
-            this.birthdate= birthdate;
+            this.birthdate = birthdate;
             this.position = position;
         }
 

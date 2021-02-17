@@ -1,12 +1,5 @@
 package android_team.gymme_client.customer;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.login.LoginActivity;
-
-import android_team.gymme_client.support.Drawer;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -32,6 +28,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android_team.gymme_client.R;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
+
 public class CustomerNotificationActivity extends AppCompatActivity {
 
     static ListView notificationView;
@@ -40,7 +40,7 @@ public class CustomerNotificationActivity extends AppCompatActivity {
     public static ArrayList<String> listNotification;
     DrawerCustomerListener drawerCustomerListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,8 @@ public class CustomerNotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_notification);
 
         notificationView = (ListView) findViewById(R.id.lv_notification);
+        no_item_cus_notification = (TextView) findViewById(R.id.no_item_cus_notification);
+
         listNotification = new ArrayList<String>();
 
 
@@ -68,9 +70,9 @@ public class CustomerNotificationActivity extends AppCompatActivity {
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
-        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        drawerCustomerListener = new DrawerCustomerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("NOTIFICHE");
+        tv_title.setText("Notifiche");
 
         //Ricevo le notifiche dal server
         getNotification();
@@ -90,7 +92,7 @@ public class CustomerNotificationActivity extends AppCompatActivity {
 
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(CustomerNotificationActivity.this, "ERRORE CARICAMENTO NOTIFICA", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CustomerNotificationActivity.this, "Errore caricamento norifica", Toast.LENGTH_SHORT).show();
                             Intent new_i = new Intent(CustomerNotificationActivity.this, LoginActivity.class);
                             startActivity(new_i);
                             finish();
@@ -100,7 +102,8 @@ public class CustomerNotificationActivity extends AppCompatActivity {
 
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(CustomerNotificationActivity.this, "NESSUNA NUOVA NOTIFICA DA VISUALIZZARE", Toast.LENGTH_SHORT).show();
+                            no_item_cus_notification.setVisibility(View.VISIBLE);
+                            Toast.makeText(CustomerNotificationActivity.this, "Nessuna notifica da visualizzare", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else if (!_texts.get(0).equals("error")) {
@@ -309,6 +312,7 @@ public class CustomerNotificationActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -317,22 +321,27 @@ public class CustomerNotificationActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void customerToNotify(View view){
+    public void customerToNotify(View view) {
         drawerCustomerListener.toNotify();
     }
-    public void customerToTrainings(View view){
+
+    public void customerToTrainings(View view) {
         drawerCustomerListener.toTrainings();
     }
-    public void customerToGym(View view){
+
+    public void customerToGym(View view) {
         drawerCustomerListener.toGym();
     }
-    public void customerToCourse(View view){
+
+    public void customerToCourse(View view) {
         drawerCustomerListener.toCourse();
     }
-    public void customerToProfile(View view){
+
+    public void customerToProfile(View view) {
         drawerCustomerListener.toProfile();
     }
-    public void customerToHome(View view){
+
+    public void customerToHome(View view) {
         drawerCustomerListener.toHome();
     }
 //endregion

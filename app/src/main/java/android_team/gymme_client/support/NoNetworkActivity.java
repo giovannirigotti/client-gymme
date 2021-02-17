@@ -12,12 +12,11 @@ import android_team.gymme_client.R;
 public class NoNetworkActivity extends AppCompatActivity {
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.no_network_activity);
-        VideoView videoView = (VideoView)findViewById(R.id.videoView);
+        VideoView videoView = (VideoView) findViewById(R.id.videoView);
 
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -29,7 +28,7 @@ public class NoNetworkActivity extends AppCompatActivity {
         MediaPlayer mediaPlayer = new MediaPlayer();
 
 
-        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/"+ R.raw.no_internet));
+        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.no_internet));
 
         videoView.start();
 

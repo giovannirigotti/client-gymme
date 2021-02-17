@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="Info Cliente"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text"
@@ -84,6 +84,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/dialog_remove_customer"
             android:layout_width="wrap_content"

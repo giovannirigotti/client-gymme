@@ -1,7 +1,6 @@
 package android_team.gymme_client.trainer.manage_training_sheet;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +15,10 @@ import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 
-public class CustomCompleteExerciseAdapter extends ArrayAdapter<CompleteExerciseObject>{
+public class CustomCompleteExerciseAdapter extends ArrayAdapter<CompleteExerciseObject> {
 
     private static ArrayList<CompleteExerciseObject> exercises;
     private Activity context;
-
 
 
     public CustomCompleteExerciseAdapter(Activity _context, ArrayList<CompleteExerciseObject> exercises) {

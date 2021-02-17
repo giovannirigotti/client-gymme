@@ -53,7 +53,7 @@ public class GymHomeActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("HOME");
+        tv_title.setText("Home");
 
         btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
         btn_corsi = (Button) findViewById(R.id.btn_gym_home_corsi);
@@ -108,6 +108,7 @@ public class GymHomeActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -116,19 +117,23 @@ public class GymHomeActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion

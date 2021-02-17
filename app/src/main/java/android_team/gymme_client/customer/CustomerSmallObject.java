@@ -3,7 +3,6 @@ package android_team.gymme_client.customer;
 public class CustomerSmallObject {
 
 
-
     private String user_id;
     private String name;
     private String lasname;

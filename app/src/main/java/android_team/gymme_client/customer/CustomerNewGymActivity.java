@@ -2,17 +2,17 @@ package android_team.gymme_client.customer;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android_team.gymme_client.support.Drawer;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,10 +29,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.MyApplication;
-import androidx.drawerlayout.widget.DrawerLayout;
+import android_team.gymme_client.support.Drawer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -95,7 +93,7 @@ public class CustomerNewGymActivity extends AppCompatActivity {
 
     Integer gym_id, user_id;
     private int pool, box_ring, aerobics, spa, wifi, parking_area, personal_trainer, nutritionist, impedance_balance, courses, showers;
-    private String  name = "", address = "", code="", vat = "";
+    private String name = "", address = "", code = "", vat = "";
     DrawerCustomerListener drawerCustomerListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
@@ -134,14 +132,16 @@ public class CustomerNewGymActivity extends AppCompatActivity {
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
-        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        drawerCustomerListener = new DrawerCustomerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("PALESTRE");
+        tv_title.setText("Palestre");
 
         //Log.e("NA USER, GYM", user_id + " " + gym_id);
         Esci = (Button) findViewById(R.id.btn_my_gym_esci);
         Iscriviti = (Button) findViewById(R.id.btn_my_gym_disiscriviti);
-        Iscriviti.setText("ISCRIVITI");
+        Iscriviti.setBackgroundColor(Color.parseColor("#4CAF50"));
+        Iscriviti.setCompoundDrawablesWithIntrinsicBounds(getDrawable(R.drawable.ic_baseline_add_24), null, null, null);
+        Iscriviti.setText("Iscriviti");
 
         GetGymData();
 
@@ -179,7 +179,10 @@ public class CustomerNewGymActivity extends AppCompatActivity {
                 } else if (_pool == 1 || _pool == 0) {
                     //  -   SETTO VIEW grazie ai dati ricevuti
 
-                    name = _gym_name; address = _gym_address; code = _zip_code; vat = _vat_number;
+                    name = _gym_name;
+                    address = _gym_address;
+                    code = _zip_code;
+                    vat = _vat_number;
                     runOnUiThread(new Runnable() {
                         public void run() {
                             _tv_customer_my_gym_name.setText(name);
@@ -476,12 +479,14 @@ public class CustomerNewGymActivity extends AppCompatActivity {
 
 
     }
+
     //region DRAWER
     @Override
     protected void onPause() {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -490,22 +495,27 @@ public class CustomerNewGymActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void customerToNotify(View view){
+    public void customerToNotify(View view) {
         drawerCustomerListener.toNotify();
     }
-    public void customerToTrainings(View view){
+
+    public void customerToTrainings(View view) {
         drawerCustomerListener.toTrainings();
     }
-    public void customerToGym(View view){
+
+    public void customerToGym(View view) {
         drawerCustomerListener.toGym();
     }
-    public void customerToCourse(View view){
+
+    public void customerToCourse(View view) {
         drawerCustomerListener.toCourse();
     }
-    public void customerToProfile(View view){
+
+    public void customerToProfile(View view) {
         drawerCustomerListener.toProfile();
     }
-    public void customerToHome(View view){
+
+    public void customerToHome(View view) {
         drawerCustomerListener.toHome();
     }
 //endregion

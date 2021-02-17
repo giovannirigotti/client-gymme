@@ -2,7 +2,6 @@ package android_team.gymme_client.trainer;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 import android_team.gymme_client.trainer.manage_training_sheet.TrainerMenageTrainingSheet;
 
@@ -20,9 +19,11 @@ public class DrawerTrainerListener {
     public void toTrainingSheet() {
         redirectActivity(activity, TrainerMenageTrainingSheet.class);
     }
+
     public void toProfile() {
         redirectActivity(activity, TrainerProfileActivity.class);
     }
+
     public void toHome() {
         redirectActivity(activity, TrainerHomeActivity.class);
     }

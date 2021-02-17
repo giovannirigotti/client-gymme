@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
 import android_team.gymme_client.local_database.DBHelper;
 
 public class DBManagerUser {

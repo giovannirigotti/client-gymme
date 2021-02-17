@@ -6,13 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -54,7 +51,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
     JsonArray completedDays;
     CalendarView calendarView;
     CalendarTrainingSheetAdapter adapter;
-    public static String static_seq=new String();
+    public static String static_seq = new String();
     String customer_id;
     String training_sheet_id;
 
@@ -76,10 +73,10 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_customer_training_sheet_calendar, null);
         ButterKnife.bind(this, root);
         calendarView = trainingSheetCalendarView;
-        static_seq="";
+        static_seq = "";
         Bundle args = getArguments();
         training_sheet_id = args.getString("training_sheet_id");
-        customer_id =  args.getString("customer_id");
+        customer_id = args.getString("customer_id");
         training_sheet = (JsonObject) JsonParser.parseString(args.getString("training_sheet"));
         completedDays = training_sheet.get("completed_days").getAsJsonArray();
         final List<EventDay> completedDaysList = new ArrayList<>();
@@ -146,7 +143,6 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
     }
 
 
-
     private class InsertCompletedTrainingDayDialog extends Dialog implements android.view.View.OnClickListener {
 
         public CustomerTrainingSheetActivity a;
@@ -183,7 +179,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
             seq_text_view = (TextView) findViewById(R.id.cus_comp_tr_day_dial_day_sel);
             training_days_recycler = (RecyclerView) findViewById(R.id.cus_comp_tr_day_dial_recycler);
             spinner = (ProgressBar) findViewById(R.id.cus_comp_tr_day_dial_spinner);
-            buttons =  (LinearLayout) findViewById(R.id.cus_comp_tr_day_dial_buttons);
+            buttons = (LinearLayout) findViewById(R.id.cus_comp_tr_day_dial_buttons);
             user_comment_edit_text = (EditText) findViewById(R.id.cus_comp_tr_day_dial_edit_text);
 
             //Log.e("training days", training_days.toString());
@@ -205,11 +201,11 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
                     dismiss();
                     break;
                 case R.id.cus_comp_tr_day_dial_confirm:
-                    if(!static_seq.isEmpty()) {
+                    if (!static_seq.isEmpty()) {
                         //Log.e("Sequenza", static_seq);
                         user_comment = user_comment_edit_text.getText().toString();
                         new InsertCompletedTrainingDay(a, Integer.parseInt(training_sheet_id), Integer.parseInt(static_seq), completion_date, user_comment, spinner, buttons, this).execute();
-                        static_seq="";
+                        static_seq = "";
 
                        /* Intent i = new Intent(getContext(), CustomerTrainingSheetActivity.class);
                         i.putExtra("customer_id", customer_id);
@@ -256,7 +252,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
             this.user_comment = user_comment;
             this.spinner = spinner;
             this.buttons = buttons;
-            this.dialog=dialog;
+            this.dialog = dialog;
         }
 
         @Override
@@ -319,12 +315,12 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
         @Override
         protected void onPostExecute(Integer responseCode) {
 
-            if(responseCode==200){
+            if (responseCode == 200) {
                 dialog.dismiss();
-                Toast.makeText(a,"Giornata di allenamento inserita correttamente", Toast.LENGTH_LONG).show();
+                Toast.makeText(a, "Giornata di allenamento inserita correttamente", Toast.LENGTH_LONG).show();
 
             } else {
-                Toast.makeText(a,"Errore!", Toast.LENGTH_LONG);
+                Toast.makeText(a, "Errore!", Toast.LENGTH_LONG);
                 dialog.dismiss();
             }
         }

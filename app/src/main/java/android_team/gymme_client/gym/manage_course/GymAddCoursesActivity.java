@@ -1,8 +1,5 @@
 package android_team.gymme_client.gym.manage_course;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -19,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -51,7 +51,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
     private int user_id;
     DrawerGymListener drawerGymListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_gym_choose_trainer;
 
     static String traienr_id;
     static CustomCourseTrainerAdapter trainer_adapter;
@@ -92,7 +92,9 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("CORSI");
+        no_item_gym_choose_trainer = (TextView) findViewById(R.id.no_item_gym_choose_trainer);
+
+        tv_title.setText("Corsi");
 
         // Initialize and associates Wies
         lv_trainer = (ListView) findViewById(R.id.lv_course_trainer);
@@ -139,6 +141,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -147,19 +150,23 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion
@@ -184,7 +191,8 @@ public class GymAddCoursesActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            //vToast.makeText(GymCoursesActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
+                            no_item_gym_choose_trainer.setVisibility(View.VISIBLE);
+                            Toast.makeText(GymAddCoursesActivity.this, "Nessun personal trainer disponibile", Toast.LENGTH_SHORT).show();
                             showErrorDialog(GymAddCoursesActivity.this, user_id);
                         }
                     });
@@ -354,7 +362,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
 
         tv_trainer_selezionato.setText(trainer_selezionato);
         //Log.e("Trainer selezionato", traienr_id + " " + trainer_selezionato);
-        Toast.makeText(MyApplication.getContext(), "Selezionato trainer: "+trainer_selezionato, Toast.LENGTH_LONG).show();
+        Toast.makeText(MyApplication.getContext(), "Selezionato trainer: " + trainer_selezionato, Toast.LENGTH_LONG).show();
 
     }
 
@@ -496,7 +504,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
     // CREAZIONE CORSO SUL DB
     // POST --> /gym/insert_course/
 
-    private void insertCourse(){
+    private void insertCourse() {
         GymAddCoursesActivity.AddCourseConnection asyncTask = (GymAddCoursesActivity.AddCourseConnection) new GymAddCoursesActivity.AddCourseConnection(new GymAddCoursesActivity.AddCourseConnection.AsyncResponse() {
             @Override
             public void processFinish(Integer output) {

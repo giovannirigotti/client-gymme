@@ -1,7 +1,6 @@
 package android_team.gymme_client.customer;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +9,15 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.GymObject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject>  implements Filterable {
+public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject> implements Filterable {
 
     private ArrayList<GymObject> gym;
     private Activity context;
@@ -42,10 +41,10 @@ public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject>  implement
         if (r == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
             r = layoutInflater.inflate(R.layout.customer_gym_item, null);
-            viewHolder = new  CustomCustomerGymAdapter.ViewHolder(r);
+            viewHolder = new CustomCustomerGymAdapter.ViewHolder(r);
             r.setTag(viewHolder);
         } else {
-            viewHolder = ( CustomCustomerGymAdapter.ViewHolder) r.getTag();
+            viewHolder = (CustomCustomerGymAdapter.ViewHolder) r.getTag();
         }
         String gym_name = gym.get(position).gym_name;
         String gym_address = gym.get(position).gym_address;
@@ -59,7 +58,7 @@ public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject>  implement
     }
 
     class ViewHolder {
-        TextView tv_customer_gym_item_name,tv_customer_gym_item_address;
+        TextView tv_customer_gym_item_name, tv_customer_gym_item_address;
 
         ViewHolder(View v) {
             tv_customer_gym_item_name = v.findViewById(R.id.tv_customer_gym_item_name);

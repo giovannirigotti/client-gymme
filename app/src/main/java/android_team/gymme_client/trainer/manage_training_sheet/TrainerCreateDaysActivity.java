@@ -1,8 +1,5 @@
 package android_team.gymme_client.trainer.manage_training_sheet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +9,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonObject;
 
@@ -117,40 +117,37 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
         //endregion
 
         day_list = new ArrayList<>();
-        for(int k = 1; k <= days; k++){
+        for (int k = 1; k <= days; k++) {
             day_list.add(k);
         }
         day_check = new ArrayList<>();
-        for(int k = 1; k <= days; k++){
+        for (int k = 1; k <= days; k++) {
             day_check.add(false);
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("GIORNI SCHEDA");
+        tv_title.setText("Giorni scheda");
 
         day_adapter = new CustomCreateDayAdapter(TrainerCreateDaysActivity.this, day_list, sheet_id);
         lv_day.setAdapter(day_adapter);
 
 
-
         btn_end_create_day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkAllDays()){
+                if (checkAllDays()) {
                     //TODO VADO ALLA ACTIVITY DELLE SCHEDE e INVIO NOTIFICA
                     sendNotify();
 
-                }
-                else{
+                } else {
                     Toast.makeText(TrainerCreateDaysActivity.this, "Completa l'inserimento di tutti i giorni!", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
     }
-
 
 
     private void sendNotify() {
@@ -170,8 +167,7 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
                             finish();
                         }
                     });
-                }
-                else {
+                } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(TrainerCreateDaysActivity.this, "Errore sul server", Toast.LENGTH_SHORT).show();
@@ -257,8 +253,8 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
 
     private boolean checkAllDays() {
         boolean res = true;
-        for (int i = 0; i < days; i++){
-            if(day_check.get(i) == false){
+        for (int i = 0; i < days; i++) {
+            if (day_check.get(i) == false) {
                 res = false;
             }
         }
@@ -271,7 +267,7 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
         to_edit.setText("COMPLETATO");
     }
 
-    public static void checkDayOK(){
+    public static void checkDayOK() {
         day_check.set(DAY_POSITION, true);
     }
 
@@ -281,6 +277,7 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -289,13 +286,15 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void trainerToTrainingSheet(View view){
+    public void trainerToTrainingSheet(View view) {
         drawerTrainerListener.toTrainingSheet();
     }
-    public void trainerToProfile(View view){
+
+    public void trainerToProfile(View view) {
         drawerTrainerListener.toProfile();
     }
-    public void trainerToHome(View view){
+
+    public void trainerToHome(View view) {
         drawerTrainerListener.toHome();
     }
     //endregion

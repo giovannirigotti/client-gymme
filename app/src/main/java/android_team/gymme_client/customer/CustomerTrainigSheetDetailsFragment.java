@@ -2,16 +2,14 @@ package android_team.gymme_client.customer;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -91,7 +89,7 @@ public class CustomerTrainigSheetDetailsFragment extends Fragment {
         setData(chart, training_sheet.get("strength").getAsInt());
 
         trainingDaysRecycler.setAdapter(new TrainingDaysDetailChooseAdapter(training_sheet.get("training_days").getAsJsonArray(),
-                training_sheet.get("exercises").getAsJsonArray(),getContext()));
+                training_sheet.get("exercises").getAsJsonArray(), getContext()));
         trainingDaysRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return root;
@@ -104,7 +102,7 @@ public class CustomerTrainigSheetDetailsFragment extends Fragment {
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         entries.add(new PieEntry(strenght));
-        entries.add(new PieEntry(100-strenght));
+        entries.add(new PieEntry(100 - strenght));
 
         PieDataSet dataSet = new PieDataSet(entries, "Difficoltà");
 
@@ -116,7 +114,6 @@ public class CustomerTrainigSheetDetailsFragment extends Fragment {
 
 
         ArrayList<Integer> colors = new ArrayList<>();
-
 
 
         colors.add(Color.parseColor("#8f0032"));

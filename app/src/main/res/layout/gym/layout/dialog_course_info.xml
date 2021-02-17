@@ -198,7 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cornerRadius="30dp"
-            android:text="ESCI"/>
+            android:text="ESCI" />
 
     </LinearLayout>
 </LinearLayout>

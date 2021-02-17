@@ -1,8 +1,5 @@
 package android_team.gymme_client.trainer.manage_training_sheet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -83,7 +83,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, trainer_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("CREA SCHEDA");
+        tv_title.setText("Crea scheda");
 
         et_title = (EditText) findViewById(R.id.et_create_sheet_title);
         et_description = (EditText) findViewById(R.id.et_create_sheet_description);
@@ -113,10 +113,10 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
     //region CHECK DATA
     private boolean checkData() {
 
-        if(checkTitolo()){
-            if(checkDescrizione()){
-                if(checkDataCreazione()){
-                    if(checkNumber()){
+        if (checkTitolo()) {
+            if (checkDescrizione()) {
+                if (checkDataCreazione()) {
+                    if (checkNumber()) {
                         //Log.e("CHECK", "ALL OK");
                         return true;
                     }
@@ -135,7 +135,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
             try {
                 str_days = Integer.parseInt(n_days);
                 //Log.e("CONVERSIONE NUMERO", "OK");
-                if(str_days < 1 || str_days > 7 ){
+                if (str_days < 1 || str_days > 7) {
                     //Log.e("CONVERSIONE NUMERO", "ERRORE DIMENSIONE NUMERO");
                     Toast.makeText(TrainerCreateTrainingSheetActivity.this, "Inserisci un numero di giorni compreso tra 1 e 7!", Toast.LENGTH_LONG).show();
                     return false;
@@ -235,7 +235,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
     }
     //endregion
 
-    private void insertTrainigSheet(){
+    private void insertTrainigSheet() {
         TrainerCreateTrainingSheetActivity.AddSheetConnection asyncTask = (TrainerCreateTrainingSheetActivity.AddSheetConnection) new TrainerCreateTrainingSheetActivity.AddSheetConnection(new TrainerCreateTrainingSheetActivity.AddSheetConnection.AsyncResponse() {
             @Override
             public void processFinish(Integer output, final Integer sheet_id) {
@@ -329,7 +329,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
                     delegate.processFinish(responseCode, 0);
                     urlConnection.disconnect();
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 //Log.e("TRAINING SHEET", "I/O EXCEPTION ERROR");
                 e.printStackTrace();
                 responseCode = 69;

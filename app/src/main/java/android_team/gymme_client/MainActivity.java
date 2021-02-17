@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +18,6 @@ import android_team.gymme_client.nutritionist.NutritionistHomeActivity;
 import android_team.gymme_client.support.NoNetworkActivity;
 import android_team.gymme_client.support.UserInfo;
 import android_team.gymme_client.trainer.TrainerHomeActivity;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,25 +56,25 @@ public class MainActivity extends AppCompatActivity {
             if (type == 0) {
                 //Se è un utente "normale".
                 Intent i = new Intent(getApplicationContext(), CustomerHomeActivity.class);
-                i.putExtra("user_id",user_id);
+                i.putExtra("user_id", user_id);
                 startActivity(i);
                 finish();
             } else if (type == 1) {
                 //Se è un trainer.
                 Intent i = new Intent(getApplicationContext(), TrainerHomeActivity.class);
-                i.putExtra("user_id",user_id); //DA ERRORI PERCHE user vuoto suppongo
+                i.putExtra("user_id", user_id); //DA ERRORI PERCHE user vuoto suppongo
                 startActivity(i);
                 finish();
             } else if (type == 2) {
                 //Se è un nutrizionista.
                 Intent i = new Intent(getApplicationContext(), NutritionistHomeActivity.class);
-                i.putExtra("user_id",user_id); //DA ERRORI PERCHE user vuoto suppongo
+                i.putExtra("user_id", user_id); //DA ERRORI PERCHE user vuoto suppongo
                 startActivity(i);
                 finish();
             } else if (type == 3) {
                 //Se è un proprietario.
                 Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
-                i.putExtra("user_id",user_id); //DA ERRORI PERCHE user vuoto suppongo
+                i.putExtra("user_id", user_id); //DA ERRORI PERCHE user vuoto suppongo
                 startActivity(i);
                 finish();
             }

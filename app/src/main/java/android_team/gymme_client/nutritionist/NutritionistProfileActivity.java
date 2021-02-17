@@ -37,7 +37,6 @@ import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.support.Utili;
-import android_team.gymme_client.trainer.DrawerTrainerListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -109,7 +108,7 @@ public class NutritionistProfileActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_nutri_activity);
         drawerNutriListener = new DrawerNutriListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("PROFILO");
+        tv_title.setText("Profilo");
 
         //Get User Data & Customer Data from DB
         GetDataSetView(user_id);
@@ -155,6 +154,7 @@ public class NutritionistProfileActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -163,10 +163,11 @@ public class NutritionistProfileActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void nutriToProfile(View view){
+    public void nutriToProfile(View view) {
         drawerNutriListener.toProfile();
     }
-    public void nutriToHome(View view){
+
+    public void nutriToHome(View view) {
         drawerNutriListener.toHome();
     }
     //endregion
@@ -345,7 +346,7 @@ public class NutritionistProfileActivity extends AppCompatActivity {
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     //Log.e("Server response", "HTTP_NOT_FOUND");
-                    delegate.processFinish("error","error");
+                    delegate.processFinish("error", "error");
                 }
 
             } catch (IOException e) {

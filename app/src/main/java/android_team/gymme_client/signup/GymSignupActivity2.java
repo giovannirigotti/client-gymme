@@ -1,23 +1,15 @@
 package android_team.gymme_client.signup;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-
 import android_team.gymme_client.R;
-import android_team.gymme_client.login.LoginActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -84,7 +76,7 @@ public class GymSignupActivity2 extends AppCompatActivity {
                 _signup_button_next2_gym.setVisibility(View.GONE);
                 progressBarSignup2Gym.setVisibility(View.VISIBLE);
 
-                boolean pool=_switchSignUpPool.isChecked();
+                boolean pool = _switchSignUpPool.isChecked();
                 boolean boxRing = _switchSignupBoxRing.isChecked();
                 boolean aerobics = _switchSignupAerobics.isChecked();
                 boolean spa = _switchSignUpSpa.isChecked();
@@ -122,7 +114,6 @@ public class GymSignupActivity2 extends AppCompatActivity {
                 progressBarSignup2Gym.setVisibility(View.GONE);
             }
         });
-
 
 
     }

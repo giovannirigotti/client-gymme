@@ -1,14 +1,5 @@
 package android_team.gymme_client.customer;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.gym.manage_course.CourseObject;
-import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.Drawer;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -18,11 +9,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -37,6 +30,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android_team.gymme_client.R;
+import android_team.gymme_client.gym.manage_course.CourseObject;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
+
 public class CustomerAddCourseActivity extends AppCompatActivity {
 
     static CustomDisponibleCourseAdapter course_adapter;
@@ -46,7 +44,7 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
     public static ArrayList<CourseObject> course_list;
     DrawerCustomerListener drawerCustomerListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_add_course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,33 +69,37 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
-        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        drawerCustomerListener = new DrawerCustomerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("AGGIUNGI CORSO");
+        no_item_cus_add_course = (TextView) findViewById(R.id.no_item_cus_add_course);
+
+        tv_title.setText("Aggiungi corso");
 
         lv_course = (ListView) findViewById(R.id.lv_customer_disponible_course);
 
         getCourse();
 
-
         inputSearch = (EditText) findViewById(R.id.et_search_disponible_courses);
-        inputSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                CustomerAddCourseActivity.this.course_adapter.getFilter().filter(cs);
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
+        if (!course_list.isEmpty()) {
+            inputSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    CustomerAddCourseActivity.this.course_adapter.getFilter().filter(cs);
+                }
 
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-        });
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                }
 
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
+            });
+        }
     }
+
     private void getCourse() {
         CustomerAddCourseActivity.ReceiveCourseConn asyncTaskUser = (CustomerAddCourseActivity.ReceiveCourseConn) new CustomerAddCourseActivity.ReceiveCourseConn(new CustomerAddCourseActivity.ReceiveCourseConn.AsyncResponse() {
             @Override
@@ -119,6 +121,7 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             Toast.makeText(CustomerAddCourseActivity.this, "Nessun corso", Toast.LENGTH_SHORT).show();
+                            no_item_cus_add_course.setVisibility(View.VISIBLE);
                         }
                     });
                 }
@@ -232,8 +235,8 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
 
     public static void redoAdapterCourse(Activity context, ArrayList<CourseObject> courses, Integer position) {
         ArrayList<CourseObject> new_t = new ArrayList<>();
-        for(int i = 0; i < courses.size(); i++){
-            if(i != position){
+        for (int i = 0; i < courses.size(); i++) {
+            if (i != position) {
                 new_t.add(courses.get(i));
             }
         }
@@ -247,6 +250,7 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -255,22 +259,27 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void customerToNotify(View view){
+    public void customerToNotify(View view) {
         drawerCustomerListener.toNotify();
     }
-    public void customerToTrainings(View view){
+
+    public void customerToTrainings(View view) {
         drawerCustomerListener.toTrainings();
     }
-    public void customerToGym(View view){
+
+    public void customerToGym(View view) {
         drawerCustomerListener.toGym();
     }
-    public void customerToCourse(View view){
+
+    public void customerToCourse(View view) {
         drawerCustomerListener.toCourse();
     }
-    public void customerToProfile(View view){
+
+    public void customerToProfile(View view) {
         drawerCustomerListener.toProfile();
     }
-    public void customerToHome(View view){
+
+    public void customerToHome(View view) {
         drawerCustomerListener.toHome();
     }
 //endregion

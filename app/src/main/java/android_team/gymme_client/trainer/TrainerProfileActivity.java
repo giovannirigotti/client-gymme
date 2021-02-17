@@ -33,9 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.nutritionist.NutritionistProfileActivity;
 import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.support.Utili;
 import butterknife.BindView;
@@ -105,7 +103,7 @@ public class TrainerProfileActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("PROFILO");
+        tv_title.setText("Profilo");
 
         //Get User Data & Customer Data from DB
         GetDataSetView(user_id);
@@ -151,6 +149,7 @@ public class TrainerProfileActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -159,13 +158,15 @@ public class TrainerProfileActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void trainerToTrainingSheet(View view){
+    public void trainerToTrainingSheet(View view) {
         drawerTrainerListener.toTrainingSheet();
     }
-    public void trainerToProfile(View view){
+
+    public void trainerToProfile(View view) {
         drawerTrainerListener.toProfile();
     }
-    public void trainerToHome(View view){
+
+    public void trainerToHome(View view) {
         drawerTrainerListener.toHome();
     }
     //endregion
@@ -344,7 +345,7 @@ public class TrainerProfileActivity extends AppCompatActivity {
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     //Log.e("Server response", "HTTP_NOT_FOUND");
-                    delegate.processFinish("error","error");
+                    delegate.processFinish("error", "error");
                 }
 
             } catch (IOException e) {

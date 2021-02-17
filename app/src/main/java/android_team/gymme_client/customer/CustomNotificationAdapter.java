@@ -8,12 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-
-import android_team.gymme_client.R;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+
+import android_team.gymme_client.R;
 
 public class CustomNotificationAdapter extends ArrayAdapter<String> {
     private ArrayList<String> items;

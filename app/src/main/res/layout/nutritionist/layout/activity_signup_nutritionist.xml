@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -72,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -92,7 +90,7 @@
                         android:maxLines="10"
                         android:minLines="1"
                         android:scrollbars="vertical"
-                        android:maxLength="200"/>
+                        android:maxLength="200" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -113,15 +111,17 @@
                         android:maxLines="1"
                         android:minLines="1"
                         android:scrollbars="vertical"
-                        android:maxLength="50"/>
+                        android:maxLength="50" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <ProgressBar
                     android:id="@+id/progressBarSignupNutritionist"
                     style="@style/AppTheme"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="gone"></ProgressBar>
+
                 <Button
                     android:id="@+id/signup_button_final_nutritionist"
                     android:layout_width="wrap_content"

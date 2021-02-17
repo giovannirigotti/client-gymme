@@ -14,14 +14,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<TrainingSheetObject>  {
+public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<TrainingSheetObject> {
 
     private static ArrayList<TrainingSheetObject> sheets;
     private Activity context;
@@ -69,7 +69,7 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
         viewHolder.btn_sheet_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InfoSheet(context, training_sheet_id, customer_id, trainer_id, creation_date, title, description, number_of_days, strength, name, lastname,  position);
+                InfoSheet(context, training_sheet_id, customer_id, trainer_id, creation_date, title, description, number_of_days, strength, name, lastname, position);
             }
         });
         return r;
@@ -89,7 +89,7 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
 
 
     public void InfoSheet(Activity a, String training_sheet_id, String customer_id, String trainer_id, String creation_date, String title, String description, String number_of_days, String strength, String name, String lastname, Integer position) {
-        CustomTrainerTrainingSheetCustomerAdapter.CustomDialogSheetInfo cdd = new CustomTrainerTrainingSheetCustomerAdapter.CustomDialogSheetInfo(a, training_sheet_id, customer_id, trainer_id, creation_date, title, description, number_of_days, strength, name, lastname,  position);
+        CustomTrainerTrainingSheetCustomerAdapter.CustomDialogSheetInfo cdd = new CustomTrainerTrainingSheetCustomerAdapter.CustomDialogSheetInfo(a, training_sheet_id, customer_id, trainer_id, creation_date, title, description, number_of_days, strength, name, lastname, position);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cdd.show();
     }
@@ -111,7 +111,7 @@ public class CustomTrainerTrainingSheetCustomerAdapter extends ArrayAdapter<Trai
         private String lastname;
         Integer position;
 
-        public CustomDialogSheetInfo(Activity a, String training_sheet_id, String customer_id, String trainer_id, String creation_date, String title, String description, String number_of_days, String strength, String name, String lastname, Integer position)  {
+        public CustomDialogSheetInfo(Activity a, String training_sheet_id, String customer_id, String trainer_id, String creation_date, String title, String description, String number_of_days, String strength, String name, String lastname, Integer position) {
             super(a);
             this.c = a;
             this.training_sheet_id = training_sheet_id;

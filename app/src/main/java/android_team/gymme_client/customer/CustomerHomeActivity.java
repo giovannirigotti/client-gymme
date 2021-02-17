@@ -1,11 +1,7 @@
 package android_team.gymme_client.customer;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,37 +11,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import android_team.gymme_client.support.Drawer;
 
 public class CustomerHomeActivity extends AppCompatActivity {
 
     private int user_id;
 
-    DrawerCustomerListener drawerCustomerListener;;
+    DrawerCustomerListener drawerCustomerListener;
+    ;
     DrawerLayout drawerLayout;
     TextView tv_title;
 
@@ -75,7 +54,6 @@ public class CustomerHomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
             Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
@@ -94,7 +72,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
         drawerCustomerListener = new DrawerCustomerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("HOME");
+        tv_title.setText("Home");
 
         _btn_customer_home_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +94,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
             }
         });
 
-          _btn_customer_home_notification.setOnClickListener(new View.OnClickListener() {
+        _btn_customer_home_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Log.e("REDIRECT", "Customer Manage Gym Activity");
@@ -153,13 +131,13 @@ public class CustomerHomeActivity extends AppCompatActivity {
     }
 
 
-
     //region DRAWER
     @Override
     protected void onPause() {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -168,22 +146,27 @@ public class CustomerHomeActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void customerToNotify(View view){
+    public void customerToNotify(View view) {
         drawerCustomerListener.toNotify();
     }
-    public void customerToTrainings(View view){
+
+    public void customerToTrainings(View view) {
         drawerCustomerListener.toTrainings();
     }
-    public void customerToGym(View view){
+
+    public void customerToGym(View view) {
         drawerCustomerListener.toGym();
     }
-    public void customerToCourse(View view){
+
+    public void customerToCourse(View view) {
         drawerCustomerListener.toCourse();
     }
-    public void customerToProfile(View view){
+
+    public void customerToProfile(View view) {
         drawerCustomerListener.toProfile();
     }
-    public void customerToHome(View view){
+
+    public void customerToHome(View view) {
         drawerCustomerListener.toHome();
     }
     //endregion

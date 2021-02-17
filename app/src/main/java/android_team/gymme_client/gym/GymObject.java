@@ -20,7 +20,6 @@ public class GymObject {
     public Integer showers;
 
 
-
     public GymObject(String user_id, String vat_number, String gym_name, String gym_address, String zip_code, Integer pool, Integer box_ring, Integer aerobics, Integer spa, Integer wifi, Integer parking_area, Integer personal_trainer_service,
                      Integer nutritionist_service, Integer impedance_balance, Integer courses, Integer showers) {
         this.user_id = user_id;

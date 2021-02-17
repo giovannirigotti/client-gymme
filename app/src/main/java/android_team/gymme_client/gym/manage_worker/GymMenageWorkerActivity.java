@@ -1,8 +1,4 @@
-
 package android_team.gymme_client.gym.manage_worker;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,6 +13,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -47,7 +46,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
 
     DrawerGymListener drawerGymListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_gym_add_trainer, no_item_gym_add_nutri;
 
     static CustomGymTrainerAssumedAdapter trainer_adapter;
     static CustomGymNutritionistAssumedAdapter nutritionist_adapter;
@@ -73,7 +72,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gym_menage_worker);
+        setContentView(R.layout.activity_gym_manage_worker);
 
         trainers_list = new ArrayList<TrainerObject>();
         nutritionists_list = new ArrayList<NutritionistObject>();
@@ -104,7 +103,11 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("DIPENDENTI");
+        no_item_gym_add_trainer = (TextView) findViewById(R.id.no_item_gym_add_trainer);
+        no_item_gym_add_nutri = (TextView) findViewById(R.id.no_item_gym_add_nutri);
+
+
+        tv_title.setText("Dipendenti");
 
         getWorkerData();
 
@@ -144,6 +147,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -152,19 +156,23 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion
@@ -207,6 +215,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_gym_add_trainer.setVisibility(View.VISIBLE);
                             Toast.makeText(GymMenageWorkerActivity.this, "Nessun personal trainer come dipendente", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -340,6 +349,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_gym_add_nutri.setVisibility(View.VISIBLE);
                             Toast.makeText(GymMenageWorkerActivity.this, "Nessun nutrizionista come dipendente", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -452,8 +462,8 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
 
     public static void redoAdapterTrainer(Activity context, ArrayList<TrainerObject> trainers, Integer position) {
         ArrayList<TrainerObject> new_t = new ArrayList<>();
-        for(int i = 0; i < trainers.size(); i++){
-            if(i != position){
+        for (int i = 0; i < trainers.size(); i++) {
+            if (i != position) {
                 new_t.add(trainers.get(i));
             }
         }
@@ -463,8 +473,8 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
 
     public static void redoAdapterNutri(Activity context, ArrayList<NutritionistObject> nutritionists, Integer position) {
         ArrayList<NutritionistObject> new_n = new ArrayList<>();
-        for(int i = 0; i < nutritionists.size(); i++){
-            if(i != position){
+        for (int i = 0; i < nutritionists.size(); i++) {
+            if (i != position) {
                 new_n.add(nutritionists.get(i));
             }
         }
@@ -475,7 +485,7 @@ public class GymMenageWorkerActivity extends AppCompatActivity {
 
     public static void addToAdapterNutritionist(Activity context, ArrayList<NutritionistObject> nutritionists, NutritionistObject t_toAdd) {
         ArrayList<NutritionistObject> new_n = new ArrayList<>();
-        for(int i = 0; i < nutritionists.size(); i++){
+        for (int i = 0; i < nutritionists.size(); i++) {
             new_n.add(nutritionists.get(i));
         }
         new_n.add(t_toAdd);

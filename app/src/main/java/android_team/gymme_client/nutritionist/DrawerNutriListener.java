@@ -2,7 +2,6 @@ package android_team.gymme_client.nutritionist;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 public class DrawerNutriListener {
 
@@ -17,6 +16,7 @@ public class DrawerNutriListener {
     public void toProfile() {
         redirectActivity(activity, NutritionistProfileActivity.class);
     }
+
     public void toHome() {
         redirectActivity(activity, NutritionistHomeActivity.class);
     }

@@ -1,14 +1,5 @@
 package android_team.gymme_client.gym.manage_profile;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import android_team.gymme_client.R;
-import android_team.gymme_client.gym.DrawerGymListener;
-import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.Drawer;
-import android_team.gymme_client.support.Utili;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -24,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -37,6 +31,12 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import android_team.gymme_client.R;
+import android_team.gymme_client.gym.DrawerGymListener;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
+import android_team.gymme_client.support.Utili;
 
 public class GymProfileActivity extends AppCompatActivity {
 
@@ -85,7 +85,7 @@ public class GymProfileActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("PROFILO");
+        tv_title.setText("Profilo");
 
         //Get User Data & Customer Data from DB
         GetDataSetView(user_id);
@@ -145,6 +145,7 @@ public class GymProfileActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -153,19 +154,23 @@ public class GymProfileActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion

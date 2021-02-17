@@ -1,8 +1,5 @@
 package android_team.gymme_client.gym.manage_customer;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -43,7 +43,7 @@ public class GymCustomersActivity extends AppCompatActivity {
 
     DrawerGymListener drawerGymListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_list_customers;
 
     ListView lv_clienti;
     EditText et_search_client;
@@ -60,21 +60,23 @@ public class GymCustomersActivity extends AppCompatActivity {
 
         getCustomers();
 
-        et_search_client.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                GymCustomersActivity.this.customer_adapter.getFilter().filter(cs);
-            }
+        if (!lista_clienti.isEmpty()) {
+            et_search_client.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    GymCustomersActivity.this.customer_adapter.getFilter().filter(cs);
+                }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
+            });
+        }
     }
 
     public static String getGymId() {
@@ -107,7 +109,9 @@ public class GymCustomersActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_gym_activity);
         drawerGymListener = new DrawerGymListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("CLIENTI");
+        no_item_cus_list_customers = (TextView) findViewById(R.id.no_item_cus_list_customers);
+
+        tv_title.setText("Clienti");
 
 
     }
@@ -118,6 +122,7 @@ public class GymCustomersActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -126,19 +131,23 @@ public class GymCustomersActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void gymToCorsi(View view){
+    public void gymToCorsi(View view) {
         drawerGymListener.toCourse();
     }
-    public void gymToClienti(View view){
+
+    public void gymToClienti(View view) {
         drawerGymListener.toCustomer();
     }
-    public void gymToDipendenti(View view){
+
+    public void gymToDipendenti(View view) {
         drawerGymListener.toEmployees();
     }
-    public void gymToProfilo(View view){
+
+    public void gymToProfilo(View view) {
         drawerGymListener.toProfile();
     }
-    public void gymToHome(View view){
+
+    public void gymToHome(View view) {
         drawerGymListener.toHome();
     }
     //endregion
@@ -167,6 +176,7 @@ public class GymCustomersActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_cus_list_customers.setVisibility(View.VISIBLE);
                             Toast.makeText(GymCustomersActivity.this, "Nessun cliente per la tua palestra", Toast.LENGTH_SHORT).show();
                         }
                     });

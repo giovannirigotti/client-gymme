@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,10 +45,12 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
         this.context = _context;
         this.nutritionist = _nutritionist;
     }
+
     @Override
     public int getCount() {
         return nutritionist.size();
     }
+
     @NonNull
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -85,7 +86,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
     }
 
     class ViewHolder {
-        TextView tv_gym_nutritionist_name,tv_gym_nutritionist_lastname,tv_gym_nutritionist_email;
+        TextView tv_gym_nutritionist_name, tv_gym_nutritionist_lastname, tv_gym_nutritionist_email;
         ImageView btn_gym_nutritionist_add;
 
         ViewHolder(View v) {
@@ -138,6 +139,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
         };
         return filter;
     }
+
     public void hireNutritionist(Activity a, String trainer_id, String name, String lastname, String email, String qualification, String fiscal_code, Integer position) {
         CustomGymNutritionistAdapter.CustomDialogHireNutritionist cdd = new CustomGymNutritionistAdapter.CustomDialogHireNutritionist(a, trainer_id, name, lastname, email, qualification, fiscal_code, position);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

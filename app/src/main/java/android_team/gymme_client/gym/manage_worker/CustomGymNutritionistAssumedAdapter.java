@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +79,7 @@ public class CustomGymNutritionistAssumedAdapter extends ArrayAdapter<Nutritioni
     }
 
     class ViewHolder {
-        TextView tv_gym_nutritionist_assumed_name,tv_gym_nutritionist_assumed_lastname,tv_gym_nutritionist_assumed_email;
+        TextView tv_gym_nutritionist_assumed_name, tv_gym_nutritionist_assumed_lastname, tv_gym_nutritionist_assumed_email;
         ImageView btn_gym_nutritionist_assumed_add;
 
         ViewHolder(View v) {
@@ -88,7 +87,7 @@ public class CustomGymNutritionistAssumedAdapter extends ArrayAdapter<Nutritioni
             tv_gym_nutritionist_assumed_lastname = v.findViewById(R.id.tv_gym_nutritionist_assumed_lastname);
             tv_gym_nutritionist_assumed_email = v.findViewById(R.id.tv_gym_nutritionist_assumed_email);
 
-            btn_gym_nutritionist_assumed_add = v.findViewById(R.id.btn_gym_nutritionist_assumed_add);
+            btn_gym_nutritionist_assumed_add = v.findViewById(R.id.btn_gym_nutritionist_assumed_remove);
         }
     }
 

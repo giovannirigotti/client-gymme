@@ -1,12 +1,5 @@
 package android_team.gymme_client.customer;
 
-import android_team.gymme_client.R;
-import android_team.gymme_client.gym.GymObject;
-import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.Drawer;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,6 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -34,6 +30,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android_team.gymme_client.R;
+import android_team.gymme_client.gym.GymObject;
+import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
+
 public class CustomerAddGymActivity extends AppCompatActivity {
 
     private int user_id;
@@ -42,7 +43,7 @@ public class CustomerAddGymActivity extends AppCompatActivity {
     ListView lv_gym;
     DrawerCustomerListener drawerCustomerListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_add_gym;
     public static ArrayList<GymObject> gym_list;
 
     @Override
@@ -68,30 +69,34 @@ public class CustomerAddGymActivity extends AppCompatActivity {
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
-        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        drawerCustomerListener = new DrawerCustomerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("AGGIUNGI PALESTRA");
+        no_item_cus_add_gym = (TextView) findViewById(R.id.no_item_cus_add_gym);
+
+        tv_title.setText("Aggiungi palestra");
         lv_gym = (ListView) findViewById(R.id.lv_customer_disponible_gym);
 
         getGym();
 
         inputSearch = (EditText) findViewById(R.id.et_search_disponible_gym);
-        inputSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                CustomerAddGymActivity.this.gym_adapter.getFilter().filter(cs);
-            }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
+        if (!gym_list.isEmpty()) {
+            inputSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    CustomerAddGymActivity.this.gym_adapter.getFilter().filter(cs);
+                }
 
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-        });
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                }
 
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
+            });
+        }
     }
 
     public static ArrayList<GymObject> getAllGyms() {
@@ -132,6 +137,7 @@ public class CustomerAddGymActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NON C'è NESSUNA GYM DISPONIBILE
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_cus_add_gym.setVisibility(View.VISIBLE);
                             Toast.makeText(CustomerAddGymActivity.this, "Nessuna gym", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -198,7 +204,6 @@ public class CustomerAddGymActivity extends AppCompatActivity {
                         Integer showers = gym.get("showers").getAsInt();
 
 
-
                         GymObject g_obj = new GymObject(user_id, vat_number, gym_name, gym_address, zip_code, pool, box_ring, aerobics, spa, wifi, parking_area, personal_trainer_service, nutritionist_service, impedance_balance, courses, showers);
                         g_objects.add(g_obj);
 
@@ -254,6 +259,7 @@ public class CustomerAddGymActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -262,22 +268,27 @@ public class CustomerAddGymActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void customerToNotify(View view){
+    public void customerToNotify(View view) {
         drawerCustomerListener.toNotify();
     }
-    public void customerToTrainings(View view){
+
+    public void customerToTrainings(View view) {
         drawerCustomerListener.toTrainings();
     }
-    public void customerToGym(View view){
+
+    public void customerToGym(View view) {
         drawerCustomerListener.toGym();
     }
-    public void customerToCourse(View view){
+
+    public void customerToCourse(View view) {
         drawerCustomerListener.toCourse();
     }
-    public void customerToProfile(View view){
+
+    public void customerToProfile(View view) {
         drawerCustomerListener.toProfile();
     }
-    public void customerToHome(View view){
+
+    public void customerToHome(View view) {
         drawerCustomerListener.toHome();
     }
 //endregion

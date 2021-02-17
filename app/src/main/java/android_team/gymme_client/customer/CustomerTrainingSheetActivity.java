@@ -1,36 +1,27 @@
 package android_team.gymme_client.customer;
 
-import android_team.gymme_client.customer.CustomerTrainigSheetDetailsFragment;
-import android_team.gymme_client.customer.CustomerTrainingSheetCalendarFragment;
-import android_team.gymme_client.customer.DrawerCustomerListener;
-import android_team.gymme_client.gym.manage_profile.GymEditDataActivity;
-import android_team.gymme_client.gym.manage_profile.GymProfileActivity;
-import android_team.gymme_client.support.Drawer;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
-import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,6 +31,7 @@ import java.net.URL;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.support.BasicActivity;
+import android_team.gymme_client.support.Drawer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,6 +46,12 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
     FrameLayout customerTrainingSheetFragmentContainer;
     @BindView(R.id.customerTrainingSheetActivitySpinner)
     ProgressBar customerTrainingSheetActivitySpinner;
+    @BindView(R.id.drawer_trainings_link)
+    LinearLayout drawer_trainings_link;
+    DrawerCustomerListener drawerCustomerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
+
 
 
     @Override
@@ -66,6 +64,16 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
         BottomNavigationView navigation = customerTrainingSheetBottomNavigation;
         navigation.setOnNavigationItemSelectedListener(this);
         getTrainingSheet(0);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
+        drawerCustomerListener = new DrawerCustomerListener(this, Integer.parseInt(user_id));
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("Allenamento");
+
+        drawer_trainings_link.setPadding(20, 10, 20, 10);
+        drawer_trainings_link.setBackground(getDrawable(R.drawable.rounded_rectangle));
+        drawer_trainings_link.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+
     }
 
 
@@ -254,5 +262,43 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
         }
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void customerToNotify(View view) {
+        drawerCustomerListener.toNotify();
+    }
+
+    public void customerToTrainings(View view) {
+        drawerCustomerListener.toTrainings();
+    }
+
+    public void customerToGym(View view) {
+        drawerCustomerListener.toGym();
+    }
+
+    public void customerToCourse(View view) {
+        drawerCustomerListener.toCourse();
+    }
+
+    public void customerToProfile(View view) {
+        drawerCustomerListener.toProfile();
+    }
+
+    public void customerToHome(View view) {
+        drawerCustomerListener.toHome();
+    }
 
 }

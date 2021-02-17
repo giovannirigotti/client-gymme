@@ -14,7 +14,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
 
 public class NutritionistHomeActivity extends AppCompatActivity {
 
@@ -49,7 +48,7 @@ public class NutritionistHomeActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_nutri_activity);
         drawerNutriListener = new DrawerNutriListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("HOME");
+        tv_title.setText("Home");
 
         btn_profile = (Button) findViewById(R.id.btn_nutri_profile);
 
@@ -71,6 +70,7 @@ public class NutritionistHomeActivity extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -79,10 +79,11 @@ public class NutritionistHomeActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void nutriToProfile(View view){
+    public void nutriToProfile(View view) {
         drawerNutriListener.toProfile();
     }
-    public void nutriToHome(View view){
+
+    public void nutriToHome(View view) {
         drawerNutriListener.toHome();
     }
     //endregion

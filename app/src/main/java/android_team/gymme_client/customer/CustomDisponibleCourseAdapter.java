@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,9 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.JsonObject;
 
@@ -36,10 +38,7 @@ import android_team.gymme_client.gym.manage_course.CourseObject;
 import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.support.MyApplication;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject>  implements Filterable {
+public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject> implements Filterable {
     private static ArrayList<CourseObject> courses;
     private Activity context;
 

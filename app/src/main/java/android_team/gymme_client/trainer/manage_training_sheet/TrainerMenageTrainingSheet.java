@@ -1,8 +1,5 @@
 package android_team.gymme_client.trainer.manage_training_sheet;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,6 +12,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -41,9 +41,9 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
 
     DrawerTrainerListener drawerTrainerListener;
     DrawerLayout drawerLayout;
-    TextView tv_title;
+    TextView tv_title, no_item_cus_sel_cus;
 
-    public static ArrayList<CustomerSmallObject> customer_list;
+    public static ArrayList<CustomerSmallObject> customer_list = new ArrayList<>();
     static CustomTrainerCustomerAdapter customer_adapter;
     static ListView lv_customer;
     EditText inputSearch;
@@ -78,25 +78,29 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
         drawerTrainerListener = new DrawerTrainerListener(this, user_id);
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-        tv_title.setText("SCHEDE ALLENAMENTI");
+        no_item_cus_sel_cus = (TextView) findViewById(R.id.no_item_cus_sel_cus);
+
+        tv_title.setText("Schede allenamenti");
 
         getTrainerCustomer();
 
-        inputSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                // When user changed the Text
-                TrainerMenageTrainingSheet.this.customer_adapter.getFilter().filter(cs);
-            }
+        if (!customer_list.isEmpty()) {
+            inputSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                    // When user changed the Text
+                    TrainerMenageTrainingSheet.this.customer_adapter.getFilter().filter(cs);
+                }
 
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
+                @Override
+                public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                }
 
-            @Override
-            public void afterTextChanged(Editable arg0) {
-            }
-        });
+                @Override
+                public void afterTextChanged(Editable arg0) {
+                }
+            });
+        }
     }
 
     public static ArrayList<CustomerSmallObject> getAllCustomers() {
@@ -122,6 +126,7 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA TRAINER LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            no_item_cus_sel_cus.setVisibility(View.VISIBLE);
                             Toast.makeText(TrainerMenageTrainingSheet.this, "Nessun cliente nella tua palestra", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -229,6 +234,7 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
         super.onPause();
         Drawer.closeDrawer(drawerLayout);
     }
+
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -237,13 +243,15 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void trainerToTrainingSheet(View view){
+    public void trainerToTrainingSheet(View view) {
         drawerTrainerListener.toTrainingSheet();
     }
-    public void trainerToProfile(View view){
+
+    public void trainerToProfile(View view) {
         drawerTrainerListener.toProfile();
     }
-    public void trainerToHome(View view){
+
+    public void trainerToHome(View view) {
         drawerTrainerListener.toHome();
     }
     //endregion
