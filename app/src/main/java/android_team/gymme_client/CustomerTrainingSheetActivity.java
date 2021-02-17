@@ -1,7 +1,10 @@
 package android_team.gymme_client;
 
+import android_team.gymme_client.customer.DrawerCustomerListener;
+import android_team.gymme_client.support.Drawer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,6 +48,7 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
     FrameLayout customerTrainingSheetFragmentContainer;
     @BindView(R.id.customerTrainingSheetActivitySpinner)
     ProgressBar customerTrainingSheetActivitySpinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,4 +204,5 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
     public void getTrainingSheet(int fragment) {
         new GetTrainingSheet(this, customerTrainingSheetBottomNavigation, customerTrainingSheetFragmentContainer, customerTrainingSheetActivitySpinner, fragment).execute(training_sheet_id);
     }
+
 }

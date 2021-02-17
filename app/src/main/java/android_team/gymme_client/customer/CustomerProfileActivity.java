@@ -1,5 +1,6 @@
 package android_team.gymme_client.customer;
 
+import android_team.gymme_client.support.Drawer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -36,6 +37,7 @@ import android_team.gymme_client.local_database.local_dbmanager.DBManagerUser;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Utili;
 import android_team.gymme_client.trainer.TrainerProfileActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -78,6 +80,10 @@ public class CustomerProfileActivity extends AppCompatActivity {
     @BindView(R.id.btn_customer_profile_logout)
     Button _btn_customer_profile_logout;
 
+    DrawerCustomerListener drawerCustomerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +108,10 @@ public class CustomerProfileActivity extends AppCompatActivity {
             }
         }
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
+        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("HOME");
 
         //Get User Data & Customer Data from DB
         GetDataSetView(user_id);
@@ -1048,4 +1058,37 @@ public class CustomerProfileActivity extends AppCompatActivity {
             return responseCode;
         }
     }
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void customerToNotify(View view){
+        drawerCustomerListener.toNotify();
+    }
+    public void customerToTrainings(View view){
+        drawerCustomerListener.toTrainings();
+    }
+    public void customerToGym(View view){
+        drawerCustomerListener.toGym();
+    }
+    public void customerToCourse(View view){
+        drawerCustomerListener.toCourse();
+    }
+    public void customerToProfile(View view){
+        drawerCustomerListener.toProfile();
+    }
+    public void customerToHome(View view){
+        drawerCustomerListener.toHome();
+    }
+//endregion
 }

@@ -14,7 +14,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:onClick="customerToNotify">
 
         <ImageView
             android:id="@+id/imageView12"
@@ -40,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
-        android:onClick="ToTrainings"
+        android:onClick="customerToTrainings"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -66,7 +67,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:onClick="customerToGym">
 
         <ImageView
             android:layout_width="40dp"
@@ -90,7 +92,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:onClick="customerToCourse">
 
         <ImageView
             android:layout_width="40dp"
@@ -114,7 +117,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:onClick="customerToProfile">
 
         <ImageView
             android:layout_width="40dp"
@@ -139,7 +143,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:onClick="customerToHome">
 
         <ImageView
             android:layout_width="40dp"
