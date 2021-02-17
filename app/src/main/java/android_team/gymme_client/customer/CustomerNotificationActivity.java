@@ -61,7 +61,7 @@ public class CustomerNotificationActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -85,7 +85,7 @@ public class CustomerNotificationActivity extends AppCompatActivity {
         CustomerNotificationActivity.ReciveNotification asyncTaskUser = (CustomerNotificationActivity.ReciveNotification) new CustomerNotificationActivity.ReciveNotification(new CustomerNotificationActivity.ReciveNotification.AsyncResponse() {
             @Override
             public void processFinish(ArrayList<String> _texts) {
-                Log.e("texts.get", _texts.get(0));
+                //Log.e("texts.get", _texts.get(0));
                 if (_texts.get(0).equals("error")) {
 
                     runOnUiThread(new Runnable() {
@@ -124,7 +124,7 @@ public class CustomerNotificationActivity extends AppCompatActivity {
                         }
                     });
 
-                    Log.e("listNotification", listNotification.toString());
+                    //Log.e("listNotification", listNotification.toString());
                 } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -182,11 +182,11 @@ public class CustomerNotificationActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server customer", responseString);
+                    //Log.e("Server customer", responseString);
                     notification = JsonParser.parseString(responseString).getAsJsonArray();
-                    Log.e("ARRAY", notification.toString());
+                    //Log.e("ARRAY", notification.toString());
                     for (int i = 0; i < notification.size(); i++) {
                         JsonObject notifica = (JsonObject) notification.get(i);
                         String readtext = notifica.get("text").getAsString();
@@ -197,10 +197,10 @@ public class CustomerNotificationActivity extends AppCompatActivity {
 
                     delegate.processFinish(testi);
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
                     delegate.processFinish(emptyList);
                 } else {
-                    Log.e("Server error", "errore :(");
+                    //Log.e("Server error", "errore :(");
                     delegate.processFinish(errorList);
                 }
             } catch (IOException e) {
@@ -243,9 +243,9 @@ public class CustomerNotificationActivity extends AppCompatActivity {
             @Override
             public void processFinish(Integer output) {
                 if (output == 200) {
-                    Log.e("NOTIFICA", "OK");
+                    //Log.e("NOTIFICA", "OK");
                 } else {
-                    Log.e("NOTIFICA", "Server error");
+                    //Log.e("NOTIFICA", "Server error");
                 }
             }
 
@@ -282,11 +282,11 @@ public class CustomerNotificationActivity extends AppCompatActivity {
                 urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("NOTIFICATION", "cancellata da DB");
+                    //Log.e("NOTIFICATION", "cancellata da DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("NOTIFICATION", "Error");
+                    //Log.e("NOTIFICATION", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

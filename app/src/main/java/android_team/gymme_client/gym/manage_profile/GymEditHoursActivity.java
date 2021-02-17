@@ -148,14 +148,14 @@ public class GymEditHoursActivity extends AppCompatActivity {
         //region CHECK INTENT.EXTRAS RECEIVED
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
-            Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -186,9 +186,9 @@ public class GymEditHoursActivity extends AppCompatActivity {
                     if (output == 200) {
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(GymEditHoursActivity.this, "SUCCESS, orari aggiornati", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GymEditHoursActivity.this, "Orari aggiornati", Toast.LENGTH_SHORT).show();
                                 // REDIRECT TO PROFILE GYM ACTIVITY
-                                Log.e("REDIRECT", "Gym Profile Activity");
+                                //Log.e("REDIRECT", "Gym Profile Activity");
                                 Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
                                 i.putExtra("user_id", user_id);
                                 startActivity(i);
@@ -197,7 +197,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                     } else {
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(GymEditHoursActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GymEditHoursActivity.this, "Errore sul server", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -278,11 +278,11 @@ public class GymEditHoursActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM HOURS", "CAMBIATI SUL DB");
+                    //Log.e("GYM HOURS", "CAMBIATI SUL DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM HOURS", "Error");
+                    //Log.e("GYM HOURS", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
@@ -436,8 +436,8 @@ public class GymEditHoursActivity extends AppCompatActivity {
             reset();
         }
 
-        Log.e("checkViewVal", opening_monday + " - " + closing_monday + " - " + opening_tuesday + " - " + closing_tuesday + " - " + opening_wednesday + " - " + closing_wednesday + " - " + opening_thursday + " - " + closing_thursday + " - " + opening_friday + " - " + closing_friday + " - " + opening_saturday + " - " + closing_saturday + " - " + opening_sunday + " - " + closing_sunday);
-        Log.e("checkViewVal", "END, res: " + res);
+        //Log.e("checkViewVal", opening_monday + " - " + closing_monday + " - " + opening_tuesday + " - " + closing_tuesday + " - " + opening_wednesday + " - " + closing_wednesday + " - " + opening_thursday + " - " + closing_thursday + " - " + opening_friday + " - " + closing_friday + " - " + opening_saturday + " - " + closing_saturday + " - " + opening_sunday + " - " + closing_sunday);
+        //Log.e("checkViewVal", "END, res: " + res);
         return res;
     }
 
@@ -493,7 +493,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
             int hours = Integer.parseInt(time.substring(0, 2));
             int minutes = Integer.parseInt(time.substring(3, 5));
 
-            //Log.e("res", Boolean.toString(time.matches(regex)));
+            ////Log.e("res", Boolean.toString(time.matches(regex)));
             return time.matches(regex) && 0 <= hours && hours <= 23 && 0 <= minutes && minutes <= 59;
 
         } else return false;
@@ -515,8 +515,8 @@ public class GymEditHoursActivity extends AppCompatActivity {
         o_sunday = sunday_opening_gym_et.getText().toString().trim();
         c_sunday = sunday_opening_gym_et.getText().toString().trim();
 
-        Log.e("updateViewVal", "END");
-        //Log.e("updateViewVal", o_monday + " - " + c_monday + " - " + o_tuesday + " - " + c_tuesday + " - " + o_wednesday + " - " + c_wednesday + " - " + o_thursday + " - " + c_thursday + " - " + o_friday + " - " + c_friday + " - " + o_saturday + " - " + c_saturday + " - " + o_sunday + " - " + c_sunday);
+        //Log.e("updateViewVal", "END");
+        ////Log.e("updateViewVal", o_monday + " - " + c_monday + " - " + o_tuesday + " - " + c_tuesday + " - " + o_wednesday + " - " + c_wednesday + " - " + o_thursday + " - " + c_thursday + " - " + o_friday + " - " + c_friday + " - " + o_saturday + " - " + c_saturday + " - " + o_sunday + " - " + c_sunday);
     }
 
 
@@ -529,7 +529,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                 if (_opening_monday == -2 && _opening_tuesday == -2 && _opening_wednesday == -2 && _opening_thursday == -2 && _opening_friday == -2 && _opening_saturday == -2 && _opening_sunday == -2) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymEditHoursActivity.this, "ERRORE CARICAMENTO DATI " + _opening_monday, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymEditHoursActivity.this, "Errore nel caricare i dati " + _opening_monday, Toast.LENGTH_SHORT).show();
                             Intent new_i = new Intent(GymEditHoursActivity.this, LoginActivity.class);
                             startActivity(new_i);
                             finish();
@@ -740,14 +740,14 @@ public class GymEditHoursActivity extends AppCompatActivity {
                 urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server customer", responseString);
+                    //Log.e("Server customer", responseString);
                     orari = JsonParser.parseString(responseString).getAsJsonArray();
-                    Log.e("ARRAY", orari.toString());
+                    //Log.e("ARRAY", orari.toString());
                     for (int i = 0; i < orari.size(); i++) {
                         JsonObject giorno = (JsonObject) orari.get(i);
-                        //Log.e("Giorno " + i, giorno.toString());
+                        ////Log.e("Giorno " + i, giorno.toString());
                         Integer day_id = giorno.get("day").getAsInt();
                         Integer open_h, close_h;
                         open_h = giorno.get("open").getAsInt();
@@ -791,7 +791,7 @@ public class GymEditHoursActivity extends AppCompatActivity {
                     delegate.processFinish(_opening_monday, _closing_monday, _opening_tuesday, _closing_tuesday, _opening_wednesday, _closing_wednesday, _opening_thursday, _closing_thursday, _opening_friday, _closing_friday, _opening_saturday, _closing_saturday, _opening_sunday, _closing_sunday);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
                     delegate.processFinish(-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2);
                 }
 

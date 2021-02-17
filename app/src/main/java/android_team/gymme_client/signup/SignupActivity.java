@@ -197,7 +197,7 @@ public class SignupActivity extends AppCompatActivity {
             password = _passwordText.getText().toString();
         }
 
-        Log.e("Data", _passwordText.getText().toString() + " " + _passwordConfirmText.getText().toString());
+        //Log.e("Data", _passwordText.getText().toString() + " " + _passwordConfirmText.getText().toString());
         String str1 = _passwordText.getText().toString();
         String str2 = _passwordConfirmText.getText().toString();
 
@@ -216,7 +216,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
 
-        Log.e("Debug", name_bool + " " + lastname_bool + " " + email_bool + " " + birthdate_bool + " " + password_bool + " " + password_confirm_bool);
+        //Log.e("Debug", name_bool + " " + lastname_bool + " " + email_bool + " " + birthdate_bool + " " + password_bool + " " + password_confirm_bool);
 
         if (name_bool && lastname_bool && email_bool && birthdate_bool && password_bool && password_confirm_bool) {
 
@@ -299,7 +299,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "Duplicate user!");
+                    //Log.e("Server response", "Duplicate user!");
                     toastMessage = "Esiste già un utente registrato con questa email!";
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {

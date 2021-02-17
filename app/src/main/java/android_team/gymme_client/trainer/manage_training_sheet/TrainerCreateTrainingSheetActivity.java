@@ -60,7 +60,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -117,7 +117,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
             if(checkDescrizione()){
                 if(checkDataCreazione()){
                     if(checkNumber()){
-                        Log.e("CHECK", "ALL OK");
+                        //Log.e("CHECK", "ALL OK");
                         return true;
                     }
                 }
@@ -134,15 +134,15 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
         } else {
             try {
                 str_days = Integer.parseInt(n_days);
-                Log.e("CONVERSIONE NUMERO", "OK");
+                //Log.e("CONVERSIONE NUMERO", "OK");
                 if(str_days < 1 || str_days > 7 ){
-                    Log.e("CONVERSIONE NUMERO", "ERRORE DIMENSIONE NUMERO");
+                    //Log.e("CONVERSIONE NUMERO", "ERRORE DIMENSIONE NUMERO");
                     Toast.makeText(TrainerCreateTrainingSheetActivity.this, "Inserisci un numero di giorni compreso tra 1 e 7!", Toast.LENGTH_LONG).show();
                     return false;
                 }
                 return true;
             } catch (Exception e) {
-                Log.e("CONVERSIONE NUMERO", "ERROR");
+                //Log.e("CONVERSIONE NUMERO", "ERROR");
                 Toast.makeText(TrainerCreateTrainingSheetActivity.this, "Inserisci un numero di sole cifre numeriche!", Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -171,7 +171,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
             Toast.makeText(TrainerCreateTrainingSheetActivity.this, "Titolo troppo lunga. MAX 200 caratteri.\nUsati: " + str_title.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
-            Log.e("CHECK", "TITOLO OK");
+            //Log.e("CHECK", "TITOLO OK");
             return true;
         }
     }
@@ -185,7 +185,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
             Toast.makeText(TrainerCreateTrainingSheetActivity.this, "Descrizione troppo lunga. MAX 2000 caratteri.\nUsati: " + str_description.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
-            Log.e("CHECK", "DESCRIZIONE OK");
+            //Log.e("CHECK", "DESCRIZIONE OK");
             return true;
         }
 
@@ -242,8 +242,8 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
                 if (output == 200) {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
-                            Toast.makeText(TrainerCreateTrainingSheetActivity.this, "SUCCESS, scheda creata", Toast.LENGTH_SHORT).show();
-                            Log.e("REDIRECT", "Trainer Create Days Activity");
+                            Toast.makeText(TrainerCreateTrainingSheetActivity.this, "Scheda creata", Toast.LENGTH_SHORT).show();
+                            //Log.e("REDIRECT", "Trainer Create Days Activity");
                             Intent i = new Intent(getApplicationContext(), TrainerCreateDaysActivity.class);
                             // Prima user_id era diventato quello del customer e trainer_id quello che globalmente
                             // viene chiamato user_id. Con questo passaggio torno nello standard
@@ -258,7 +258,7 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
                 } else {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
-                            Toast.makeText(TrainerCreateTrainingSheetActivity.this, "ERRORE AGGIUNTA CORSO, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TrainerCreateTrainingSheetActivity.this, "Errore del server", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -316,21 +316,21 @@ public class TrainerCreateTrainingSheetActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("TRAINING SHEET", "AGGIUNTO OK");
+                    //Log.e("TRAINING SHEET", "AGGIUNTO OK");
                     responseCode = 200;
                     String responseString = readStream(urlConnection.getInputStream());
                     JsonObject sheet = JsonParser.parseString(responseString).getAsJsonObject();
                     Integer sheet_id = sheet.get("training_sheet_id").getAsInt();
-                    Log.e("sheet_id ricevuto", ""+sheet_id);
+                    //Log.e("sheet_id ricevuto", ""+sheet_id);
                     delegate.processFinish(responseCode, sheet_id);
                 } else {
-                    Log.e("TRAINING SHEET", "Error INSERIMENTO TRAINING SHEET");
+                    //Log.e("TRAINING SHEET", "Error INSERIMENTO TRAINING SHEET");
                     responseCode = 500;
                     delegate.processFinish(responseCode, 0);
                     urlConnection.disconnect();
                 }
             } catch (IOException e){
-                Log.e("TRAINING SHEET", "I/O EXCEPTION ERROR");
+                //Log.e("TRAINING SHEET", "I/O EXCEPTION ERROR");
                 e.printStackTrace();
                 responseCode = 69;
                 delegate.processFinish(responseCode, 0);

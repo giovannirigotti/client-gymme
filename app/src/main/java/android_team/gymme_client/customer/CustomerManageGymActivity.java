@@ -69,7 +69,7 @@ public class CustomerManageGymActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -85,7 +85,7 @@ public class CustomerManageGymActivity extends AppCompatActivity {
         _btn_customer_manage_gym_to_disponible_gym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Customer Manage Gym Activity");
+                //Log.e("REDIRECT", "Customer Manage Gym Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerAddGymActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -95,7 +95,7 @@ public class CustomerManageGymActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.e("REDIRECT", "Customer Home Activity");
+        //Log.e("REDIRECT", "Customer Home Activity");
         Intent i = new Intent(getApplicationContext(), CustomerHomeActivity.class);
         i.putExtra("user_id", user_id);
         startActivity(i);
@@ -122,7 +122,7 @@ public class CustomerManageGymActivity extends AppCompatActivity {
                                     Intent intent = new Intent(getApplicationContext(), CustomerMyGymActivity.class);
                                     intent.putExtra("gym_id", Integer.parseInt(gym_list.get(i).user_id));
                                     intent.putExtra("user_id", user_id);
-                                    Log.e("gym_id before",  gym_list.get(i).user_id );
+                                    //Log.e("gym_id before",  gym_list.get(i).user_id );
                                     startActivity(intent);
                                 }
                             });
@@ -132,7 +132,7 @@ public class CustomerManageGymActivity extends AppCompatActivity {
                     // NESSUN DATO RICEVUTO PERCHE' NESSUNA GYM LAVORA PER QUESTA PALESTRA
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(CustomerManageGymActivity.this, "Nessuna gym", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CustomerManageGymActivity.this, "Nessuna palestra", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -173,7 +173,7 @@ public class CustomerManageGymActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _gyms = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -207,14 +207,14 @@ public class CustomerManageGymActivity extends AppCompatActivity {
                     delegate.processFinish(g_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET GYM", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET GYM", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<GymObject>());
                 } else {
-                    Log.e("GET GYM", "SERVER ERROR");
+                    //Log.e("GET GYM", "SERVER ERROR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET GYM", "I/O EXCEPTION ERROR");
+                //Log.e("GET GYM", "I/O EXCEPTION ERROR");
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();

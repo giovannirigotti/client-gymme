@@ -61,7 +61,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -95,7 +95,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
         btn_aggiungi_corso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Trainer Create Training Sheet Activity");
+                //Log.e("REDIRECT", "Trainer Create Training Sheet Activity");
                 Intent i = new Intent(getApplicationContext(), TrainerCreateTrainingSheetActivity.class);
                 i.putExtra("user_id", user_id);
                 i.putExtra("trainer_id", trainer_id);
@@ -165,7 +165,7 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _sheets = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -192,14 +192,14 @@ public class TrainerTrainingSheetCustomer extends AppCompatActivity {
                     delegate.processFinish(t_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET CUSTOMERS", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET CUSTOMERS", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<TrainingSheetObject>());
                 } else {
-                    Log.e("GET CUSTOMERS", "SERVER ERROR");
+                    //Log.e("GET CUSTOMERS", "SERVER ERROR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET CUSTOMERS", "I/O EXCEPTION ERROR");
+                //Log.e("GET CUSTOMERS", "I/O EXCEPTION ERROR");
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();

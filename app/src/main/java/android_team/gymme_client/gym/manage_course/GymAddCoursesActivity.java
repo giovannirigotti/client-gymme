@@ -71,14 +71,14 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         //region CHECK INTENT
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
-            Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -226,7 +226,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _trainers = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -248,15 +248,15 @@ public class GymAddCoursesActivity extends AppCompatActivity {
                     delegate.processFinish(t_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<TrainerObject>());
                 } else {
-                    Log.e("GET TRAINER", "SERVER ERROR");
+                    //Log.e("GET TRAINER", "SERVER ERROR");
                     delegate.processFinish(new ArrayList<TrainerObject>());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
+                //Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
                 delegate.processFinish(new ArrayList<TrainerObject>());
             } finally {
                 if (urlConnection != null)
@@ -332,7 +332,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.dialog_btn_esci:
-                    Log.e("REDIRECT", "Gym Menage Trainer Activity");
+                    //Log.e("REDIRECT", "Gym Menage Trainer Activity");
                     Intent i = new Intent(getApplicationContext(), destination);
                     i.putExtra("user_id", user_id);
                     startActivity(i);
@@ -353,7 +353,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         trainer_selezionato = nominativo;
 
         tv_trainer_selezionato.setText(trainer_selezionato);
-        Log.e("Trainer selezionato", traienr_id + " " + trainer_selezionato);
+        //Log.e("Trainer selezionato", traienr_id + " " + trainer_selezionato);
         Toast.makeText(MyApplication.getContext(), "Selezionato trainer: "+trainer_selezionato, Toast.LENGTH_LONG).show();
 
     }
@@ -368,7 +368,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
                         if (checkDataInizio()) {
                             if (checkDataFine()) {
                                 if (checkNumber()) {
-                                    Log.e("CHECK", "ALL OK");
+                                    //Log.e("CHECK", "ALL OK");
                                     return true;
                                 }
                             }
@@ -389,10 +389,10 @@ public class GymAddCoursesActivity extends AppCompatActivity {
         } else {
             try {
                 numero_massimo = Integer.parseInt(n_max);
-                Log.e("CONVERSIONE NUMERO", "OK");
+                //Log.e("CONVERSIONE NUMERO", "OK");
                 return true;
             } catch (Exception e) {
-                Log.e("CONVERSIONE NUMERO", "ERROR");
+                //Log.e("CONVERSIONE NUMERO", "ERROR");
                 Toast.makeText(GymAddCoursesActivity.this, "Inserisci un numero massimo di sole cifre numeriche!", Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -434,7 +434,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
             Toast.makeText(GymAddCoursesActivity.this, "Categoria troppo lunga. MAX 200 caratteri.\nUsati: " + categoria.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
-            Log.e("CHECK", "categoria OK");
+            //Log.e("CHECK", "categoria OK");
             return true;
         }
     }
@@ -448,7 +448,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
             Toast.makeText(GymAddCoursesActivity.this, "Titolo troppo lunga. MAX 100 caratteri.\nUsati: " + titolo.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
-            Log.e("CHECK", "TITOLO OK");
+            //Log.e("CHECK", "TITOLO OK");
             return true;
         }
     }
@@ -462,7 +462,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
             Toast.makeText(GymAddCoursesActivity.this, "Descrizione troppo lunga. MAX 1000 caratteri.\nUsati: " + descrizione.length(), Toast.LENGTH_LONG).show();
             return false;
         } else {
-            Log.e("CHECK", "DESCRIZIONE OK");
+            //Log.e("CHECK", "DESCRIZIONE OK");
             return true;
         }
 
@@ -503,8 +503,8 @@ public class GymAddCoursesActivity extends AppCompatActivity {
                 if (output == 200) {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymAddCoursesActivity.this, "SUCCESS, corso aggiunto", Toast.LENGTH_SHORT).show();
-                            Log.e("REDIRECT", "Gym Profile Activity");
+                            Toast.makeText(GymAddCoursesActivity.this, "Corso aggiunto", Toast.LENGTH_SHORT).show();
+                            //Log.e("REDIRECT", "Gym Profile Activity");
                             Intent i = new Intent(getApplicationContext(), GymHomeActivity.class);
                             i.putExtra("user_id", user_id);
                             startActivity(i);
@@ -514,7 +514,7 @@ public class GymAddCoursesActivity extends AppCompatActivity {
                 } else {
                     GymMenageWorkerActivity.runOnUI(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymAddCoursesActivity.this, "ERRORE AGGIUNTA CORSO, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymAddCoursesActivity.this, "Errore del server", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -574,11 +574,11 @@ public class GymAddCoursesActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM COURSE", "AGGIUNTO OK");
+                    //Log.e("GYM COURSE", "AGGIUNTO OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM COURSE", "Error CREAZIONE CORSO");
+                    //Log.e("GYM COURSE", "Error CREAZIONE CORSO");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

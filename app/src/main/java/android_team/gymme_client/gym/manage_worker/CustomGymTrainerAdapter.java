@@ -123,7 +123,7 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> impleme
                     }
                     results.values = FilteredTrainers;
                     results.count = FilteredTrainers.size();
-                    Log.e("VALUES", results.values.toString());
+                    //Log.e("VALUES", results.values.toString());
                 }
 
                 return results;
@@ -131,7 +131,7 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> impleme
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.e("TEST", results.values.toString());
+                //Log.e("TEST", results.values.toString());
                 trainers = (ArrayList<TrainerObject>) results.values;
                 notifyDataSetChanged();
             }
@@ -205,14 +205,14 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> impleme
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer assunto", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Trainer assunto", Toast.LENGTH_SHORT).show();
                                         GymAddTrainerActivity.redirectManage(context);
                                     }
                                 });
                             } else {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Errore del server", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -276,11 +276,11 @@ public class CustomGymTrainerAdapter extends ArrayAdapter<TrainerObject> impleme
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM TRAINER", "ASSUNTO OK");
+                    //Log.e("GYM TRAINER", "ASSUNTO OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM TRAINER", "Error ASSUNZIONE");
+                    //Log.e("GYM TRAINER", "Error ASSUNZIONE");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

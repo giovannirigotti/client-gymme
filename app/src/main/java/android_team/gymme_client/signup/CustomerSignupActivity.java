@@ -69,7 +69,7 @@ public class CustomerSignupActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -153,7 +153,7 @@ public class CustomerSignupActivity extends AppCompatActivity {
                     toastMessage = "Dati registrati correttamente!";
                     finish();
                 } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-                    Log.e("Server response", "Error during signup!");
+                    //Log.e("Server response", "Error during signup!");
                     toastMessage = "Errore nella registrazione di un nuovo utente!";
                     urlConnection.disconnect();
                 }

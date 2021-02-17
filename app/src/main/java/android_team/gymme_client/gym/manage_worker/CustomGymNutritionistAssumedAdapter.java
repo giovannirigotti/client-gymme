@@ -155,7 +155,7 @@ public class CustomGymNutritionistAssumedAdapter extends ArrayAdapter<Nutritioni
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, nutritionist licenziato", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Nutritionist licenziato", Toast.LENGTH_SHORT).show();
                                         GymMenageWorkerActivity.redoAdapterNutri(context, nutritionist, position);
                                     }
                                 });
@@ -226,11 +226,11 @@ public class CustomGymNutritionistAssumedAdapter extends ArrayAdapter<Nutritioni
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM TRAINER", "LICENZIATO OK");
+                    //Log.e("GYM TRAINER", "LICENZIATO OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM TRAINER", "Error");
+                    //Log.e("GYM TRAINER", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

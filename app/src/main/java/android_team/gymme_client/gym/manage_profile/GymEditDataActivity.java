@@ -71,14 +71,14 @@ public class GymEditDataActivity extends AppCompatActivity {
         //region CHECK INTENT.EXTRAS RECEIVED
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
-            Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -114,7 +114,7 @@ public class GymEditDataActivity extends AppCompatActivity {
             public void processFinish(int _pool, int _box_ring, int _aerobics, int _spa, int _wifi, int _parking_area, int _personal_traienr, int _nutritionist, int _impedance_balance, int _courses, int _showers) {
 
                 if (_pool == -1) {
-                    Toast.makeText(GymEditDataActivity.this, "ERRORE CARICAMENTO DATI", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GymEditDataActivity.this, "Errore nel recuperare i dati", Toast.LENGTH_SHORT).show();
                     Intent new_i = new Intent(GymEditDataActivity.this, LoginActivity.class);
                     startActivity(new_i);
                     finish();
@@ -222,7 +222,7 @@ public class GymEditDataActivity extends AppCompatActivity {
                 } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymEditDataActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymEditDataActivity.this, "Errore del server", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -257,16 +257,16 @@ public class GymEditDataActivity extends AppCompatActivity {
                 urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server customer", responseString);
+                    //Log.e("Server customer", responseString);
                     user = JsonParser.parseString(responseString).getAsJsonObject();
                     delegate.processFinish(user.get("pool").getAsInt(), user.get("box_ring").getAsInt(), user.get("aerobics").getAsInt(), user.get("spa").getAsInt(),
                             user.get("wifi").getAsInt(), user.get("parking_area").getAsInt(), user.get("personal_trainer_service").getAsInt(),
                             user.get("nutritionist_service").getAsInt(), user.get("impedance_balance").getAsInt(), user.get("courses").getAsInt(), user.get("showers").getAsInt());
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
                     delegate.processFinish(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
                 }
 
@@ -317,9 +317,9 @@ public class GymEditDataActivity extends AppCompatActivity {
                 if (output == 200) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymEditDataActivity.this, "SUCCESS, boolan data aggiornati", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(GymEditDataActivity.this, "SUCCESS, boolan data aggiornati", Toast.LENGTH_SHORT).show();
                             // REDIRECT TO PROFILE GYM ACTIVITY
-                            Log.e("REDIRECT", "Gym Profile Activity");
+                            //Log.e("REDIRECT", "Gym Profile Activity");
                             Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
                             i.putExtra("user_id", user_id);
                             startActivity(i);
@@ -328,7 +328,7 @@ public class GymEditDataActivity extends AppCompatActivity {
                 } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(GymEditDataActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GymEditDataActivity.this, "Errore sul server", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -413,11 +413,11 @@ public class GymEditDataActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("BOOLEAN DATA", "CAMBIATI SUL DB");
+                    //Log.e("BOOLEAN DATA", "CAMBIATI SUL DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("BOOLEAN DATA", "Error");
+                    //Log.e("BOOLEAN DATA", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

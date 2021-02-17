@@ -1,9 +1,12 @@
-package android_team.gymme_client;
+package android_team.gymme_client.customer;
 
 import android_team.gymme_client.customer.CustomerTrainigSheetDetailsFragment;
 import android_team.gymme_client.customer.CustomerTrainingSheetCalendarFragment;
 import android_team.gymme_client.customer.DrawerCustomerListener;
+import android_team.gymme_client.gym.manage_profile.GymEditDataActivity;
+import android_team.gymme_client.gym.manage_profile.GymProfileActivity;
 import android_team.gymme_client.support.Drawer;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -74,7 +77,7 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
                 fragment = new CustomerTrainingSheetCalendarFragment();
                 break;
             case R.id.navigationTrainingSheetDetails:
-               fragment = new CustomerTrainigSheetDetailsFragment();
+                fragment = new CustomerTrainigSheetDetailsFragment();
                 break;
         }
         return loadFragment(fragment);
@@ -97,7 +100,49 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
     }
 
 
+    public void getTrainingSheet(int fragment) {
+        CustomerTrainingSheetActivity.GetTrainingSheet asyncTask = (CustomerTrainingSheetActivity.GetTrainingSheet) new CustomerTrainingSheetActivity.GetTrainingSheet(this, customerTrainingSheetBottomNavigation, customerTrainingSheetFragmentContainer, customerTrainingSheetActivitySpinner, fragment, new CustomerTrainingSheetActivity.GetTrainingSheet.AsyncResponse() {
+
+            @Override
+            public void processFinish(Integer output) {
+                if (output == 200) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            //Toast.makeText(CustomerTrainingSheetActivity.this, "SUCCESS, boolan data aggiornati", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                } else if (output == 404) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(CustomerTrainingSheetActivity.this, "Non hai nessuna scheda di allenamento", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(CustomerTrainingSheetActivity.this, "Errore sul server", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+        }).execute(training_sheet_id);
+
+
+        //new GetTrainingSheet(this, customerTrainingSheetBottomNavigation, customerTrainingSheetFragmentContainer, customerTrainingSheetActivitySpinner, fragment).execute(training_sheet_id);
+    }
+
+
     private static class GetTrainingSheet extends AsyncTask<String, String, JsonObject> {
+
+        public interface AsyncResponse {
+            void processFinish(Integer output);
+        }
+
+        public CustomerTrainingSheetActivity.GetTrainingSheet.AsyncResponse delegate = null;
+
         CustomerTrainingSheetActivity activity;
         BottomNavigationView bnv;
         FrameLayout fl;
@@ -105,7 +150,8 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
         JsonObject training_sheet;
         public int responseCode, fragment;
 
-        public GetTrainingSheet(Activity activity, BottomNavigationView bnv, FrameLayout fl, ProgressBar spinner, int fragment) {
+        public GetTrainingSheet(Activity activity, BottomNavigationView bnv, FrameLayout fl, ProgressBar spinner, int fragment, CustomerTrainingSheetActivity.GetTrainingSheet.AsyncResponse delegate) {
+            this.delegate = delegate;
             this.activity = (CustomerTrainingSheetActivity) activity;
             this.bnv = bnv;
             this.fl = fl;
@@ -133,25 +179,29 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
                 urlConnection.setConnectTimeout(5000);
                 urlConnection.connect();
                 responseCode = urlConnection.getResponseCode();
-                urlConnection.disconnect();
 
-                Log.e("Codice risposta", Integer.toString(responseCode));
+                //Log.e("Codice risposta", Integer.toString(responseCode));
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server tr sheet", responseString);
-                        training_sheet = JsonParser.parseString(responseString).getAsJsonObject();
-                        CustomerTrainingSheetActivity.trainingSheet = new JsonObject();
-                        CustomerTrainingSheetActivity.trainingSheet = training_sheet;
-                        Log.e("async tr", CustomerTrainingSheetActivity.trainingSheet.toString());
+                    //Log.e("Server tr sheet", responseString);
+                    training_sheet = JsonParser.parseString(responseString).getAsJsonObject();
+                    CustomerTrainingSheetActivity.trainingSheet = new JsonObject();
+                    CustomerTrainingSheetActivity.trainingSheet = training_sheet;
+                    //Log.e("async tr", CustomerTrainingSheetActivity.trainingSheet.toString());
+
+
+                    delegate.processFinish(200);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
+                    delegate.processFinish(404);
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
+                delegate.processFinish(69);
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
@@ -161,14 +211,14 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
 
         @Override
         protected void onPostExecute(JsonObject training_sheet) {
-            Log.e("final response", Integer.toString(responseCode));
+            //Log.e("final response", Integer.toString(responseCode));
             if (responseCode == 200) {
                 spinner.setVisibility(View.GONE);
                 bnv.setVisibility(View.VISIBLE);
                 fl.setVisibility(View.VISIBLE);
                 if (fragment == 0) {
                     activity.loadFragment(new CustomerTrainingSheetCalendarFragment());
-                } else if(fragment==1){
+                } else if (fragment == 1) {
                     activity.loadFragment(new CustomerTrainigSheetDetailsFragment());
                 }
             } else {
@@ -204,8 +254,5 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
         }
     }
 
-    public void getTrainingSheet(int fragment) {
-        new GetTrainingSheet(this, customerTrainingSheetBottomNavigation, customerTrainingSheetFragmentContainer, customerTrainingSheetActivitySpinner, fragment).execute(training_sheet_id);
-    }
 
 }

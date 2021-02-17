@@ -35,7 +35,7 @@ public class DrawerGymListener {
     }
 
     public void redirectActivity(Activity a, Class c) {
-        Log.e("REDIRECT", c.toString());
+        //Log.e("REDIRECT", c.toString());
         Intent i = new Intent(a, c);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("user_id", user_id);

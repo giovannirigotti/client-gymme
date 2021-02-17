@@ -60,7 +60,7 @@ public class CustomCreateDayAdapter extends ArrayAdapter<Integer> {
                 TrainerCreateDaysActivity.updatePosition(position);
 
                 //VADO A CREARE IL GIORNO
-                Log.e("REDIRECT", "Trainer Training single day Activity");
+                //Log.e("REDIRECT", "Trainer Training single day Activity");
                 Intent i = new Intent(context, TrainerCreateSingleDayActivity.class);
                 i.putExtra("sheet_id", sheet_id);
                 i.putExtra("seq", days.get(position));

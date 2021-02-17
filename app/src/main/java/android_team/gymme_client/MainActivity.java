@@ -40,19 +40,19 @@ public class MainActivity extends AppCompatActivity {
         int status = statusCursor.getInt(statusCursor.getColumnIndex("status"));
         // LOGGATO = 1;
         // NON-LOGGATO = 0;
-        Log.e("Status", Integer.toString(status));
+        ////Log.e("Status", Integer.toString(status));
 
         if (status == dbManagerStatus.STATUS_LOGGED) {
             Cursor userCursor = dbManagerUser.fetch();
             int type = userCursor.getInt(userCursor.getColumnIndex("type"));
             int user_id = userCursor.getInt(userCursor.getColumnIndex("id"));
-            Log.e("USER ID", String.valueOf(user_id));
+            //Log.e("USER ID", String.valueOf(user_id));
 
             UserInfo.setUser_id(user_id);
             UserInfo.setUser_type(type);
 
 
-            Log.e("Type", Integer.toString(type));
+            //Log.e("Type", Integer.toString(type));
             dbManagerUser.close();
             dbManagerStatus.close();
             if (type == 0) {

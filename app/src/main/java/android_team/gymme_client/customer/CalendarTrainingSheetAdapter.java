@@ -62,7 +62,7 @@ public class CalendarTrainingSheetAdapter extends RecyclerView.Adapter<CalendarT
         ImageView detailsButton = holder.detailsButton;
 
         JsonObject exercise = exercises.get(position).getAsJsonObject();
-        Log.e("Esercizio list", exercise.toString());
+        //Log.e("Esercizio list", exercise.toString());
         exTitle.setText(exercise.get("name").getAsString());
         exRep.setText(exercise.get("repetitions").getAsString());
         detailsButton.setOnClickListener(new View.OnClickListener() {

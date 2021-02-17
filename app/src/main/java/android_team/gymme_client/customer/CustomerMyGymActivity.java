@@ -113,7 +113,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
         } else {
             gym_id = i.getIntExtra("gym_id", -1);
             if (gym_id == -1) {
-                Toast.makeText(this, "Gym non creata.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Gym non creata", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -136,7 +136,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
         tv_title = (TextView) findViewById(R.id.main_toolbar_title);
         tv_title.setText("PALESTRA");
 
-        Log.e("USER, GYM", user_id + " " + gym_id);
+        //Log.e("USER, GYM", user_id + " " + gym_id);
         Esci = (Button) findViewById(R.id.btn_my_gym_esci);
         Disiscriviti = (Button) findViewById(R.id.btn_my_gym_disiscriviti);
 
@@ -145,7 +145,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
         Esci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Customer MyGyms Activity");
+                //Log.e("REDIRECT", "Customer MyGyms Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerManageGymActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -286,7 +286,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                 } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(CustomerMyGymActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CustomerMyGymActivity.this, "Errore del server", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -321,16 +321,16 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                 urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server customer", responseString);
+                    //Log.e("Server customer", responseString);
                     user = JsonParser.parseString(responseString).getAsJsonObject();
                     delegate.processFinish(user.get("user_id").getAsInt(), user.get("vat_number").getAsString(), user.get("gym_name").getAsString(), user.get("gym_address").getAsString(), user.get("zip_code").getAsString(), user.get("pool").getAsInt(), user.get("box_ring").getAsInt(), user.get("aerobics").getAsInt(), user.get("spa").getAsInt(),
                             user.get("wifi").getAsInt(), user.get("parking_area").getAsInt(), user.get("personal_trainer_service").getAsInt(),
                             user.get("nutritionist_service").getAsInt(), user.get("impedance_balance").getAsInt(), user.get("courses").getAsInt(), user.get("showers").getAsInt());
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
                     delegate.processFinish(-1, "", "", "", "", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
                 }
 
@@ -378,8 +378,8 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                 if (output == 200) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(CustomerMyGymActivity.this, "SUCCESS, Palestra rimossa", Toast.LENGTH_SHORT).show();
-                            Log.e("REDIRECT", "Customer MyGyms Activity");
+                            Toast.makeText(CustomerMyGymActivity.this, "Palestra rimossa", Toast.LENGTH_SHORT).show();
+                            //Log.e("REDIRECT", "Customer MyGyms Activity");
                             Intent i = new Intent(getApplicationContext(), CustomerManageGymActivity.class);
                             i.putExtra("user_id", user_id);
                             startActivity(i);
@@ -389,7 +389,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                 } else {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getContext(), "Errore sul server", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -442,11 +442,11 @@ public class CustomerMyGymActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM CUSTOMER", "Cancellazione ok");
+                    //Log.e("GYM CUSTOMER", "Cancellazione ok");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM CUSTOMER", "Error cancellazione");
+                    //Log.e("GYM CUSTOMER", "Error cancellazione");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
@@ -454,7 +454,7 @@ public class CustomerMyGymActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
                 responseCode = 69;
-                Log.e("GYM CUSTOMER", "Error I/O");
+                //Log.e("GYM CUSTOMER", "Error I/O");
                 delegate.processFinish(responseCode);
             } finally {
                 if (urlConnection != null)

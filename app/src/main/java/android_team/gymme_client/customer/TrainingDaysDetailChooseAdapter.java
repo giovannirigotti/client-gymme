@@ -62,7 +62,7 @@ public class TrainingDaysDetailChooseAdapter extends RecyclerView.Adapter<Traini
         LinearLayout container = holder.container;
 
         JsonObject trainingDay = trainingDays.get(position).getAsJsonObject();
-        Log.e("Training day", trainingDay.toString());
+        //Log.e("Training day", trainingDay.toString());
         itemTitle.setText("Giornata: " + trainingDay.get("seq").getAsString());
 
         JsonArray todayExercises = new JsonArray();

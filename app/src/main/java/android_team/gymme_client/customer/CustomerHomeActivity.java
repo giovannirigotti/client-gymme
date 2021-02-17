@@ -78,14 +78,14 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
-            Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -99,7 +99,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         _btn_customer_home_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Customer Profile Activity");
+                //Log.e("REDIRECT", "Customer Profile Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerProfileActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -109,7 +109,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         _btn_customer_home_gym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Customer Manage Gym Activity");
+                //Log.e("REDIRECT", "Customer Manage Gym Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerManageGymActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -119,7 +119,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
           _btn_customer_home_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Customer Manage Gym Activity");
+                //Log.e("REDIRECT", "Customer Manage Gym Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerNotificationActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -130,7 +130,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         _btn_customer_home_course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("REDIRECT", "Customer Manage Course Activity");
+                //Log.e("REDIRECT", "Customer Manage Course Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerManageCourseActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -140,7 +140,7 @@ public class CustomerHomeActivity extends AppCompatActivity {
         _btn_customer_home_training_sheets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Customer Training Sheets Activity");
+                //Log.e("REDIRECT", "Customer Training Sheets Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerTrainingSheetsActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);

@@ -60,14 +60,14 @@ public class GymAddTrainerActivity extends AppCompatActivity {
         //region CHECK INTENT EXTRAS
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
-            Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -196,7 +196,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _trainers = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -218,14 +218,14 @@ public class GymAddTrainerActivity extends AppCompatActivity {
                     delegate.processFinish(t_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<TrainerObject>());
                 } else {
-                    Log.e("GET TRAINER", "SERVER ERROR");
+                    //Log.e("GET TRAINER", "SERVER ERROR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
+                //Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
@@ -259,7 +259,7 @@ public class GymAddTrainerActivity extends AppCompatActivity {
 
 
     public static void redirectManage(Activity context) {
-        Log.e("REDIRECT", "Gym Menege Worker");
+        //Log.e("REDIRECT", "Gym Menege Worker");
         Intent i = new Intent(context, GymMenageWorkerActivity.class);
         i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
         context.startActivity(i);

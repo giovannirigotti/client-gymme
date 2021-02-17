@@ -81,7 +81,7 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -126,7 +126,7 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
         btn_add_exercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("OPEN DIALOG", "Oper dialog add exercise");
+                //Log.e("OPEN DIALOG", "Oper dialog add exercise");
                 InsertExercise(TrainerCreateSingleDayActivity.this, user_id);
             }
         });
@@ -344,11 +344,11 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("EXERCISE SHEET", "CAMBIATI SUL DB");
+                    //Log.e("EXERCISE SHEET", "CAMBIATI SUL DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("EXERCISE SHEET", "Error");
+                    //Log.e("EXERCISE SHEET", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
@@ -398,7 +398,7 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _customers = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -417,14 +417,14 @@ public class TrainerCreateSingleDayActivity extends AppCompatActivity {
                     delegate.processFinish(t_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET CUSTOMERS", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET CUSTOMERS", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<ExerciseObject>());
                 } else {
-                    Log.e("GET CUSTOMERS", "SERVER ERROR");
+                    //Log.e("GET CUSTOMERS", "SERVER ERROR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET CUSTOMERS", "I/O EXCEPTION ERROR");
+                //Log.e("GET CUSTOMERS", "I/O EXCEPTION ERROR");
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();

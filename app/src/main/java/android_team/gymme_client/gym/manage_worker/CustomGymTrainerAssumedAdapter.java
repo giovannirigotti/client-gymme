@@ -161,14 +161,14 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, trainer licenziato", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Trainer licenziato", Toast.LENGTH_SHORT).show();
                                         GymMenageWorkerActivity.redoAdapterTrainer(context, trainers, position);
                                     }
                                 });
                             } else {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Errore sul server", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -232,11 +232,11 @@ public class CustomGymTrainerAssumedAdapter extends ArrayAdapter<TrainerObject> 
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM TRAINER", "LICENZIATO OK");
+                    //Log.e("GYM TRAINER", "LICENZIATO OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM TRAINER", "Error");
+                    //Log.e("GYM TRAINER", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

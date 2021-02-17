@@ -64,7 +64,7 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -163,7 +163,7 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _courses = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -187,14 +187,14 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
                     delegate.processFinish(c_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<CourseObject>());
                 } else {
-                    Log.e("GET TRAINER", "SERVER ERROR");
+                    //Log.e("GET TRAINER", "SERVER ERROR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
+                //Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();

@@ -55,7 +55,7 @@ public class CustomCompleteExerciseAdapter extends ArrayAdapter<CompleteExercise
         viewHolder.btn_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("Premuto", "Dai vai");
+                //Log.e("Premuto", "Dai vai");
                 TrainerCreateSingleDayActivity.removeFromCompleteAdapter(context, position);
             }
         });

@@ -146,14 +146,15 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
                 urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server tr sheets", responseString);
+                    //Log.e("Server tr sheets", responseString);
                     trainig_sheets = JsonParser.parseString(responseString).getAsJsonArray();
 
                     return 1;
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
+                    trainig_sheets= new JsonArray();
                     return -1;
                 }
 
@@ -171,14 +172,18 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
             ///rimuovere spinner e far apparire la lista
 
-            if(trainig_sheets!=null) {
+            if(trainig_sheets.size()!=0) {
                 spinner.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
 
                 adapter = new ListTrainingSheetsAdapter(trainig_sheets, activity);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            } else {
+            } else  if (trainig_sheets.size()==0) {
+                spinner.setVisibility(View.GONE);
+                Toast.makeText(activity, "Nessuna scheda di allenamento", Toast.LENGTH_LONG).show();
+            }else if (trainig_sheets==null) {
+                spinner.setVisibility(View.GONE);
                 Toast.makeText(activity, "Errore", Toast.LENGTH_LONG).show();
             }
 

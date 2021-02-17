@@ -37,14 +37,14 @@ public class GymHomeActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
-            Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -63,7 +63,7 @@ public class GymHomeActivity extends AppCompatActivity {
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Profile Activity");
+                //Log.e("REDIRECT", "Gym Profile Activity");
                 Intent i = new Intent(getApplicationContext(), GymProfileActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -73,7 +73,7 @@ public class GymHomeActivity extends AppCompatActivity {
         btn_corsi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Courses Activity");
+                //Log.e("REDIRECT", "Gym Courses Activity");
                 Intent i = new Intent(getApplicationContext(), GymCourseActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -83,7 +83,7 @@ public class GymHomeActivity extends AppCompatActivity {
         btn_gestione_dipendenti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Megagment Worker Activity");
+                //Log.e("REDIRECT", "Gym Megagment Worker Activity");
                 Intent i = new Intent(getApplicationContext(), GymMenageWorkerActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -93,7 +93,7 @@ public class GymHomeActivity extends AppCompatActivity {
         btn_gestione_clienti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Gym Customers Activity");
+                //Log.e("REDIRECT", "Gym Customers Activity");
                 Intent i = new Intent(getApplicationContext(), GymCustomersActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);

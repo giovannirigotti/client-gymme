@@ -86,15 +86,15 @@ public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject>  implement
                     for (GymObject g : gym) {
                         String dataNames = g.gym_name;
 
-                        Log.e("VALUES GYM NAME", g.gym_name);
+                        //Log.e("VALUES GYM NAME", g.gym_name);
                         if (dataNames.toLowerCase().startsWith(constraint.toString())) {
                             FilteredGyms.add(g);
-                            Log.e("ADD", g.gym_name);
+                            //Log.e("ADD", g.gym_name);
                         }
                     }
                     results.values = FilteredGyms;
                     results.count = FilteredGyms.size();
-                    Log.e("VALUES", results.values.toString());
+                    //Log.e("VALUES", results.values.toString());
                 }
 
                 return results;
@@ -102,7 +102,7 @@ public class CustomCustomerGymAdapter extends ArrayAdapter<GymObject>  implement
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.e("TEST", results.values.toString());
+                //Log.e("TEST", results.values.toString());
                 gym = (ArrayList<GymObject>) results.values;
                 notifyDataSetChanged();
             }

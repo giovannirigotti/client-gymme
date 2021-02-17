@@ -55,7 +55,7 @@ public class CustomerTrainigSheetDetailsFragment extends Fragment {
         ButterKnife.bind(this, root);
         Bundle args = getArguments();
         training_sheet = (JsonObject) JsonParser.parseString(args.getString("training_sheet"));
-        Log.e("tr sheet", training_sheet.toString());
+        //Log.e("tr sheet", training_sheet.toString());
 
         title.setText(training_sheet.get("title").getAsString());
         author.setText(training_sheet.get("trainer_name").getAsString());

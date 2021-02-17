@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_gym_trainer_assumed_name"
+            android:id="@+id/tv_trainer_customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -22,21 +22,21 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_gym_trainer_assumed_lastname"
+            android:id="@+id/tv_trainer_customer_lastname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/tv_gym_trainer_assumed_email"
+            android:id="@+id/tv_trainer_customer_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/btn_gym_trainer_add"
+        android:id="@+id/btn_trainer_training_sheet_add"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"

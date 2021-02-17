@@ -65,7 +65,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -163,7 +163,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
                     });
                 }
                 //for (int j = 0; j < nutritionists_list.size(); j++) {
-                //    Log.e("nutritionist n:" + j, nutritionists_list.get(j).toString());
+                //    //Log.e("nutritionist n:" + j, nutritionists_list.get(j).toString());
                 //}
             }
         }).execute(String.valueOf(user_id));
@@ -203,7 +203,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _nutritionists = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -225,14 +225,14 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
                     delegate.processFinish(t_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET TRAINER", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<NutritionistObject>());
                 } else {
-                    Log.e("GET TRAINER", "SERVER ERROR");
+                    //Log.e("GET TRAINER", "SERVER ERROR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
+                //Log.e("GET TRAINER", "I/O EXCEPTION ERROR");
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();
@@ -265,7 +265,7 @@ public class GymAddNutritionistActivity extends AppCompatActivity {
     }
 
     public static void redirectManage(Activity context) {
-        Log.e("REDIRECT", "Gym Menege Worker");
+        //Log.e("REDIRECT", "Gym Menege Worker");
         Intent i = new Intent(context, GymMenageWorkerActivity.class);
         i.putExtra("user_id", Integer.valueOf(GymMenageWorkerActivity.getGymId()));
         context.startActivity(i);

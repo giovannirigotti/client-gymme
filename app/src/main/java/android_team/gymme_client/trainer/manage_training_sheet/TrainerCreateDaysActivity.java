@@ -69,20 +69,20 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
         }
         if (!i.hasExtra("days")) {
-            Toast.makeText(this, "days mancanti", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Giorni mancanti", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             days = i.getIntExtra("days", -1);
             Log.w("days ricevuti:", String.valueOf(days));
             if (days == -1) {
-                Toast.makeText(this, "days passato male.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Parametro giorni passato male", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -144,7 +144,7 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
 
                 }
                 else{
-                    Toast.makeText(TrainerCreateDaysActivity.this, "Completa l'inserimento di tutti i giorni", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TrainerCreateDaysActivity.this, "Completa l'inserimento di tutti i giorni!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -161,8 +161,8 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
                 if (output == 200) {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(TrainerCreateDaysActivity.this, "SCHEDA INVIATA", Toast.LENGTH_SHORT).show();
-                            Log.e("REDIRECT", "Trainer Menage Training Sheet");
+                            Toast.makeText(TrainerCreateDaysActivity.this, "Scheda inviata correttamente", Toast.LENGTH_SHORT).show();
+                            //Log.e("REDIRECT", "Trainer Menage Training Sheet");
                             Intent i = new Intent(getApplicationContext(), TrainerMenageTrainingSheet.class);
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             i.putExtra("user_id", user_id);
@@ -174,7 +174,7 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
                 else {
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(TrainerCreateDaysActivity.this, "SERVER ERROR", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TrainerCreateDaysActivity.this, "Errore sul server", Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -230,11 +230,11 @@ public class TrainerCreateDaysActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("NOTIFICA", "INSERITA SUL DB");
+                    //Log.e("NOTIFICA", "INSERITA SUL DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("NOTIFICA", "Error");
+                    //Log.e("NOTIFICA", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

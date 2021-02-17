@@ -96,7 +96,7 @@ public class TrainerProfileActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -265,14 +265,14 @@ public class TrainerProfileActivity extends AppCompatActivity {
                 urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server user response", responseString);
+                    //Log.e("Server user response", responseString);
                     user = JsonParser.parseString(responseString).getAsJsonObject();
                     delegate.processFinish(user.get("name").getAsString(), user.get("lastname").getAsString(), user.get("email").getAsString(), user.get("birthdate").getAsString());
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
                     delegate.processFinish("error", "error", "error", "error");
                 }
 
@@ -336,14 +336,14 @@ public class TrainerProfileActivity extends AppCompatActivity {
                 urlConnection.disconnect();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
-                    Log.e("Server customer", responseString);
+                    //Log.e("Server customer", responseString);
                     user = JsonParser.parseString(responseString).getAsJsonObject();
                     delegate.processFinish(user.get("qualification").getAsString(), user.get("fiscal_code").getAsString());
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "HTTP_NOT_FOUND");
+                    //Log.e("Server response", "HTTP_NOT_FOUND");
                     delegate.processFinish("error","error");
                 }
 
@@ -428,13 +428,13 @@ public class TrainerProfileActivity extends AppCompatActivity {
                                 if (output == 403) {
                                     runOnUiThread(new Runnable() {
                                         public void run() {
-                                            Toast.makeText(TrainerProfileActivity.this, "Email già usata. FORBIDDEN", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(TrainerProfileActivity.this, "Email già usata!", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 } else if (output == 200) {
                                     runOnUiThread(new Runnable() {
                                         public void run() {
-                                            Toast.makeText(TrainerProfileActivity.this, "SUCCESS, email aggiornata", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(TrainerProfileActivity.this, "Email aggiornata", Toast.LENGTH_SHORT).show();
                                             _tv_trainer_profile_email.setText(new_email.getText().toString());
                                         }
                                     });
@@ -442,7 +442,7 @@ public class TrainerProfileActivity extends AppCompatActivity {
                                 } else {
                                     runOnUiThread(new Runnable() {
                                         public void run() {
-                                            Toast.makeText(TrainerProfileActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(TrainerProfileActivity.this, "Errore del server", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -473,18 +473,18 @@ public class TrainerProfileActivity extends AppCompatActivity {
             c_e = confirm_email.getText().toString();
             if (n_e.isEmpty() || c_e.isEmpty()) {
                 res = false;
-                Log.e("EMAIL", "Campi vuoti");
+                //Log.e("EMAIL", "Campi vuoti");
             } else {
                 if (!validateMail(n_e)) {
                     res = false;
-                    Log.e("EMAIL", "Email non valida.");
+                    //Log.e("EMAIL", "Email non valida.");
                 } else {
                     if (!n_e.equals(c_e)) {
                         res = false;
-                        Log.e("EMAIL", "Email non uguali");
+                        //Log.e("EMAIL", "Email non uguali");
                     } else {
                         res = true;
-                        Log.e("Email", "Tutto OK");
+                        //Log.e("Email", "Tutto OK");
                     }
                 }
             }
@@ -543,16 +543,16 @@ public class TrainerProfileActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("EMAIL", "CAMBIATA SUL DB");
+                    //Log.e("EMAIL", "CAMBIATA SUL DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
-                    Log.e("EMAIL", "Error 403!");
+                    //Log.e("EMAIL", "Error 403!");
                     responseCode = 403;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
                 } else {
-                    Log.e("EMAIL", "Error");
+                    //Log.e("EMAIL", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
@@ -623,14 +623,14 @@ public class TrainerProfileActivity extends AppCompatActivity {
                                 } else if (output == 200) {
                                     runOnUiThread(new Runnable() {
                                         public void run() {
-                                            Toast.makeText(TrainerProfileActivity.this, "SUCCESS, password aggiornata", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(TrainerProfileActivity.this, "Password aggiornata", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                     dismiss();
                                 } else {
                                     runOnUiThread(new Runnable() {
                                         public void run() {
-                                            Toast.makeText(TrainerProfileActivity.this, "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(TrainerProfileActivity.this, "Errore del server", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -662,18 +662,18 @@ public class TrainerProfileActivity extends AppCompatActivity {
             c_p = confirm_password.getText().toString();
             if (o_p.isEmpty() || n_p.isEmpty() || c_p.isEmpty()) {
                 res = false;
-                Log.e("PASSWORD", "Campi vuoti");
+                //Log.e("PASSWORD", "Campi vuoti");
             } else {
                 if (!validatePassword(n_p)) {
                     res = false;
-                    Log.e("PASSWORD", "Password non valida.");
+                    //Log.e("PASSWORD", "Password non valida.");
                 } else {
                     if (!n_p.equals(c_p)) {
                         res = false;
-                        Log.e("PASSWORD", "Password non uguali");
+                        //Log.e("PASSWORD", "Password non uguali");
                     } else {
                         res = true;
-                        Log.e("PASSWORD", "Tutto OK");
+                        //Log.e("PASSWORD", "Tutto OK");
                     }
                 }
             }
@@ -732,16 +732,16 @@ public class TrainerProfileActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("PASSWORD", "CAMBIATA SUL DB");
+                    //Log.e("PASSWORD", "CAMBIATA SUL DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-                    Log.e("PASSWORD", "Error 500!");
+                    //Log.e("PASSWORD", "Error 500!");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
                 } else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
-                    Log.e("PASSWORD", "Error 403!");
+                    //Log.e("PASSWORD", "Error 403!");
                     responseCode = 403;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
@@ -804,7 +804,7 @@ public class TrainerProfileActivity extends AppCompatActivity {
                             if (output == 200) {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(TrainerProfileActivity.this, "SUCCESS, allergie aggiornate", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(TrainerProfileActivity.this, "Allergie aggiornate", Toast.LENGTH_SHORT).show();
                                         _tv_trainer_profile_qualifica.setText(qualifications.getText().toString());
                                     }
                                 });
@@ -879,11 +879,11 @@ public class TrainerProfileActivity extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("QUALIFICHE", "CAMBIATE SUL DB");
+                    //Log.e("QUALIFICHE", "CAMBIATE SUL DB");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("QUALIFICHE", "Error");
+                    //Log.e("QUALIFICHE", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

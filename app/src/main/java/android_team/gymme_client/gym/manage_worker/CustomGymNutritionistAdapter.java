@@ -121,7 +121,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
                     }
                     results.values = FilteredNutritionists;
                     results.count = FilteredNutritionists.size();
-                    Log.e("VALUES", results.values.toString());
+                    //Log.e("VALUES", results.values.toString());
                 }
 
                 return results;
@@ -129,7 +129,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.e("TEST", results.values.toString());
+                //Log.e("TEST", results.values.toString());
                 nutritionist = (ArrayList<NutritionistObject>) results.values;
                 notifyDataSetChanged();
             }
@@ -202,7 +202,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, nutritionist assunto", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Nutrizionista assunto", Toast.LENGTH_SHORT).show();
                                         GymAddNutritionistActivity.redirectManage(context);
 
                                     }
@@ -210,7 +210,7 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
                             } else {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Errore sul server", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -274,11 +274,11 @@ public class CustomGymNutritionistAdapter extends ArrayAdapter<NutritionistObjec
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM NUTRITIONIST", "ASSUNTO OK");
+                    //Log.e("GYM NUTRITIONIST", "ASSUNTO OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM NUTRITIONIST", "Error ASSUNZIONE");
+                    //Log.e("GYM NUTRITIONIST", "Error ASSUNZIONE");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

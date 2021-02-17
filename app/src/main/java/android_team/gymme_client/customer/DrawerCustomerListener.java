@@ -9,7 +9,6 @@ import android.view.View;
 import android_team.gymme_client.support.Drawer;
 import android_team.gymme_client.trainer.TrainerHomeActivity;
 import android_team.gymme_client.trainer.TrainerProfileActivity;
-import android_team.gymme_client.trainer.menage_trainig_sheet.TrainerMenageTrainingSheet;
 
 public class DrawerCustomerListener {
 
@@ -42,7 +41,7 @@ public class DrawerCustomerListener {
     }
 
     public void redirectActivity(Activity a, Class c) {
-        Log.e("REDIRECT", c.toString());
+      //  //Log.e("REDIRECT", c.toString());
         Intent i = new Intent(a, c);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.putExtra("user_id", user_id);

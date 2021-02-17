@@ -41,7 +41,7 @@ public class TrainerHomeActivity extends AppCompatActivity {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -58,7 +58,7 @@ public class TrainerHomeActivity extends AppCompatActivity {
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Trainer Profile Activity");
+                //Log.e("REDIRECT", "Trainer Profile Activity");
                 Intent i = new Intent(getApplicationContext(), TrainerProfileActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
@@ -68,7 +68,7 @@ public class TrainerHomeActivity extends AppCompatActivity {
         btn_training_sheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("REDIRECT", "Trainer Training Sheet Activity");
+                //Log.e("REDIRECT", "Trainer Training Sheet Activity");
                 Intent i = new Intent(getApplicationContext(), TrainerMenageTrainingSheet.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);

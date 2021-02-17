@@ -59,14 +59,14 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
-            Toast.makeText(this, "User_id mancante", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "user_id mancante", Toast.LENGTH_LONG).show();
             Intent new_i = new Intent(this, LoginActivity.class);
             startActivity(new_i);
         } else {
             user_id = i.getIntExtra("user_id", -1);
             Log.w("user_id ricevuto:", String.valueOf(user_id));
             if (user_id == -1) {
-                Toast.makeText(this, "Utente non creato.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Utente non creato", Toast.LENGTH_LONG).show();
                 Intent new_i = new Intent(this, LoginActivity.class);
                 startActivity(new_i);
             }
@@ -163,7 +163,7 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     _customers = JsonParser.parseString(responseString).getAsJsonArray();
 
@@ -184,14 +184,14 @@ public class TrainerMenageTrainingSheet extends AppCompatActivity {
                     delegate.processFinish(t_objects);
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("GET CUSTOMERS", "response: HTTP_NOT_FOUND");
+                    //Log.e("GET CUSTOMERS", "response: HTTP_NOT_FOUND");
                     delegate.processFinish(new ArrayList<CustomerSmallObject>());
                 } else {
-                    Log.e("GET CUSTOMERS", "SERVER ERROR");
+                    //Log.e("GET CUSTOMERS", "SERVER ERROR");
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("GET CUSTOMERS", "I/O EXCEPTION ERROR");
+                //Log.e("GET CUSTOMERS", "I/O EXCEPTION ERROR");
             } finally {
                 if (urlConnection != null)
                     urlConnection.disconnect();

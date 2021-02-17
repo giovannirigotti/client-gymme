@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if(getIntent().hasExtra("email")){
-            Log.e("email", getIntent().getStringExtra("email"));
+            //Log.e("email", getIntent().getStringExtra("email"));
             _emailText.setText(getIntent().getStringExtra("email"));
         }
 
@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                 paramsJson.addProperty("email", params[0]);
                 paramsJson.addProperty("password", params[1]);
 
-                Log.e("json", paramsJson.toString());
+                //Log.e("json", paramsJson.toString());
 
                 urlConnection.setDoOutput(true);
 
@@ -194,10 +194,10 @@ public class LoginActivity extends AppCompatActivity {
                 os.close();
 
                 urlConnection.connect();
-                Log.e("connection", "connected");
+                //Log.e("connection", "connected");
 
                 int responseCode = urlConnection.getResponseCode();
-                Log.e("response code", Integer.toString(responseCode));
+                //Log.e("response code", Integer.toString(responseCode));
 
                 String responseMessage = urlConnection.getResponseMessage();
 
@@ -217,10 +217,10 @@ public class LoginActivity extends AppCompatActivity {
                     String birthdate = user.get("birthDate").getAsString();
 
                     dbManagerStatus.update(dbManagerStatus.STATUS_LOGGED);
-                    Log.e("Status", "Status updated to logged");
+                    //Log.e("Status", "Status updated to logged");
 
                     dbManagerUser.insert(id, name, lastname, email, birthdate, type);
-                    Log.e("User", "User updated");
+                    //Log.e("User", "User updated");
 
                     UserInfo.setUser_type(type);
                     UserInfo.setUser_id(id);
@@ -257,10 +257,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
-                    Log.e("Server response", "User not found!");
+                    //Log.e("Server response", "User not found!");
                     toastMessage = "Utente non trovato!";
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    Log.e("Server response", "Wrong password!");
+                    //Log.e("Server response", "Wrong password!");
                     toastMessage = "Password errata!";
                 }
 

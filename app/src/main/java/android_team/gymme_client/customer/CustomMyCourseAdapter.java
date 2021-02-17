@@ -242,11 +242,11 @@ public class CustomMyCourseAdapter extends ArrayAdapter<CourseObject> {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("CUSTOMER COURSE", "DISISCRIZIONE OK");
+                    //Log.e("CUSTOMER COURSE", "DISISCRIZIONE OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("CUSTOMER COURSE", "Error");
+                    //Log.e("CUSTOMER COURSE", "Error");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/btn_gym_nutritionist_add"
+        android:id="@+id/btn_gym_trainer_assumed_add"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

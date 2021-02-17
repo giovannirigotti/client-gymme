@@ -125,7 +125,7 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject>  i
                     }
                     results.values = FilteredCourses;
                     results.count = FilteredCourses.size();
-                    Log.e("VALUES", results.values.toString());
+                    //Log.e("VALUES", results.values.toString());
                 }
 
                 return results;
@@ -133,7 +133,7 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject>  i
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.e("TEST", results.values.toString());
+                //Log.e("TEST", results.values.toString());
                 courses = (ArrayList<CourseObject>) results.values;
                 notifyDataSetChanged();
             }
@@ -217,7 +217,7 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject>  i
                                     public void run() {
                                         Toast.makeText(MyApplication.getContext(), "Iscrizione effettuata", Toast.LENGTH_SHORT).show();
                                         CustomerAddCourseActivity.redoAdapterCourse(context, courses, position);
-                                        Log.e("REDIRECT", "Customer Manage Gym Activity");
+                                        //Log.e("REDIRECT", "Customer Manage Gym Activity");
                                         Intent i = new Intent(context, CustomerManageCourseActivity.class);
                                         i.putExtra("user_id", Integer.parseInt(CustomerAddCourseActivity.getUserId()));
                                         context.startActivity(i);
@@ -227,7 +227,7 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject>  i
                             } else {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Errore sul server", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -291,11 +291,11 @@ public class CustomDisponibleCourseAdapter extends ArrayAdapter<CourseObject>  i
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("CUSTOMER COURSE", "ISCRIZIONE OK");
+                    //Log.e("CUSTOMER COURSE", "ISCRIZIONE OK");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("CUSTOMER COURSE", "Error ISCRIZIONE");
+                    //Log.e("CUSTOMER COURSE", "Error ISCRIZIONE");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();

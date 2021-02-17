@@ -174,7 +174,7 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
                             } else {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Errore sul server", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -223,17 +223,17 @@ public class CustomCourseAdapter extends ArrayAdapter<CourseObject> {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("Server response", "HTTP_OK");
+                    //Log.e("Server response", "HTTP_OK");
                     //SE VA TUTTO A BUON FINE INVIO AL METODO procesFinish();
                     delegate.processFinish(HttpURLConnection.HTTP_OK);
 
                 } else {
-                    Log.e("DELETE COURSE", "SERVER ERROR");
+                    //Log.e("DELETE COURSE", "SERVER ERROR");
                     delegate.processFinish(500);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("DELETE COURSE", "I/O EXCEPTION ERROR");
+                //Log.e("DELETE COURSE", "I/O EXCEPTION ERROR");
                 delegate.processFinish(500);
             } finally {
                 if (urlConnection != null)

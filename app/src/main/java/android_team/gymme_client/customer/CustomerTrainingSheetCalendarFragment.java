@@ -86,13 +86,13 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
         for (int i = 0; i < completedDays.size(); i++) {
             JsonObject completedDay = completedDays.get(i).getAsJsonObject();
             String dateString = completedDay.get("completion_date").getAsString();
-            Log.e("Date", dateString);
+            //Log.e("Date", dateString);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date date = null;
             try {
                 date = simpleDateFormat.parse(dateString);
-                Log.e("Date", date.toString());
+                //Log.e("Date", date.toString());
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -116,7 +116,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
                     today = completedDays.get(i).getAsJsonObject();
                 }
             }
-            Log.e("today", today.toString());
+            //Log.e("today", today.toString());
             if (today.size() != 0) {
                 addCompletedTrainingDay.setVisibility(View.GONE);
                 trainingSheetCalRecycler.setVisibility(View.VISIBLE);
@@ -186,7 +186,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
             buttons =  (LinearLayout) findViewById(R.id.cus_comp_tr_day_dial_buttons);
             user_comment_edit_text = (EditText) findViewById(R.id.cus_comp_tr_day_dial_edit_text);
 
-            Log.e("training days", training_days.toString());
+            //Log.e("training days", training_days.toString());
 
             TrainingDaysChooseAdapter adapter = new TrainingDaysChooseAdapter(training_days, a, seq_text_view);
             training_days_recycler.setAdapter(adapter);
@@ -206,7 +206,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
                     break;
                 case R.id.cus_comp_tr_day_dial_confirm:
                     if(!static_seq.isEmpty()) {
-                        Log.e("Sequenza", static_seq);
+                        //Log.e("Sequenza", static_seq);
                         user_comment = user_comment_edit_text.getText().toString();
                         new InsertCompletedTrainingDay(a, Integer.parseInt(training_sheet_id), Integer.parseInt(static_seq), completion_date, user_comment, spinner, buttons, this).execute();
                         static_seq="";
@@ -284,7 +284,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
                 paramsJson.addProperty("completion_date", completion_date);
                 paramsJson.addProperty("user_comment", user_comment);
 
-                Log.e("json", paramsJson.toString());
+                //Log.e("json", paramsJson.toString());
 
                 urlConnection.setDoOutput(true);
 
@@ -299,9 +299,9 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("ok", "ok");
+                    //Log.e("ok", "ok");
                 } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-                    Log.e("Server response", "Error during insert completed training day!");
+                    //Log.e("Server response", "Error during insert completed training day!");
                     toastMessage = "Errore nella registrazione di un nuovo completed training day!";
                     urlConnection.disconnect();
                 }
@@ -321,7 +321,7 @@ public class CustomerTrainingSheetCalendarFragment extends Fragment {
 
             if(responseCode==200){
                 dialog.dismiss();
-                Toast.makeText(a,"Giornata di allenamento inserita correttamente!", Toast.LENGTH_LONG).show();
+                Toast.makeText(a,"Giornata di allenamento inserita correttamente", Toast.LENGTH_LONG).show();
 
             } else {
                 Toast.makeText(a,"Errore!", Toast.LENGTH_LONG);

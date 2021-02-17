@@ -63,11 +63,11 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
         viewHolder.btn_gym_trainer_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Log.e("REDIRECT", "Trainer Training Sheet Customer Activity");
+              //Log.e("REDIRECT", "Trainer Training Sheet Customer Activity");
                 Intent i = new Intent(context, TrainerTrainingSheetCustomer.class);
-                Log.e("User_id", user_id);
+                //Log.e("User_id", user_id);
                 i.putExtra("user_id", Integer.parseInt(user_id));
-                Log.e("Trainer_id",  ""+TrainerMenageTrainingSheet.getTrainerId());
+                //Log.e("Trainer_id",  ""+TrainerMenageTrainingSheet.getTrainerId());
                 i.putExtra("trainer_id", TrainerMenageTrainingSheet.getTrainerId());
                 context.startActivity(i);
             }
@@ -80,10 +80,10 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
         ImageView btn_gym_trainer_add;
 
         ViewHolder(View v) {
-            tv_gym_trainer_name = v.findViewById(R.id.tv_gym_trainer_assumed_name);
-            tv_gym_trainer_lastname = v.findViewById(R.id.tv_gym_trainer_assumed_lastname);
-            tv_gym_trainer_email = v.findViewById(R.id.tv_gym_trainer_assumed_email);
-            btn_gym_trainer_add = v.findViewById(R.id.btn_gym_trainer_assumed_add);
+            tv_gym_trainer_name = v.findViewById(R.id.tv_trainer_customer_name);
+            tv_gym_trainer_lastname = v.findViewById(R.id.tv_trainer_customer_lastname);
+            tv_gym_trainer_email = v.findViewById(R.id.tv_trainer_customer_email);
+            btn_gym_trainer_add = v.findViewById(R.id.btn_trainer_training_sheet_add);
         }
     }
 
@@ -111,7 +111,7 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
                     }
                     results.values = FilteredCustomers;
                     results.count = FilteredCustomers.size();
-                    Log.e("VALUES", results.values.toString());
+                    //Log.e("VALUES", results.values.toString());
                 }
 
                 return results;
@@ -119,7 +119,7 @@ public class CustomTrainerCustomerAdapter extends ArrayAdapter<CustomerSmallObje
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.e("TEST", results.values.toString());
+                //Log.e("TEST", results.values.toString());
                 customers = (ArrayList<CustomerSmallObject>) results.values;
                 notifyDataSetChanged();
             }

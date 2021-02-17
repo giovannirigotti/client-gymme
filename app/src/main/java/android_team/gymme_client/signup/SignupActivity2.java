@@ -455,7 +455,7 @@ public class SignupActivity2 extends AppCompatActivity {
                 paramsJson.addProperty("user_type", params[5]);
 
 
-                Log.e("json", paramsJson.toString());
+                //Log.e("json", paramsJson.toString());
 
                 urlConnection.setDoOutput(true);
 
@@ -471,10 +471,10 @@ public class SignupActivity2 extends AppCompatActivity {
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("ok", "ok");
+                    //Log.e("ok", "ok");
                     new CheckUserDataConnection().execute(email);
                 } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-                    Log.e("Server response", "Error during signup!");
+                    //Log.e("Server response", "Error during signup!");
                     toastMessage = "Errore nella registrazione di un nuovo utente!";
                     urlConnection.disconnect();
                 }

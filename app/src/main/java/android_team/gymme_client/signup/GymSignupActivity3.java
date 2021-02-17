@@ -151,7 +151,7 @@ public class GymSignupActivity3 extends AppCompatActivity {
         signup_button_final_gym.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("checkformat", Boolean.toString(checkFormat()));
+                //Log.e("checkformat", Boolean.toString(checkFormat()));
 
                 if (checkFormat()) {
                     getHours();
@@ -193,7 +193,7 @@ public class GymSignupActivity3 extends AppCompatActivity {
             HttpURLConnection urlConnection = null;
             JsonObject user = null;
             int responseCode = 500;
-            Log.e("DEBUG", "1");
+            //Log.e("DEBUG", "1");
             try {
                 url = new URL("http://10.0.2.2:4000/register/gym/");
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -243,10 +243,10 @@ public class GymSignupActivity3 extends AppCompatActivity {
                 os.close();
                 urlConnection.connect();
                 responseCode = urlConnection.getResponseCode();
-                Log.e("DEBUG", String.valueOf(responseCode));
+                //Log.e("DEBUG", String.valueOf(responseCode));
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Log.e("DEBUG", "3");
+                    //Log.e("DEBUG", "3");
                     Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                     i.putExtra("email", email);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -257,8 +257,8 @@ public class GymSignupActivity3 extends AppCompatActivity {
                     finish();
                 } else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
 
-                    Log.e("DEBUG", "4");
-                    Log.e("Server response", "Error during signup!");
+                    //Log.e("DEBUG", "4");
+                    //Log.e("Server response", "Error during signup!");
                     toastMessage = "Errore nella registrazione di un nuovo utente!";
                     urlConnection.disconnect();
                 }
@@ -474,7 +474,7 @@ public class GymSignupActivity3 extends AppCompatActivity {
             int hours = Integer.parseInt(time.substring(0, 2));
             int minutes = Integer.parseInt(time.substring(3, 5));
 
-            Log.e("res", Boolean.toString(time.matches(regex)));
+            //Log.e("res", Boolean.toString(time.matches(regex)));
             return time.matches(regex) && 0 <= hours && hours <= 23 && 0 <= minutes && minutes <= 59;
 
         } else return false;

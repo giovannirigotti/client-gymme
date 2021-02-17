@@ -123,7 +123,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
                     }
                     results.values = FilteredCustomers;
                     results.count = FilteredCustomers.size();
-                    Log.e("VALUES", results.values.toString());
+                    //Log.e("VALUES", results.values.toString());
                 }
 
                 return results;
@@ -131,7 +131,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.e("TEST", results.values.toString());
+                //Log.e("TEST", results.values.toString());
                 customers = (ArrayList<CustomerSmallObject>) results.values;
                 notifyDataSetChanged();
             }
@@ -201,14 +201,14 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
                             if (output == 200) {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "SUCCESS, Cliente rimosso", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Cliente rimosso", Toast.LENGTH_SHORT).show();
                                         GymCustomersActivity.redirectManage(context);
                                     }
                                 });
                             } else {
                                 GymMenageWorkerActivity.runOnUI(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(MyApplication.getContext(), "ERRORE, server side", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MyApplication.getContext(), "Server side", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -272,11 +272,11 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
                 responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    Log.e("GYM CUSTOMER", "Cancellazione ok");
+                    //Log.e("GYM CUSTOMER", "Cancellazione ok");
                     responseCode = 200;
                     delegate.processFinish(responseCode);
                 } else {
-                    Log.e("GYM CUSTOMER", "Error cancellazione");
+                    //Log.e("GYM CUSTOMER", "Error cancellazione");
                     responseCode = 500;
                     delegate.processFinish(responseCode);
                     urlConnection.disconnect();
@@ -284,7 +284,7 @@ public class CustomGymCustomerAdapter extends ArrayAdapter<CustomerSmallObject> 
             } catch (IOException e) {
                 e.printStackTrace();
                 responseCode = 69;
-                Log.e("GYM CUSTOMER", "Error I/O");
+                //Log.e("GYM CUSTOMER", "Error I/O");
                 delegate.processFinish(responseCode);
             } finally {
                 if (urlConnection != null)
