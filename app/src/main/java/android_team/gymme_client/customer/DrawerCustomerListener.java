@@ -48,52 +48,6 @@ public class DrawerCustomerListener {
         i.putExtra("user_id", user_id);
         a.startActivity(i);
     }
-/*
-    DrawerCustomerListener drawerCustomerListener;
-    DrawerLayout drawerLayout;
-    TextView tv_title;
 
-
-    drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_trainer_activity);
-    drawerCustomerListener = new DrawerCustomerListener (this, user_id);
-    tv_title = (TextView) findViewById(R.id.main_toolbar_title);
-    tv_title.setText("HOME");
-
-    //region DRAWER
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Drawer.closeDrawer(drawerLayout);
-    }
-    public void ClickMenu(View view) {
-        Drawer.openDrawer(drawerLayout);
-    }
-
-    public void ClickDrawer(View view) {
-        Drawer.closeDrawer(drawerLayout);
-    }
-
-    public void customerToNotify(View view){
-        drawerCustomerListener.toNotify();
-    }
-    public void customerToTrainings(View view){
-        drawerCustomerListener.toTrainings();
-    }
-    public void customerToGym(View view){
-        drawerCustomerListener.toGym();
-    }
-    public void customerToCourse(View view){
-        drawerCustomerListener.toCourse();
-    }
-    public void customerToProfile(View view){
-        drawerCustomerListener.toProfile();
-    }
-    public void customerToHome(View view){
-        drawerCustomerListener.toHome();
-    }
-//endregion
-
-
- */
 }
 
