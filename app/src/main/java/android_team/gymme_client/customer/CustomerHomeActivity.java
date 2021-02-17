@@ -58,6 +58,9 @@ public class CustomerHomeActivity extends AppCompatActivity {
     @BindView(R.id.btn_customer_home_course)
     Button _btn_customer_home_course;
 
+    @BindView(R.id.btn_customer_home_training_sheets)
+    Button _btn_customer_home_training_sheets;
+
     @BindView(R.id.drawer_layout_home_activity)
     DrawerLayout drawerLayout;
     @BindView(R.id.main_toolbar_title)
@@ -127,6 +130,16 @@ public class CustomerHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.e("REDIRECT", "Customer Manage Course Activity");
                 Intent i = new Intent(getApplicationContext(), CustomerManageCourseActivity.class);
+                i.putExtra("user_id", user_id);
+                startActivity(i);
+            }
+        });
+
+        _btn_customer_home_training_sheets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("REDIRECT", "Customer Training Sheets Activity");
+                Intent i = new Intent(getApplicationContext(), CustomerTrainingSheetsActivity.class);
                 i.putExtra("user_id", user_id);
                 startActivity(i);
             }

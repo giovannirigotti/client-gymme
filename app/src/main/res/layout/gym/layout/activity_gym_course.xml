@@ -9,12 +9,13 @@
     android:layout_gravity="left"
     tools:context=".gym.menage_course.GymCourseActivity">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/include2"
+            android:id="@+id/include3"
             layout="@layout/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,35 +27,55 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="48dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical"
-            android:padding="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include2">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include3"
+            app:layout_constraintVertical_bias="0.0">
 
-            <TextView
-                android:id="@+id/textView20"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="I MIEI CORSI:"
-                android:textAlignment="center"
-                android:textColor="#171515"
-                android:textSize="16dp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_rectangle"
+                android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/lv_my_courses"
-                android:layout_width="match_parent"
-                android:layout_height="441dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="I tuoi corsi"
+                    android:textSize="24sp" />
+
+                <ListView
+                    android:id="@+id/lv_my_courses"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                </ListView>
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_create_course"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Crea un corso" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="Aggiungi un corso"
+                app:cornerRadius="30dp"
+                app:icon="@drawable/ic_baseline_add_24" />
+
         </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout

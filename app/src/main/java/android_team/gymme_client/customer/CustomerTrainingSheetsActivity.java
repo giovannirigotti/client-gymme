@@ -93,7 +93,7 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
 
 
         } else {
-            Toast.makeText(this,"Errore nel recuperare l'ud utente!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Errore nel recuperare l'id utente!", Toast.LENGTH_LONG).show();
         }
     }
 

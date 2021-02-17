@@ -42,17 +42,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/back_to_login_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:background="#00FFFFFF"
-                android:contentDescription="@string/back"
-                android:padding="10dp"
-                android:src="@drawable/ic_baseline_arrow_back_24"
-                app:iconPadding="0dp" />
-
             <TextView
                 android:id="@+id/titile_signup_gym3"
                 android:layout_width="0dp"

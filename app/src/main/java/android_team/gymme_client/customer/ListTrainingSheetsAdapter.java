@@ -106,28 +106,32 @@ public class ListTrainingSheetsAdapter extends RecyclerView.Adapter<ListTraining
             }
         });
 
-
         chart.setUsePercentValues(true);
         chart.getDescription().setEnabled(false);
         chart.getLegend().setEnabled(false);
         chart.setDragDecelerationFrictionCoef(0.95f);
 
         chart.setDrawHoleEnabled(true);
-        chart.setHoleColor(Color.parseColor("#ff9700"));
+        chart.setHoleColor(Color.parseColor("#FCA01F"));
 
-        chart.setTransparentCircleColor(Color.parseColor("#ff9700"));
+        chart.setTransparentCircleColor(Color.parseColor("#FCA01F"));
         chart.setTransparentCircleAlpha(100);
 
-        chart.setHoleRadius(25f);
-        chart.setTransparentCircleRadius(27f);
+        chart.setCenterText(training_sheet.get("strength").getAsString() + " %");
+        chart.setCenterTextColor(Color.BLACK);
+        chart.setCenterTextSize(20);
+
+
+        chart.setHoleRadius(60f);
+        chart.setTransparentCircleRadius(40f);
 
         chart.setDrawCenterText(true);
-        chart.setRotationAngle(90);
+        //chart.setRotationAngle(90);
         // enable rotation of the chart by touch
-        chart.setRotationEnabled(true);
+        chart.setRotationEnabled(false);
         chart.setHighlightPerTapEnabled(true);
         chart.setEntryLabelTextSize(12f);
-        //setData(chart, );
+        setData(chart, training_sheet.get("strength").getAsInt());
 
     }
 
@@ -143,15 +147,15 @@ public class ListTrainingSheetsAdapter extends RecyclerView.Adapter<ListTraining
     }
 
 
-    private void setData(PieChart chart, int days, int totalDays) {
+    private void setData(PieChart chart, int strenght) {
         ArrayList<PieEntry> entries = new ArrayList<>();
 
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
-        entries.add(new PieEntry(60));
-        entries.add(new PieEntry(40f));
+        entries.add(new PieEntry(strenght));
+        entries.add(new PieEntry(100-strenght));
 
-        PieDataSet dataSet = new PieDataSet(entries, "Percentuale completamento");
+        PieDataSet dataSet = new PieDataSet(entries, "Difficoltà");
 
         dataSet.setDrawIcons(false);
 
@@ -163,8 +167,9 @@ public class ListTrainingSheetsAdapter extends RecyclerView.Adapter<ListTraining
         ArrayList<Integer> colors = new ArrayList<>();
 
 
-        colors.add(Color.parseColor("#ff9700"));
+
         colors.add(Color.parseColor("#8f0032"));
+        colors.add(Color.parseColor("#FCA01F"));
 
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);

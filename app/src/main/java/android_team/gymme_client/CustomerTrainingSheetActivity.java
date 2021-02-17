@@ -133,10 +133,10 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
                     Log.e("Server response", "HTTP_OK");
                     String responseString = readStream(urlConnection.getInputStream());
                     Log.e("Server tr sheet", responseString);
-                    training_sheet = JsonParser.parseString(responseString).getAsJsonObject();
-                    CustomerTrainingSheetActivity.trainingSheet = new JsonObject();
-                    CustomerTrainingSheetActivity.trainingSheet = training_sheet;
-                    Log.e("async tr", CustomerTrainingSheetActivity.trainingSheet.toString());
+                        training_sheet = JsonParser.parseString(responseString).getAsJsonObject();
+                        CustomerTrainingSheetActivity.trainingSheet = new JsonObject();
+                        CustomerTrainingSheetActivity.trainingSheet = training_sheet;
+                        Log.e("async tr", CustomerTrainingSheetActivity.trainingSheet.toString());
 
                 } else if (responseCode == HttpURLConnection.HTTP_NOT_FOUND) {
                     Log.e("Server response", "HTTP_NOT_FOUND");

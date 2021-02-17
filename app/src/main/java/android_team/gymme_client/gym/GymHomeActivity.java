@@ -58,7 +58,7 @@ public class GymHomeActivity extends AppCompatActivity {
         btn_profile = (Button) findViewById(R.id.btn_gym_home_profile);
         btn_corsi = (Button) findViewById(R.id.btn_gym_home_corsi);
         btn_gestione_dipendenti = (Button) findViewById(R.id.btn_gym_home_gestione_dipendenti);
-        btn_gestione_clienti = (Button) findViewById(R.id.btn_gym_home_dipendenti);
+        btn_gestione_clienti = (Button) findViewById(R.id.btn_gym_home_clienti);
 
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -305,6 +305,7 @@ public class SignupActivity2 extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.dialog_confirm_user_type_yes:
+                    dismiss();
                     signUp(name, lastname, email, birthdate, password, type);
                     break;
                 case R.id.dialog_confirm_user_type_no:

@@ -37,11 +37,11 @@
 
         <ImageView
             android:id="@+id/btn_gym_trainer_assumed_add"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_select_trainer"/>
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_select_trainer" />
     </RelativeLayout>
 
 </LinearLayout>

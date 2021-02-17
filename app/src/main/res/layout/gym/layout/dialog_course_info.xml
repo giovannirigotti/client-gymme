@@ -20,14 +20,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Titolo"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_course_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome" />
+        android:text="Nome"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text3"
@@ -35,14 +36,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Categoria"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_course_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="categoria" />
+        android:text="categoria"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text5"
@@ -50,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Personal Trainer"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -65,15 +67,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Descrizione"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_course_description"
         android:layout_width="match_parent"
-        android:scrollbars = "vertical"
-        android:layout_height="121dp"
-        android:text="descrizione" />
+        android:layout_height="120dp"
+        android:scrollbars="vertical"
+        android:text="descrizione"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,7 +102,8 @@
                 android:id="@+id/tv_course_start_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="data inizio" />
+                android:text="data inizio"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -120,7 +124,8 @@
                 android:id="@+id/tv_course_end_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="data fine" />
+                android:text="data fine"
+                android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -137,7 +142,8 @@
         android:id="@+id/tv_course_max_persons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="spazi" />
+        android:text="spazi"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

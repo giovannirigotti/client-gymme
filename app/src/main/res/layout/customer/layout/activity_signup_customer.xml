@@ -135,10 +135,10 @@
                         android:hint="Le tue allergie"
                         android:inputType="textMultiLine"
                         android:lines="5"
+                        android:maxLength="500"
                         android:maxLines="10"
                         android:minLines="1"
-                        android:scrollbars="vertical"
-                        android:maxLength="500"/>
+                        android:scrollbars="vertical" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
