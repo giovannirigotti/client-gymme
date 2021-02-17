@@ -1,5 +1,7 @@
 package android_team.gymme_client;
 
+import android_team.gymme_client.customer.CustomerTrainigSheetDetailsFragment;
+import android_team.gymme_client.customer.CustomerTrainingSheetCalendarFragment;
 import android_team.gymme_client.customer.DrawerCustomerListener;
 import android_team.gymme_client.support.Drawer;
 import androidx.annotation.NonNull;
