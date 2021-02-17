@@ -45,6 +45,10 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
     private int user_id;
 
+    DrawerCustomerListener drawerCustomerListener;;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
+
 
     @BindView(R.id.btn_customer_home_profile)
     Button _btn_customer_home_profile;
@@ -61,11 +65,6 @@ public class CustomerHomeActivity extends AppCompatActivity {
     @BindView(R.id.btn_customer_home_training_sheets)
     Button _btn_customer_home_training_sheets;
 
-    @BindView(R.id.drawer_layout_home_activity)
-    DrawerLayout drawerLayout;
-    @BindView(R.id.main_toolbar_title)
-    TextView main_toolbar_title;
-
     @BindView(R.id.drawer_home_link)
     LinearLayout drawer_home_link;
 
@@ -74,10 +73,8 @@ public class CustomerHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
         ButterKnife.bind(this);
-        setTitle("HOME CUSTOMER");
 
 
-        main_toolbar_title.setText("Home");
 
         Intent i = getIntent();
         if (!i.hasExtra("user_id")) {
@@ -93,6 +90,11 @@ public class CustomerHomeActivity extends AppCompatActivity {
                 startActivity(new_i);
             }
         }
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
+        drawerCustomerListener = new DrawerCustomerListener(this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("HOME");
 
         _btn_customer_home_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,8 +154,12 @@ public class CustomerHomeActivity extends AppCompatActivity {
 
 
 
-    ////Gestione Drawer
-
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -162,22 +168,23 @@ public class CustomerHomeActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void ToTrainings(View view) {
-        redirectActivity(this, CustomerTrainingSheetsActivity.class);
+    public void customerToNotify(View view){
+        drawerCustomerListener.toNotify();
     }
-
-    public void redirectActivity(Activity a, Class c){
-
-        Intent i = new Intent(a,c);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        overridePendingTransition(R.anim.slide_out_left,R.anim.slide_out_right);
-        a.startActivity(i);
-
+    public void customerToTrainings(View view){
+        drawerCustomerListener.toTrainings();
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Drawer.closeDrawer(drawerLayout);
+    public void customerToGym(View view){
+        drawerCustomerListener.toGym();
     }
+    public void customerToCourse(View view){
+        drawerCustomerListener.toCourse();
+    }
+    public void customerToProfile(View view){
+        drawerCustomerListener.toProfile();
+    }
+    public void customerToHome(View view){
+        drawerCustomerListener.toHome();
+    }
+    //endregion
 }

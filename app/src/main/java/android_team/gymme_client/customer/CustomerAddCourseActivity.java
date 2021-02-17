@@ -3,7 +3,11 @@ package android_team.gymme_client.customer;
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.manage_course.CourseObject;
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,8 +17,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -37,7 +44,9 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
     static ListView lv_course;
     EditText inputSearch;
     public static ArrayList<CourseObject> course_list;
-
+    DrawerCustomerListener drawerCustomerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,12 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
                 startActivity(new_i);
             }
         }
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
+        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("AGGIUNGI CORSO");
+
         lv_course = (ListView) findViewById(R.id.lv_customer_disponible_course);
 
         getCourse();
@@ -225,4 +240,38 @@ public class CustomerAddCourseActivity extends AppCompatActivity {
         course_adapter = new CustomDisponibleCourseAdapter(context, new_t);
         lv_course.setAdapter(course_adapter);
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void customerToNotify(View view){
+        drawerCustomerListener.toNotify();
+    }
+    public void customerToTrainings(View view){
+        drawerCustomerListener.toTrainings();
+    }
+    public void customerToGym(View view){
+        drawerCustomerListener.toGym();
+    }
+    public void customerToCourse(View view){
+        drawerCustomerListener.toCourse();
+    }
+    public void customerToProfile(View view){
+        drawerCustomerListener.toProfile();
+    }
+    public void customerToHome(View view){
+        drawerCustomerListener.toHome();
+    }
+//endregion
 }

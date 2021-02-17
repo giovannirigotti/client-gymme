@@ -4,7 +4,9 @@ import android_team.gymme_client.R;
 import android_team.gymme_client.gym.manage_course.CourseObject;
 
 import android_team.gymme_client.login.LoginActivity;
+import android_team.gymme_client.support.Drawer;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -41,6 +44,9 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
     private static int user_id;
     static ListView lv_course;
     public static ArrayList<CourseObject> course_list;
+    DrawerCustomerListener drawerCustomerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,12 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
                 startActivity(new_i);
             }
         }
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
+        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("HOME");
+
         lv_course = (ListView) findViewById(R.id.lv_customer_course);
 
         getCourse();
@@ -229,4 +241,38 @@ public class CustomerManageCourseActivity extends AppCompatActivity {
         course_adapter = new CustomMyCourseAdapter(context, new_t);
         lv_course.setAdapter(course_adapter);
     }
+
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
+    public void ClickMenu(View view) {
+        Drawer.openDrawer(drawerLayout);
+    }
+
+    public void ClickDrawer(View view) {
+        Drawer.closeDrawer(drawerLayout);
+    }
+
+    public void customerToNotify(View view){
+        drawerCustomerListener.toNotify();
+    }
+    public void customerToTrainings(View view){
+        drawerCustomerListener.toTrainings();
+    }
+    public void customerToGym(View view){
+        drawerCustomerListener.toGym();
+    }
+    public void customerToCourse(View view){
+        drawerCustomerListener.toCourse();
+    }
+    public void customerToProfile(View view){
+        drawerCustomerListener.toProfile();
+    }
+    public void customerToHome(View view){
+        drawerCustomerListener.toHome();
+    }
+//endregion
 }

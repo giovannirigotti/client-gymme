@@ -50,8 +50,6 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
     public RecyclerView.Adapter adapter;
 
 
-    @BindView(R.id.drawer_layout_home_activity)
-    DrawerLayout drawerLayout;
     @BindView(R.id.main_toolbar_title)
     TextView main_toolbar_title;
 
@@ -63,6 +61,9 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
     @BindView(R.id.spinner_customer_training_sheets)
     ProgressBar spinner_customer_training_sheets;
 
+    DrawerCustomerListener drawerCustomerListener;
+    DrawerLayout drawerLayout;
+    TextView tv_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,14 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this,"Errore nel recuperare l'id utente!", Toast.LENGTH_LONG).show();
         }
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout_home_activity);
+        drawerCustomerListener = new DrawerCustomerListener (this, user_id);
+        tv_title = (TextView) findViewById(R.id.main_toolbar_title);
+        tv_title.setText("I TUOI ALLENAMENTI");
     }
+
+
 
     private static class GetTrainingSheets extends AsyncTask<String, String,Integer> {
         Activity activity;
@@ -201,8 +209,13 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
     }
 
 
-    ////Gestione Drawer
 
+    //region DRAWER
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Drawer.closeDrawer(drawerLayout);
+    }
     public void ClickMenu(View view) {
         Drawer.openDrawer(drawerLayout);
     }
@@ -211,14 +224,23 @@ public class CustomerTrainingSheetsActivity extends AppCompatActivity {
         Drawer.closeDrawer(drawerLayout);
     }
 
-    public void ToTrainings(View view) {
-        redirectActivity(this, CustomerTrainingSheetsActivity.class);
+    public void customerToNotify(View view){
+        drawerCustomerListener.toNotify();
     }
-
-    public void redirectActivity(Activity a, Class c){
-        Intent i = new Intent(a,c);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        a.startActivity(i);
+    public void customerToTrainings(View view){
+        drawerCustomerListener.toTrainings();
     }
-
+    public void customerToGym(View view){
+        drawerCustomerListener.toGym();
+    }
+    public void customerToCourse(View view){
+        drawerCustomerListener.toCourse();
+    }
+    public void customerToProfile(View view){
+        drawerCustomerListener.toProfile();
+    }
+    public void customerToHome(View view){
+        drawerCustomerListener.toHome();
+    }
+//endregion
 }
