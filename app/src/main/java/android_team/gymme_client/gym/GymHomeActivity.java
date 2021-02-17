@@ -12,10 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.menage_course.GymCourseActivity;
-import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
-import android_team.gymme_client.gym.menage_profile.GymProfileActivity;
-import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
+import android_team.gymme_client.gym.manage_course.GymCourseActivity;
+import android_team.gymme_client.gym.manage_customer.GymCustomersActivity;
+import android_team.gymme_client.gym.manage_profile.GymProfileActivity;
+import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
 

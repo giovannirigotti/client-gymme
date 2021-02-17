@@ -2,46 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_rectangle">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp">
-
-        <TextView
-            android:id="@+id/tv_gym_nutritionist_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:maxWidth="250dp"
-            android:text="TextView" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_gym_nutritionist_lastname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-
-            android:maxWidth="250dp"
-            android:text="TextView" />
+            android:layout_marginBottom="5dp"
+            android:text="TextView"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_gym_nutritionist_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:maxWidth="250dp"
+            android:layout_marginBottom="5dp"
             android:text="TextView" />
 
-        <ImageView
-            android:id="@+id/btn_gym_nutritionist_add"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_gym_nutritionist_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_plus" />
-    </RelativeLayout>
+            android:text="TextView" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btn_gym_nutritionist_add"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:src="@drawable/ic_plus" />
 
 </LinearLayout>

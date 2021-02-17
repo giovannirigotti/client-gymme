@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
-import android_team.gymme_client.trainer.TrainerHomeActivity;
-import android_team.gymme_client.trainer.TrainerProfileActivity;
-import android_team.gymme_client.trainer.menage_trainig_sheet.TrainerMenageTrainingSheet;
-
 public class DrawerNutriListener {
 
     Activity activity;

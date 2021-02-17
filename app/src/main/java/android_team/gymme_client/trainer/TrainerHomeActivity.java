@@ -3,7 +3,6 @@ package android_team.gymme_client.trainer;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 import android_team.gymme_client.R;
 import android_team.gymme_client.login.LoginActivity;
 import android_team.gymme_client.support.Drawer;
-import android_team.gymme_client.trainer.menage_trainig_sheet.TrainerMenageTrainingSheet;
+import android_team.gymme_client.trainer.manage_training_sheet.TrainerMenageTrainingSheet;
 
 public class TrainerHomeActivity extends AppCompatActivity {
 

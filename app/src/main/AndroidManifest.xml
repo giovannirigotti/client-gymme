@@ -12,26 +12,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CustomerTrainingSheetActivity"
+            android:name=".customer.CustomerTrainingSheetActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"></activity>
         <activity android:name=".customer.CustomerNotificationActivity" />
-        <activity android:name=".trainer.menage_trainig_sheet.TrainerCreateSingleDayActivity"></activity>
-        <activity android:name=".trainer.menage_trainig_sheet.TrainerCreateDaysActivity" />
-        <activity android:name=".trainer.menage_trainig_sheet.TrainerCreateTrainingSheetActivity" />
-        <activity android:name=".trainer.menage_trainig_sheet.TrainerTrainingSheetCustomer" />
-        <activity android:name=".trainer.menage_trainig_sheet.TrainerMenageTrainingSheet" />
+        <activity android:name=".trainer.manage_training_sheet.TrainerCreateSingleDayActivity"></activity>
+        <activity android:name=".trainer.manage_training_sheet.TrainerCreateDaysActivity" />
+        <activity android:name=".trainer.manage_training_sheet.TrainerCreateTrainingSheetActivity" />
+        <activity android:name=".trainer.manage_training_sheet.TrainerTrainingSheetCustomer" />
+        <activity android:name=".trainer.manage_training_sheet.TrainerMenageTrainingSheet" />
         <activity android:name=".customer.CustomerAddCourseActivity" />
         <activity android:name=".customer.CustomerManageCourseActivity" />
-        <activity android:name=".gym.menage_customer.GymCustomersActivity" />
-        <activity android:name=".gym.menage_course.GymCourseActivity" />
+        <activity android:name=".gym.manage_customer.GymCustomersActivity" />
+        <activity android:name=".gym.manage_course.GymCourseActivity" />
         <activity android:name=".customer.CustomerMyGymActivity" />
         <activity android:name=".customer.CustomerNewGymActivity" />
         <activity android:name=".customer.CustomerAddGymActivity" />
         <activity android:name=".customer.CustomerManageGymActivity" />
-        <activity android:name=".gym.menage_worker.GymAddNutritionistActivity" />
-        <activity android:name=".gym.menage_worker.GymAddTrainerActivity" />
-        <activity android:name=".gym.menage_worker.GymMenageWorkerActivity" />
-        <activity android:name=".gym.menage_course.GymAddCoursesActivity" />
+        <activity android:name=".gym.manage_worker.GymAddNutritionistActivity" />
+        <activity android:name=".gym.manage_worker.GymAddTrainerActivity" />
+        <activity android:name=".gym.manage_worker.GymMenageWorkerActivity" />
+        <activity android:name=".gym.manage_course.GymAddCoursesActivity" />
         <activity android:name=".customer.CustomerNotificationActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -76,7 +76,7 @@
             android:name=".signup.GymSignupActivity3"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
-            android:name=".TrainingSheetItemActivity"
+            android:name=".customer.TrainingSheetItemActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".customer.CustomerProfileActivity"
@@ -94,10 +94,10 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".gym.GymHomeActivity" />
         <activity
-            android:name=".gym.menage_profile.GymProfileActivity"
+            android:name=".gym.manage_profile.GymProfileActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".gym.menage_profile.GymEditDataActivity" />
-        <activity android:name=".gym.menage_profile.GymEditHoursActivity" />
+        <activity android:name=".gym.manage_profile.GymEditDataActivity" />
+        <activity android:name=".gym.manage_profile.GymEditHoursActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

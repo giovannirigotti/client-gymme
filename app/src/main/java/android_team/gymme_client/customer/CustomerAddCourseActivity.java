@@ -1,12 +1,9 @@
 package android_team.gymme_client.customer;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.menage_course.CourseObject;
-import android_team.gymme_client.gym.menage_worker.GymAddTrainerActivity;
+import android_team.gymme_client.gym.manage_course.CourseObject;
 import android_team.gymme_client.login.LoginActivity;
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,8 +13,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;

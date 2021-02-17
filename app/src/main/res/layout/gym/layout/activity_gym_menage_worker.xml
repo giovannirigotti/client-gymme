@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="left"
-    tools:context=".gym.menage_worker.GymMenageWorkerActivity">
+    tools:context=".gym.manage_worker.GymMenageWorkerActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

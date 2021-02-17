@@ -29,10 +29,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.menage_course.CourseObject;
-import android_team.gymme_client.gym.menage_course.CustomCourseAdapter;
-import android_team.gymme_client.gym.menage_course.GymCourseActivity;
-import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
+import android_team.gymme_client.gym.manage_course.CourseObject;
+import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.support.MyApplication;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

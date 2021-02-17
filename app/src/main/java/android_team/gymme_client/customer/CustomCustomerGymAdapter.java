@@ -8,14 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import android_team.gymme_client.R;
 import android_team.gymme_client.gym.GymObject;
-import android_team.gymme_client.gym.menage_course.CourseObject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

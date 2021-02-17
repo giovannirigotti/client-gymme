@@ -3,10 +3,10 @@ package android_team.gymme_client.gym;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import android_team.gymme_client.gym.menage_course.GymCourseActivity;
-import android_team.gymme_client.gym.menage_customer.GymCustomersActivity;
-import android_team.gymme_client.gym.menage_profile.GymProfileActivity;
-import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
+import android_team.gymme_client.gym.manage_course.GymCourseActivity;
+import android_team.gymme_client.gym.manage_customer.GymCustomersActivity;
+import android_team.gymme_client.gym.manage_profile.GymProfileActivity;
+import android_team.gymme_client.gym.manage_worker.GymMenageWorkerActivity;
 
 public class DrawerGymListener {
 

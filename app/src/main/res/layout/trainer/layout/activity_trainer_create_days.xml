@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="left"
-    tools:context=".trainer.menage_trainig_sheet.TrainerCreateDaysActivity">
+    tools:context=".trainer.manage_training_sheet.TrainerCreateDaysActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,40 +23,48 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/tv_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="76dp"
-            android:text="Imposta tutti i giorni nella lista:"
-            app:layout_constraintBottom_toTopOf="@+id/_dynamic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/include13"
-            app:layout_constraintVertical_bias="0.908" />
-
-        <ListView
-            android:id="@+id/lv_create_days"
-            android:layout_width="391dp"
-            android:layout_height="464dp"
-            android:layout_marginTop="56dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_rectangle"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include13"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/include13">
 
-        </ListView>
+            <TextView
+                android:id="@+id/tv_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Imposta tutti i giorni nella lista:"
+                android:textSize="24sp" />
 
-        <Button
-            android:id="@+id/btn_end_create_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="INVIA SCHEDA"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lv_create_days" />
+            <ListView
+                android:id="@+id/lv_create_days"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_rectangle">
+
+            </ListView>
+
+            <Button
+                android:id="@+id/btn_end_create_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="INVIA SCHEDA"
+                app:cornerRadius="30dp"
+                app:icon="@drawable/ic_baseline_send_24" />
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

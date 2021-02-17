@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
-import android_team.gymme_client.trainer.menage_trainig_sheet.TrainerMenageTrainingSheet;
+import android_team.gymme_client.trainer.manage_training_sheet.TrainerMenageTrainingSheet;
 
 public class DrawerTrainerListener {
 

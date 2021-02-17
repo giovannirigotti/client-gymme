@@ -28,9 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android_team.gymme_client.R;
-import android_team.gymme_client.gym.menage_worker.GymMenageWorkerActivity;
 import android_team.gymme_client.login.LoginActivity;
-import android_team.gymme_client.support.MyApplication;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

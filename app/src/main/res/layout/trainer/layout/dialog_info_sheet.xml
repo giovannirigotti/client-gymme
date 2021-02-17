@@ -12,82 +12,87 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="Info Scheda"
-        android:textSize="20sp"/>
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/dialog_sheet_info_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Titolo"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:text="Titolo"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dialog_sheet_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome"/>
+        android:text="Nome"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descrizione:"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:text="Descrizione:"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dialog_sheet_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descrizione" />
+        android:text="Descrizione"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Giorno creazione: "
-        android:textSize="20sp"
         android:layout_marginTop="10dp"
+        android:text="Giorno creazione: "
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dialog_sheet_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Data" />
+        android:text="Data"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Numero giorni:"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:text="Numero giorni:"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dialog_sheet_number_of_days"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="number of days" />
+        android:text="number of days"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scheda fatta da:"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:text="Scheda fatta da:"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dialog_sheet_trainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Trainer" />
+        android:text="Trainer"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

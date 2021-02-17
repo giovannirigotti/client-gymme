@@ -11,84 +11,104 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Personal Trainer Info"
-        android:textSize="20sp" />
+        android:text="Info Personal Trainer"
+        android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/dialog_confirm_user_type_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:layout_marginBottom="5dp"
+        android:text="Nome"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dismiss_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome" />
+        android:text="Nome"
+        android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/dialog_confirm_user_type_text3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cognome"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:layout_marginBottom="5dp"
+        android:text="Cognome"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dismiss_lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cognome" />
+        android:text="Cognome"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="20sp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="Email"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dismiss_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email" />
+        android:text="Email"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Qualifiche"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:layout_marginBottom="5dp"
+        android:text="Qualifiche"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tv_dismiss_qualification"
+    <ScrollView
         android:layout_width="match_parent"
-        android:scrollbars = "vertical"
-        android:layout_height="121dp"
-        android:text="Qualifiche" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_dismiss_qualification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="5"
+                android:scrollbars="vertical"
+                android:text="Qualifiche"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/dialog_confirm_user_type_text6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Codice fiscale"
         android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:layout_marginBottom="5dp"
+        android:text="Codice fiscale"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_dismiss_fiscal_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Codice fiscale" />
+        android:text="Codice fiscale"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp "
-            android:backgroundTint="#D61010"
+            android:backgroundTint="@color/colorPrimary"
             android:text="ESCI"
             app:cornerRadius="30dp" />
 
@@ -110,8 +130,10 @@
             android:id="@+id/dialog_confirm_user_type_yes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#FF0000"
             android:text="LICENZIA"
-            app:cornerRadius="30dp" />
+            app:cornerRadius="30dp"
+            app:icon="@drawable/ic_baseline_delete_forever_24" />
 
     </LinearLayout>
 </LinearLayout>
