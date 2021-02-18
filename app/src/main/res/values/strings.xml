@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">gymme-client</string>
+    <string name="app_name">GymMeMore</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="non_hai_un_account_registrati">Non hai un account? Registrati!</string>
