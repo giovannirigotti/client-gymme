@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -51,7 +50,6 @@ public class CustomerTrainingSheetActivity extends BasicActivity implements Bott
     DrawerCustomerListener drawerCustomerListener;
     DrawerLayout drawerLayout;
     TextView tv_title;
-
 
 
     @Override
